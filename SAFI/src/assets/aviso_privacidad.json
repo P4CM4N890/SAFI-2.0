@@ -1,0 +1,30 @@
+[
+    {
+        "titulo": "Responsable de los datos personales:",
+        "descripcion": "SAFI \nBlvd. Gral. Marcelino García Barragán 1421, Olímpica, 44430 Guadalajara, Jal. \nsafi.cucei@gmail.com \n+52 33 3938 9928"
+    },
+    {
+        "titulo": "Finalidad del tratamiento de los datos personales:",
+        "descripcion": "Los datos personales que recopilamos tienen como finalidad brindarle al usuario la mejor experiencia posible en la aplicación, adecuando las funcionalidades a sus necesidades."
+    },
+    {
+        "titulo": "Datos personales recopilados:",
+        "descripcion": "Los datos personales que podemos recopilar incluyen, pero no se limitan a: \n1. Nombre completo \n2. Fecha de nacimiento \n3. Correo electronico"
+    },
+    {
+        "titulo": "Uso de los datos personales:",
+        "descripcion": "Los datos personales proporcionados serán utilizados exclusivamente para determinar el tipo de funcionalidades que tendrá dentro de la aplicación."
+    },
+    {
+        "titulo": "Protección de los datos personales:",
+        "descripcion": "Nos comprometemos a proteger la confidencialidad, integridad y disponibilidad de los datos personales proporcionados mediante la implementación de medidas de seguridad técnicas, administrativas y físicas para prevenir el acceso no autorizado, el uso indebido, la divulgación, la alteración o la destrucción de la información recopilada."
+    },
+    {
+        "titulo": "Transferencia de datos personales:",
+        "descripcion": "Sus datos personales no serán compartidos, vendidos ni transferidos a terceros sin su consentimiento previo, excepto cuando exista una obligación legal para hacerlo."
+    },
+    {
+        "titulo": "Cambios al aviso de privacidad:",
+        "descripcion": "Nos reservamos el derecho de efectuar cambios o actualizaciones al presente aviso de privacidad en cualquier momento, para cumplir con nuevas disposiciones legales, políticas internas o requerimientos para la prestación de nuestros servicios. Cualquier modificación será debidamente notificada a través de nuestros canales de comunicación habituales."
+    }
+]
