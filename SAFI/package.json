@@ -1,5 +1,5 @@
 {
-  "name": "SAFI",
+  "name": "safi",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -21,7 +21,7 @@
     "moment": "^2.29.4",
     "mysql2": "^3.2.3",
     "react": "18.2.0",
-    "react-native": "0.71.6",
+    "react-native": "0.72.4",
     "react-native-date-picker": "^4.2.13",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.9.0",
@@ -42,21 +42,20 @@
     "@babel/core": "^7.20.0",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",
-    "@react-native-community/eslint-config": "^3.2.0",
-    "@tsconfig/react-native": "^2.0.2",
-    "@types/jest": "^29.2.1",
+    "@react-native/eslint-config": "^0.72.2",
+    "@react-native/metro-config": "^0.72.11",
+    "@tsconfig/react-native": "^3.0.0",
     "@types/react": "^18.0.24",
-    "@types/react-native-push-notification": "^8.1.1",
-    "@types/react-native-vector-icons": "^6.4.13",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.2.1",
     "eslint": "^8.19.0",
     "jest": "^29.2.1",
-    "metro-react-native-babel-preset": "0.73.9",
+    "metro-react-native-babel-preset": "0.76.8",
     "prettier": "^2.4.1",
-    "react-test-renderer": "18.2.0"
+    "react-test-renderer": "18.2.0",
+    "typescript": "4.8.4"
   },
-  "jest": {
-    "preset": "react-native"
+  "engines": {
+    "node": ">=16"
   }
 }

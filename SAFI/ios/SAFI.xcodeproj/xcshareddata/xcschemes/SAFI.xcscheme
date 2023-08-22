@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "SAFI.app"
-               BlueprintName = "SAFI"
-               ReferencedContainer = "container:SAFI.xcodeproj">
+               BuildableName = "safi.app"
+               BlueprintName = "safi"
+               ReferencedContainer = "container:safi.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "SAFITests.xctest"
-               BlueprintName = "SAFITests"
-               ReferencedContainer = "container:SAFI.xcodeproj">
+               BuildableName = "safiTests.xctest"
+               BlueprintName = "safiTests"
+               ReferencedContainer = "container:safi.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "SAFI.app"
-            BlueprintName = "SAFI"
-            ReferencedContainer = "container:SAFI.xcodeproj">
+            BuildableName = "safi.app"
+            BlueprintName = "safi"
+            ReferencedContainer = "container:safi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "SAFI.app"
-            BlueprintName = "SAFI"
-            ReferencedContainer = "container:SAFI.xcodeproj">
+            BuildableName = "safi.app"
+            BlueprintName = "safi"
+            ReferencedContainer = "container:safi.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
