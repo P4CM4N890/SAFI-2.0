@@ -1,12 +1,15 @@
 import React from 'react';
-import { SafeAreaView, Text } from 'react-native';
-import { TestScreen } from './src/screens/TestScreen';
+import { SafeAreaView } from 'react-native';
+
+import { LoginScreen } from './src/screens/LoginScreen';
+// import { TestScreen } from './src/screens/TestScreen';
 
 function App(): JSX.Element {
 
   return (
     <SafeAreaView>
-      <TestScreen />
+      {/* <TestScreen /> */}
+      <LoginScreen/>
     </SafeAreaView>
   );
 }
