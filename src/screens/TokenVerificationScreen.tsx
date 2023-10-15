@@ -20,7 +20,7 @@ export const TokenVerificationScreen = () => {
 
                 <Logo width={ 178 } height={ 168 } extraClass='-mt-14'/>
 
-                <Text className='mt-9 text-xl font-semibold text-primary uppercase tracking-widest'>
+                <Text className='mt-9 text-xl font-bold text-primary uppercase tracking-widest'>
                     Verificación
                 </Text>
 

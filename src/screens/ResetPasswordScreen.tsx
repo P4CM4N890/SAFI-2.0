@@ -9,7 +9,7 @@ import { Input } from '../components/ResetPassword/Input';
 import { Button } from '../components/ResetPassword/Button';
 import { BackButton } from '../components/ResetPassword/BackButton';
 
-export const ForgotPasswordScreen = () => {
+export const ResetPasswordScreen = () => {
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <WaveTop/>
@@ -20,25 +20,24 @@ export const ForgotPasswordScreen = () => {
                 <Logo width={ 178 } height={ 168 } extraClass='-mt-14'/>
 
                 <Text className='mt-9 text-xl font-bold text-primary uppercase tracking-wider'>
-                    ¿Olvidaste tu Contraseña?
-                </Text>
-
-                <Text className='w-5/6 mt-10 text-base text-center font-medium text-black tracking-wider'>
-                    Ingresa el correo electrónico asociado a tu cuenta
-                </Text>
-
-                <Text className='w-5/6 mt-4 text-sm text-center font-medium text-gray-500 tracking-wider'>
-                    Te enviaremos un código a tu correo electrónico para reestablecer tu contraseña
+                    Cambia tu Contraseña
                 </Text>
                 
                 <Input 
-                    label='Correo electrónico' 
+                    label='Nueva contraseña' 
                     placeholder='' 
-                    type='email'
-                    extraClass='mt-14'
+                    type='text'
+                    extraClass='mt-10'
                 />
 
-                <Button label='Enviar' extraClass='mt-10'/>
+                <Input 
+                    label='Confirmar contraseña' 
+                    placeholder='' 
+                    type='text'
+                    extraClass='mt-8'
+                />
+
+                <Button label='Confirmar' extraClass='mt-10'/>
             </View>
 
             <WaveBottom/>
