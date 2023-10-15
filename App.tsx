@@ -3,7 +3,8 @@ import { SafeAreaView } from 'react-native';
 
 // import { LoginScreen } from './src/screens/LoginScreen';
 // import { SignUpScreen } from './src/screens/SignUpScreen';
-import { ForgotPasswordScreen } from './src/screens/ForgotPasswordScreen';
+// import { ForgotPasswordScreen } from './src/screens/ForgotPasswordScreen';
+// import { TokenVerificationScreen } from './src/screens/TokenVerificationScreen';
 
 function App(): JSX.Element {
 
@@ -11,7 +12,8 @@ function App(): JSX.Element {
         <SafeAreaView>
             {/* <LoginScreen/> */}
             {/* <SignUpScreen /> */}
-            <ForgotPasswordScreen />
+            {/* <ForgotPasswordScreen /> */}
+            {/* <TokenVerificationScreen /> */}
         </SafeAreaView>
     );
 }
