@@ -10,7 +10,7 @@ interface Props {
 export const Button = ( { label = 'Click me', onPress, extraClass } : Props ) => {
     return (
         <TouchableOpacity 
-            className={`bg-primary px-8 py-3 rounded-xl shadow-xl shadow-gray-700 ${ extraClass }`} 
+            className={`bg-primary px-12 py-3 rounded-xl shadow-xl shadow-gray-700 ${ extraClass }`} 
             activeOpacity={ 0.8 }
             onPress={ () => onPress() }
         >
