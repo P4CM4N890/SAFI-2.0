@@ -2,22 +2,14 @@ import 'react-native-gesture-handler';
 
 import React from 'react';
 import { SafeAreaView } from 'react-native';
-import { NavigationContainer, DefaultTheme  } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 
 import { AuthStackNavigator } from './src/navigation/AuthStackNavigator';
 
-const theme = {
-    ...DefaultTheme,
-    colors : {
-        ...DefaultTheme.colors,
-        background: '#111'
-    }
-}
-
 function App(): JSX.Element {
     return (
-        <SafeAreaView>
-            <NavigationContainer theme={ theme }>
+        <SafeAreaView className='w-full h-full'>
+            <NavigationContainer>
                 <AuthStackNavigator />
             </NavigationContainer>
         </SafeAreaView>

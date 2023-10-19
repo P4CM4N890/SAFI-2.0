@@ -12,15 +12,15 @@ export const AuthStackNavigator = () => {
     return (
         <AuthStack.Navigator
             screenOptions={{
-                headerShown: false
+                headerShown: false,
             }}
         >
 
-            <AuthStack.Screen name='LoginScreen' options={{ title: 'Login' }} component={ LoginScreen }/>
+            <AuthStack.Screen name='LoginScreen' options={{ title: 'LogIn' }} component={ LoginScreen }/>
             <AuthStack.Screen name='SignUpScreen' options={{ title: 'SignUp' }} component={ SignUpScreen }/>
             <AuthStack.Screen name='ResetPasswordScreen' options={{ title: 'Reset Password' }} component={ ResetPasswordScreen }/>
             <AuthStack.Screen name='TokenVerificationScreen' options={{ title: 'Token Verification' }} component={ TokenVerificationScreen }/>
         
         </AuthStack.Navigator>
     );
-};
+}
