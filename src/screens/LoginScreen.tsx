@@ -35,7 +35,7 @@ export const LoginScreen = ({ navigation }: Props) => {
                     label='Olvidé mi contraseña' 
                     textStyle='text-gray-700 underline text-xs' 
                     extraClass='mt-3'
-                    onPress={ () => navigation.navigate('ResetPasswordScreen') }
+                    onPress={ () => navigation.navigate('ForgotPasswordScreen') }
                 />
 
                 <Button 

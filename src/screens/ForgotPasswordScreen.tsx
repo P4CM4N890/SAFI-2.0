@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, KeyboardAvoidingView, Text } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 
 import { Logo } from '../assets/Logo';
 import { WaveTop } from '../assets/WaveTop';
@@ -9,13 +10,20 @@ import { Input } from '../components/ResetPassword/Input';
 import { Button } from '../components/ResetPassword/Button';
 import { BackButton } from '../components/ResetPassword/BackButton';
 
-export const ForgotPasswordScreen = () => {
+interface Props extends StackScreenProps<any, any> {};
+
+export const ForgotPasswordScreen = ({ navigation }: Props) => {
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <WaveTop/>
 
             <View className='w-full h-full items-center justify-center z-10'>
-                <BackButton iconColor='#000' iconSize={ 30 } extraClass='bg-white'/>
+                <BackButton 
+                    iconColor='#000' 
+                    iconSize={ 30 } 
+                    extraClass='bg-white'
+                    onPress={ () => navigation.goBack() }
+                />
 
                 <Logo width={ 178 } height={ 168 } extraClass='-mt-14'/>
 
@@ -38,7 +46,11 @@ export const ForgotPasswordScreen = () => {
                     extraClass='mt-14'
                 />
 
-                <Button label='Enviar' extraClass='mt-10'/>
+                <Button 
+                    label='Enviar' 
+                    extraClass='mt-10'
+                    onPress={ () => navigation.navigate('TokenVerificationScreen') }
+                />
             </View>
 
             <WaveBottom/>

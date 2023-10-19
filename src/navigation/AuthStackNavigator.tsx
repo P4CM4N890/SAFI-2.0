@@ -5,6 +5,7 @@ import { LoginScreen } from '../screens/LoginScreen';
 import { SignUpScreen } from '../screens/SignUpScreen';
 import { ResetPasswordScreen } from '../screens/ResetPasswordScreen';
 import { TokenVerificationScreen } from '../screens/TokenVerificationScreen';
+import { ForgotPasswordScreen } from '../screens/ForgotPasswordScreen';
 
 const AuthStack = createStackNavigator();
 
@@ -19,6 +20,7 @@ export const AuthStackNavigator = () => {
             <AuthStack.Screen name='LoginScreen' options={{ title: 'LogIn' }} component={ LoginScreen }/>
             <AuthStack.Screen name='SignUpScreen' options={{ title: 'SignUp' }} component={ SignUpScreen }/>
             <AuthStack.Screen name='ResetPasswordScreen' options={{ title: 'Reset Password' }} component={ ResetPasswordScreen }/>
+            <AuthStack.Screen name='ForgotPasswordScreen' options={{ title: 'Forgot Password' }} component={ ForgotPasswordScreen }/>
             <AuthStack.Screen name='TokenVerificationScreen' options={{ title: 'Token Verification' }} component={ TokenVerificationScreen }/>
         
         </AuthStack.Navigator>

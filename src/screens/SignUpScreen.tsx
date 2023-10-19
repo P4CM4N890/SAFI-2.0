@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, KeyboardAvoidingView, Text } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 
 import { WaveTop } from '../assets/WaveTop';
 import { WaveBottom } from '../assets/WaveBottom';
@@ -8,7 +9,9 @@ import { Input } from '../components/SignUp/Input';
 import { Button } from '../components/SignUp/Button';
 import { TransparentButton } from '../components/SignUp/TransparentButton';
 
-export const SignUpScreen = () => {
+interface Props extends StackScreenProps<any, any> {};
+
+export const SignUpScreen = ({ navigation }: Props) => {
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <WaveTop/>
@@ -17,39 +20,49 @@ export const SignUpScreen = () => {
 
                 <Input 
                     label='Nombre de usuario' 
-                    placeholder='Ingresa un nombre de usuario' 
+                    placeholder='' 
                     type='text'
                     extraClass='mt-12'
                 />
                 <Input 
                     label='Correo electrónico' 
-                    placeholder='Ingresa tu correo electrónico' 
+                    placeholder='' 
                     type='email'
                     extraClass='mt-6'
                 />
                 <Input 
                     label='Fecha de nacimiento' 
-                    placeholder='Ingresa tu fecha de nacimiento' 
+                    placeholder='' 
                     type='text'
                     extraClass='mt-6'
                 />
                 <Input 
                     label='Contraseña' 
-                    placeholder='Ingresa una contraseña' 
+                    placeholder='' 
                     type='text'
                     secureTextEntry
                     extraClass='mt-6'
                 />
                 <Input 
                     label='Confirmar contraseña' 
-                    placeholder='Confirma tu contraseña' 
+                    placeholder='' 
                     type='text'
                     secureTextEntry
                     extraClass='mt-6'
                 />
 
-                <Button label='Registrarme' extraClass='mt-10'/>
-                <TransparentButton label='¿Ya tienes una cuenta? Inicia Sesión' textStyle='text-black text-sm mt-3' extraClass='mt-4'/>
+                <Button 
+                    label='Registrarme' 
+                    extraClass='mt-10'
+                    onPress={ () => {} }
+                />
+
+                <TransparentButton 
+                    label='¿Ya tienes una cuenta? Inicia Sesión' 
+                    textStyle='text-black text-sm mt-3' 
+                    extraClass='mt-4'
+                    onPress={ () => navigation.navigate('LoginScreen') }
+                />
             </View>
             <WaveBottom/>
         </KeyboardAvoidingView>
