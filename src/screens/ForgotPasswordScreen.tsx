@@ -6,9 +6,9 @@ import { Logo } from '../assets/Logo';
 import { WaveTop } from '../assets/WaveTop';
 import { WaveBottom } from '../assets/WaveBottom';
 
-import { Input } from '../components/ResetPassword/Input';
-import { Button } from '../components/ResetPassword/Button';
-import { BackButton } from '../components/ResetPassword/BackButton';
+import { InputLabel } from '../components/inputs/InputLabel';
+import { Button } from '../components/buttons/Button';
+import { BackButton } from '../components/buttons/BackButton';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -39,7 +39,7 @@ export const ForgotPasswordScreen = ({ navigation }: Props) => {
                     Te enviaremos un código a tu correo electrónico para reestablecer tu contraseña
                 </Text>
                 
-                <Input 
+                <InputLabel
                     label='Correo electrónico' 
                     placeholder='' 
                     type='email'
