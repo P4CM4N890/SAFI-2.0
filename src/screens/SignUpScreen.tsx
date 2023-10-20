@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, KeyboardAvoidingView, Text } from 'react-native';
+import { View, KeyboardAvoidingView, Text, ScrollView } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { WaveTop } from '../assets/WaveTop';
@@ -13,9 +13,9 @@ interface Props extends StackScreenProps<any, any> {};
 
 export const SignUpScreen = ({ navigation }: Props) => {
     return (
-        <KeyboardAvoidingView className='w-full h-full'>
+        <ScrollView className='w-full h-full'>
             <WaveTop/>
-            <View className='w-full h-full items-center justify-center z-10'>
+            <View className='w-full h-full items-center justify-center z-10 py-6'>
                 <Text className='text-3xl font-bold text-primary uppercase tracking-tight'>Crear Cuenta</Text>
 
                 <Input 
@@ -53,7 +53,7 @@ export const SignUpScreen = ({ navigation }: Props) => {
 
                 <Button 
                     label='Registrarme' 
-                    extraClass='mt-10'
+                    extraClass='mt-8'
                     onPress={ () => {} }
                 />
 
@@ -65,6 +65,6 @@ export const SignUpScreen = ({ navigation }: Props) => {
                 />
             </View>
             <WaveBottom/>
-        </KeyboardAvoidingView>
+        </ScrollView>
     );
 }
