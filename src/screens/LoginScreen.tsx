@@ -3,11 +3,12 @@ import { View, KeyboardAvoidingView } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { Logo } from '../assets/Logo';
-import { Input } from '../components/Login-SignIn/Input';
-import { Button } from '../components/Login-SignIn/Button';
 import { WaveTop } from '../assets/WaveTop';
 import { WaveBottom } from '../assets/WaveBottom';
-import { TransparentButton } from '../components/Login-SignIn/TransparentButton';
+
+import { Input } from '../components/inputs/Input';
+import { Button } from '../components/buttons/Button';
+import { TransparentButton } from '../components/buttons/TransparentButton';
 
 interface Props extends StackScreenProps<any, any> {};
 

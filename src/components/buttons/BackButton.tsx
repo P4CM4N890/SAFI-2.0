@@ -7,7 +7,7 @@ interface Props {
     iconColor: string,
     iconSize: number,
     extraClass: string,
-    onPress: () => void
+    onPress?: () => void,
 }
 
 export const BackButton = ({ iconColor, iconSize, onPress, extraClass }: Props) => {
@@ -15,7 +15,7 @@ export const BackButton = ({ iconColor, iconSize, onPress, extraClass }: Props) 
         <TouchableOpacity 
             className={`absolute top-5 left-5 p-2 rounded-full ${ extraClass }`}
             activeOpacity={ 0.8 }
-            onPress={ () => onPress() }
+            onPress={ onPress }
         >
             <Icon 
                 name='arrow-back-outline' 

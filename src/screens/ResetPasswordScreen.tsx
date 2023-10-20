@@ -6,9 +6,9 @@ import { Logo } from '../assets/Logo';
 import { WaveTop } from '../assets/WaveTop';
 import { WaveBottom } from '../assets/WaveBottom';
 
-import { Input } from '../components/ResetPassword/Input';
-import { Button } from '../components/ResetPassword/Button';
-import { BackButton } from '../components/ResetPassword/BackButton';
+import { InputLabel } from '../components/inputs/InputLabel';
+import { Button } from '../components/buttons/Button';
+import { BackButton } from '../components/buttons/BackButton';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -31,14 +31,14 @@ export const ResetPasswordScreen = ({ navigation }: Props) => {
                     Cambia tu Contraseña
                 </Text>
                 
-                <Input 
+                <InputLabel 
                     label='Nueva contraseña' 
                     placeholder='' 
                     type='text'
                     extraClass='mt-10'
                 />
 
-                <Input 
+                <InputLabel 
                     label='Confirmar contraseña' 
                     placeholder='' 
                     type='text'

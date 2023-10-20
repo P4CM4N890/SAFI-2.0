@@ -6,10 +6,10 @@ import { Logo } from '../assets/Logo';
 import { WaveTop } from '../assets/WaveTop';
 import { WaveBottom } from '../assets/WaveBottom';
 
-import { Input } from '../components/ResetPassword/Input';
-import { Button } from '../components/ResetPassword/Button';
-import { BackButton } from '../components/ResetPassword/BackButton';
-import { TransparentButton } from '../components/ResetPassword/TransparentButton';
+import { InputLabel } from '../components/inputs/InputLabel';
+import { Button } from '../components/buttons/Button';
+import { BackButton } from '../components/buttons/BackButton';
+import { TransparentButton } from '../components/buttons/TransparentButton';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -36,7 +36,7 @@ export const TokenVerificationScreen = ({ navigation }: Props) => {
                     Ingresa el código de verificación que fue enviado a tu correo electrónico
                 </Text>
                 
-                <Input 
+                <InputLabel 
                     label='Código de verificación' 
                     placeholder='' 
                     type='text'
@@ -52,7 +52,7 @@ export const TokenVerificationScreen = ({ navigation }: Props) => {
                 <Button 
                     label='Verificar' 
                     extraClass='mt-10'
-                    onPress={ () => {} }
+                    onPress={ () => navigation.navigate('ResetPasswordScreen') }
                 />
             </View>
 

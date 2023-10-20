@@ -5,7 +5,7 @@ interface Props {
     label?: string,
     extraClass?: string,
     textStyle?: string,
-    onPress: () => void
+    onPress?: () => void,
 }
 
 export const TransparentButton = ( { label = 'Click Me', textStyle, onPress, extraClass } : Props ) => {
@@ -13,7 +13,7 @@ export const TransparentButton = ( { label = 'Click Me', textStyle, onPress, ext
         <TouchableOpacity 
             className={`${ extraClass }`} 
             activeOpacity={ 0.7 }
-            onPress={ () => onPress() }
+            onPress={ onPress }
         >
             <Text className={`${ textStyle }`}>{ label }</Text>
         </TouchableOpacity>
