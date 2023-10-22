@@ -12,7 +12,7 @@ export const Input = ( { placeholder = 'Text', type, secureTextEntry, extraClass
     return (
         <TextInput 
             placeholder={ placeholder }
-            className={`bg-white w-5/6 text-lg py-3 text-center rounded-xl font-semibold shadow-xl shadow-gray-700 ${ extraClass }`}
+            className={`bg-white w-5/6 text-lg py-3 text-center rounded-xl shadow-xl shadow-gray-700 ${ extraClass }`}
             inputMode={ type }
             secureTextEntry={ secureTextEntry }
         />

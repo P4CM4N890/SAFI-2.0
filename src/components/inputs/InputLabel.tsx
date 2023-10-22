@@ -15,7 +15,7 @@ export const InputLabel = ( { label, placeholder = '', type, secureTextEntry, ex
             <Text className={`w-5/6 mb-1 font-semibold text-base text-primary ${ extraClass }`}>{ label }</Text>
             <TextInput 
                 placeholder={ placeholder }
-                className='bg-white w-5/6 text-lg py-3 pl-3 rounded-xl font-semibold shadow-xl shadow-gray-700'
+                className='bg-white w-5/6 text-lg py-3 pl-3 rounded-xl shadow-xl shadow-gray-700'
                 inputMode={ type }
                 secureTextEntry={ secureTextEntry }
             />
