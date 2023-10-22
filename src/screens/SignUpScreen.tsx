@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, KeyboardAvoidingView, Text, ScrollView } from 'react-native';
+import { View, KeyboardAvoidingView, Text } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { WaveTop } from '../assets/WaveTop';
@@ -8,12 +8,14 @@ import { WaveBottom } from '../assets/WaveBottom';
 import { InputLabel } from '../components/inputs/InputLabel';
 import { Button } from '../components/buttons/Button';
 import { TransparentButton } from '../components/buttons/TransparentButton';
+import { DatePickerLabel } from '../components/datepickers/DatePickerLabel';
 
 interface Props extends StackScreenProps<any, any> {};
 
 export const SignUpScreen = ({ navigation }: Props) => {
+
     return (
-        <ScrollView className='w-full h-full'>
+        <KeyboardAvoidingView className='w-full h-full'>
             <WaveTop/>
             <View className='w-full h-full items-center justify-center z-10 py-6'>
                 <Text className='text-3xl font-bold text-primary uppercase tracking-tight'>Crear Cuenta</Text>
@@ -30,12 +32,13 @@ export const SignUpScreen = ({ navigation }: Props) => {
                     type='email'
                     extraClass='mt-6'
                 />
-                <InputLabel 
+
+                <DatePickerLabel 
                     label='Fecha de nacimiento' 
-                    placeholder='' 
-                    type='text'
+                    mode='date'
                     extraClass='mt-6'
                 />
+
                 <InputLabel 
                     label='Contraseña' 
                     placeholder='' 
@@ -65,6 +68,6 @@ export const SignUpScreen = ({ navigation }: Props) => {
                 />
             </View>
             <WaveBottom/>
-        </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
