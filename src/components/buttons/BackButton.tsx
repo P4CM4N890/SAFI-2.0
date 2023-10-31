@@ -13,7 +13,7 @@ interface Props {
 export const BackButton = ({ iconColor, iconSize, onPress, extraClass }: Props) => {
     return (
         <TouchableOpacity 
-            className={`absolute top-5 left-5 p-2 rounded-full ${ extraClass }`}
+            className={`absolute top-5 left-5 p-2 rounded-full z-10 ${ extraClass }`}
             activeOpacity={ 0.8 }
             onPress={ onPress }
         >

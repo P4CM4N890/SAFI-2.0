@@ -20,7 +20,7 @@ export const LoginScreen = ({ navigation }: Props) => {
                 <Logo/>
 
                 <Input 
-                    placeholder='Correo lectrónico' 
+                    placeholder='Correo electrónico' 
                     type='email' 
                     extraClass='mt-12'
                 />

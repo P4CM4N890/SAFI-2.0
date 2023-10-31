@@ -11,7 +11,7 @@ interface Props {
 export const TransparentButton = ( { label = 'Click Me', textStyle, onPress, extraClass } : Props ) => {
     return (
         <TouchableOpacity 
-            className={`${ extraClass }`} 
+            className={`${ extraClass } p-2`} 
             activeOpacity={ 0.7 }
             onPress={ onPress }
         >

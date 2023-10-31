@@ -18,7 +18,7 @@ export const SignUpScreen = ({ navigation }: Props) => {
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>
-            <ScrollView>
+            <ScrollView className='w-full h-full'>
                 <WaveTop/>
 
                 <View className='w-full h-full flex items-center justify-center z-10 py-6 mt-5'>
@@ -29,9 +29,9 @@ export const SignUpScreen = ({ navigation }: Props) => {
                         onPress={ () => navigation.goBack() }
                     />
 
-                    <Logo width={ 138 } height={ 128 } extraClass='-mt-5'/>
+                    
 
-                    <Text className='text-3xl font-bold text-primary uppercase tracking-tight mt-4'>Crear Cuenta</Text>
+                    <Text className='text-3xl font-bold text-primary uppercase tracking-tight mt-10'>Crear Cuenta</Text>
 
                     <InputLabel 
                         label='Nombre de usuario' 
