@@ -2,7 +2,6 @@ import React from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
-import { Logo } from '../assets/Logo';
 import { WaveTop } from '../assets/WaveTop';
 import { WaveBottom } from '../assets/WaveBottom';
 
@@ -18,7 +17,7 @@ export const SignUpScreen = ({ navigation }: Props) => {
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>
-            <ScrollView className='w-full h-full'>
+            <ScrollView>
                 <WaveTop/>
 
                 <View className='w-full h-full flex items-center justify-center z-10 py-6 mt-5'>
@@ -28,8 +27,6 @@ export const SignUpScreen = ({ navigation }: Props) => {
                         extraClass='bg-white'
                         onPress={ () => navigation.goBack() }
                     />
-
-                    
 
                     <Text className='text-3xl font-bold text-primary uppercase tracking-tight mt-10'>Crear Cuenta</Text>
 
@@ -47,7 +44,6 @@ export const SignUpScreen = ({ navigation }: Props) => {
                     />
                     <DatePickerLabel 
                         label='Fecha de nacimiento' 
-                        mode='date'
                         extraClass='mt-6'
                     />
                     <InputLabel 
@@ -78,6 +74,7 @@ export const SignUpScreen = ({ navigation }: Props) => {
                         onPress={ () => navigation.navigate('LoginScreen') }
                     />
                 </View>
+
                 <WaveBottom/>
             </ScrollView>
         </KeyboardAvoidingView>

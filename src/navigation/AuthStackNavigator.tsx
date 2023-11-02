@@ -7,13 +7,15 @@ import { ResetPasswordScreen } from '../screens/ResetPasswordScreen';
 import { TokenVerificationScreen } from '../screens/TokenVerificationScreen';
 import { ForgotPasswordScreen } from '../screens/ForgotPasswordScreen';
 
+import { BottomTabNavigator } from './BottomTabNavigator';
+
 const AuthStack = createStackNavigator();
 
 export const AuthStackNavigator = () => {
     return (
         <AuthStack.Navigator
             screenOptions={{
-                headerShown: false,
+                headerShown: false
             }}
         >
 
@@ -22,6 +24,8 @@ export const AuthStackNavigator = () => {
             <AuthStack.Screen name='ResetPasswordScreen' options={{ title: 'Reset Password' }} component={ ResetPasswordScreen }/>
             <AuthStack.Screen name='ForgotPasswordScreen' options={{ title: 'Forgot Password' }} component={ ForgotPasswordScreen }/>
             <AuthStack.Screen name='TokenVerificationScreen' options={{ title: 'Token Verification' }} component={ TokenVerificationScreen }/>
+            
+            <AuthStack.Screen name='BottomTabNavigator' options={{ title: 'Bottom Tab' }} component={ BottomTabNavigator }/>
         
         </AuthStack.Navigator>
     );

@@ -42,7 +42,7 @@ export const LoginScreen = ({ navigation }: Props) => {
                 <Button 
                     label='Iniciar sesión' 
                     extraClass='mt-10' 
-                    onPress={ () => {} }
+                    onPress={ () => navigation.navigate('BottomTabNavigator') }
                 />
 
                 <View className='w-5/6 border-t-2 border-gray-700 mt-12'/>

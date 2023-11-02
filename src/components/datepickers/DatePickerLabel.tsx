@@ -5,11 +5,10 @@ import DatePicker from 'react-native-date-picker';
 
 interface Props {
     label: string,
-    mode: 'time' | 'date' | 'datetime',
     extraClass?: string
 }
 
-export const DatePickerLabel = ({ label, mode, extraClass }: Props) => {
+export const DatePickerLabel = ({ label, extraClass }: Props) => {
     
     const [ date, setDate ] = useState(new Date());
     const [ formattedDate, setDormattedDate ] = useState('');
@@ -31,12 +30,12 @@ export const DatePickerLabel = ({ label, mode, extraClass }: Props) => {
             <DatePicker
                 modal
                 title={ label }
-                mode={ mode }
                 open={ open }
                 date={ date }
 
                 maximumDate={ new Date() }
 
+                mode='date'
                 confirmText='Confirmar'
                 cancelText='Cancelar'
                 androidVariant='iosClone'
