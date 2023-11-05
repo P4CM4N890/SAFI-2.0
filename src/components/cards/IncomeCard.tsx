@@ -24,7 +24,7 @@ export const IncomeCard = ({ title, iconName, iconColor, money, time }: Props) =
                     />
                 </View>
 
-                <Text className='text-black font-bold text-lg'>{ title }</Text>
+                <Text className='w-2/3 text-black font-bold text-lg' numberOfLines={ 1 }>{ title }</Text>
             </View>
 
             <View className='w-1/4 justify-around'>

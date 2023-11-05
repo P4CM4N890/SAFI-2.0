@@ -26,8 +26,8 @@ export const GoalCard = ({ title, iconName, iconColor, totalGoalAmount, totalGoa
                     />
                 </View>
 
-                <View className='w-full justify-center'>
-                    <Text className='text-black font-bold text-lg'>{ title }</Text>
+                <View className='w-2/3'>
+                    <Text className='text-black font-bold text-lg' numberOfLines={ 1 }>{ title }</Text>
                     <Bar progress={ progress } height={ 10 } color={ iconColor } unfilledColor='#D9D9D9' borderColor='#D9D9D9'/>
                 </View>
             </View>

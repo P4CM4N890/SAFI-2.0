@@ -54,6 +54,22 @@ export const GoalsScreen = () => {
                         totalGoalAmount='2000.00'
                         progress={ 0.5 }
                     />
+                    <GoalCard 
+                        title='Camisa' 
+                        iconName='bag-handle-outline' 
+                        iconColor='#D8336A'
+                        totalGoalCompleted='1000.00'
+                        totalGoalAmount='2000.00'
+                        progress={ 0.5 }
+                    />
+                    <GoalCard 
+                        title='Sombrero' 
+                        iconName='bag-handle-outline' 
+                        iconColor='#33D8A2'
+                        totalGoalCompleted='1000.00'
+                        totalGoalAmount='2000.00'
+                        progress={ 0.5 }
+                    />
                 </View>
 
             </ScrollView>
