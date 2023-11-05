@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
+import { Bar } from 'react-native-progress';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props {
@@ -16,7 +17,7 @@ export const GoalCard = ({ title, iconName, iconColor, totalGoalAmount, totalGoa
         <View className='w-full flex-row items-center bg-white rounded-2xl p-2 border-2 border-slate-200 mt-2'>
             <View className='w-3/4 flex-row items-center gap-x-3'>
 
-                <View className={`items-center justify-center rounded-full h-14 w-14 ${ iconColor }`}>
+                <View className='items-center justify-center rounded-full h-14 w-14' style={{ backgroundColor: iconColor }}>
                     <Icon 
                         name={ iconName }
                         color='#FFF'
@@ -24,7 +25,10 @@ export const GoalCard = ({ title, iconName, iconColor, totalGoalAmount, totalGoa
                     />
                 </View>
 
-                <Text className='text-black font-bold text-lg'>{ title }</Text>
+                <View className='w-full justify-center'>
+                    <Text className='text-black font-bold text-lg'>{ title }</Text>
+                    <Bar progress={ 0.5 } height={ 10 } color={ iconColor }/>
+                </View>
             </View>
 
             <View className='w-1/4 justify-around'>

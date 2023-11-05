@@ -25,14 +25,14 @@ export const IncomeScreen = () => {
                     <IncomeCard 
                         title='Ahorro semanal' 
                         iconName='calendar-outline' 
-                        iconColor='bg-emerald-400'
+                        iconColor='#33D8A2'
                         money='500.00'
                         time='12:00 p.m.'
                     />
                     <IncomeCard 
                         title='Venta de juegos' 
                         iconName='game-controller-outline' 
-                        iconColor='bg-indigo-700'
+                        iconColor='#75E2F8'
                         money='500.00'
                         time='12:00 p.m.'
                     />
@@ -43,14 +43,14 @@ export const IncomeScreen = () => {
                     <IncomeCard 
                         title='Ahorro semanal' 
                         iconName='calendar-outline' 
-                        iconColor='bg-emerald-400'
+                        iconColor='#33D8A2'
                         money='500.00'
                         time='12:00 p.m.'
                     />
                     <IncomeCard 
                         title='Venta de juegos' 
                         iconName='game-controller-outline' 
-                        iconColor='bg-indigo-700'
+                        iconColor='#75E2F8'
                         money='500.00'
                         time='12:00 p.m.'
                     />

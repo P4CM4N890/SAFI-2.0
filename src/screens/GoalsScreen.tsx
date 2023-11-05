@@ -14,32 +14,31 @@ export const GoalsScreen = () => {
                 <Header title='Tus Metas' extraClass='text-2xl'/>
 
                 <View className='mt-6'>
-                    <Text className='text-black font-semibold text-sm uppercase'>Noviembre 3</Text>
                     <GoalCard 
                         title='Laptop' 
                         iconName='game-controller-outline' 
-                        iconColor='bg-rose-500'
+                        iconColor='#D8336A'
                         totalGoalCompleted='1000.00'
                         totalGoalAmount='2000.00'
                     />
                     <GoalCard 
                         title='Celular' 
                         iconName='game-controller-outline' 
-                        iconColor='bg-emerald-400'
+                        iconColor='#33D8A2'
                         totalGoalCompleted='1000.00'
                         totalGoalAmount='2000.00'
                     />
                     <GoalCard 
                         title='Monitor' 
                         iconName='game-controller-outline' 
-                        iconColor='bg-purple-600'
+                        iconColor='#A233D8'
                         totalGoalCompleted='1000.00'
                         totalGoalAmount='2000.00'
                     />
                     <GoalCard 
                         title='Zapatos' 
                         iconName='bag-handle-outline' 
-                        iconColor='bg-indigo-600'
+                        iconColor='#75E2F8'
                         totalGoalCompleted='1000.00'
                         totalGoalAmount='2000.00'
                     />

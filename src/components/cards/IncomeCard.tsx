@@ -16,7 +16,7 @@ export const IncomeCard = ({ title, iconName, iconColor, money, time }: Props) =
         <View className='w-full flex-row items-center bg-white rounded-2xl p-2 border-2 border-slate-200 mt-2'>
             <View className='w-3/4 flex-row items-center gap-x-3'>
 
-                <View className={`items-center justify-center rounded-full h-14 w-14 ${ iconColor }`}>
+                <View className='items-center justify-center rounded-full h-14 w-14' style={{ backgroundColor: iconColor }}>
                     <Icon 
                         name={ iconName }
                         color='#FFF'
