@@ -17,7 +17,10 @@ export const SignUpScreen = ({ navigation }: Props) => {
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>
-            <ScrollView>
+            <ScrollView 
+                className='w-full h-full'
+                showsVerticalScrollIndicator={ false }
+            >
                 <WaveTop/>
 
                 <View className='w-full h-full items-center justify-center z-10 py-6 mt-5'>

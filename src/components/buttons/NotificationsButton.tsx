@@ -9,7 +9,7 @@ export const NotificationsButton = () => {
 
     return (
         <TouchableOpacity 
-            className={`absolute top-5 right-5 rounded-full z-10`}
+            className={`rounded-full z-10`}
             activeOpacity={ 0.7 }
             onPress={ () => setNotificationsOn(!notificationsOn) }
         >
