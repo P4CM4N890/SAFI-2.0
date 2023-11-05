@@ -3,6 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { HomeScreen } from '../screens/HomeScreen';
 import { IncomeScreen } from '../screens/IncomeScreen';
 import { TabBarButton } from '../components/buttons/TabBarButton';
+import { GoalsScreen } from '../screens/GoalsScreen';
+import { SettingsScreen } from '../screens/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,6 +20,8 @@ export const BottomTabNavigator = () => {
 
                 tabBarStyle: {
                     height: 65,
+                    borderTopColor: 'rgba(0, 0, 0, 0.1)', // Color de la sombra
+                    borderTopWidth: 2, // Grosor de la sombra en la parte superior
                 }
             }}
         >
@@ -49,6 +53,38 @@ export const BottomTabNavigator = () => {
                             isFocused={ focused }
                             iconName='cash-outline'
                             label='Ingresos'
+                        />
+                    )
+                }} 
+            />
+            <Tab.Screen 
+                name='GoalsScreen' 
+                component={ GoalsScreen }
+                options={{
+                    title: 'Metas',
+                    tabBarIcon: ({ focused, color, size }) => (
+                        <TabBarButton 
+                            iconColor={ color } 
+                            iconSize={ size } 
+                            isFocused={ focused }
+                            iconName='flag-outline'
+                            label='Metas'
+                        />
+                    )
+                }} 
+            />
+            <Tab.Screen 
+                name='SettingsScreen' 
+                component={ SettingsScreen }
+                options={{
+                    title: 'Ajustes',
+                    tabBarIcon: ({ focused, color, size }) => (
+                        <TabBarButton 
+                            iconColor={ color } 
+                            iconSize={ size } 
+                            isFocused={ focused }
+                            iconName='settings-outline'
+                            label='Ajustes'
                         />
                     )
                 }} 
