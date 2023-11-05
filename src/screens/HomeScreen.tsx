@@ -5,7 +5,7 @@ import { AddButton } from '../components/buttons/AddButton';
 
 export const HomeScreen = () => {
     return (
-        <View className='w-full h-full flex justify-center items-center'>
+        <View className='w-full h-full justify-center items-center'>
             <Text>HomeScreen</Text>
             <AddButton />
         </View>

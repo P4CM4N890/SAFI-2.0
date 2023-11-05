@@ -20,7 +20,7 @@ export const SignUpScreen = ({ navigation }: Props) => {
             <ScrollView>
                 <WaveTop/>
 
-                <View className='w-full h-full flex items-center justify-center z-10 py-6 mt-5'>
+                <View className='w-full h-full items-center justify-center z-10 py-6 mt-5'>
                     <BackButton 
                         iconColor='#000' 
                         iconSize={ 30 } 
