@@ -13,7 +13,7 @@ export const UserImageButton = () => {
             <Icon 
                 name='person-circle-outline'
                 color='#4F33D8'
-                size={ 53 } 
+                size={ 50 } 
             />
         </TouchableOpacity>
     );

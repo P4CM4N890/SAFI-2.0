@@ -14,7 +14,7 @@ export const NotificationsButton = () => {
             onPress={ () => setNotificationsOn(!notificationsOn) }
         >
             <Icon 
-                name={ notificationsOn ? 'notifications-outline' : 'notifications-off-outline' }
+                name={ notificationsOn ? 'notifications-circle-outline' : 'notifications-off-circle-outline' }
                 color='#4F33D8'
                 size={ 50 } 
             />

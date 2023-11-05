@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 
-import { NotificationsButton } from '../components/buttons/NotificationsButton';
-import { UserImageButton } from '../components/buttons/UserImageButton';
+import { Header } from '../components/headers/Header';
 import { IncomeCard } from '../components/cards/IncomeCard';
 
 export const IncomeScreen = () => {
@@ -12,13 +11,7 @@ export const IncomeScreen = () => {
                 className='w-full h-full' 
                 showsVerticalScrollIndicator={ false }
             >
-                
-                <View className='w-full flex-row justify-between'>
-                    <UserImageButton />
-                    <NotificationsButton />
-                </View>
-
-                <Text className='text-black text-xl text-center font-bold uppercase'>Proyección de Ahorro</Text>
+                <Header title='Proyección de Ahorro'/>
 
                 {/* SÓLO PARA PROBAR */}
                 <Image 
