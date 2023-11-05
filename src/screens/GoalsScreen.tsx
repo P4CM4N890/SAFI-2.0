@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 
 import { Header } from '../components/headers/Header';
 import { GoalCard } from '../components/cards/GoalCard';
+import { MainGoalCard } from '../components/cards/MainGoalCard';
 
 export const GoalsScreen = () => {
     return (
@@ -13,6 +14,13 @@ export const GoalsScreen = () => {
             >
                 <Header title='Tus Metas' extraClass='text-2xl'/>
 
+                <MainGoalCard 
+                    title='Laptop Asus' 
+                    startDate='12/Octubre/2023'
+                    endDate='12/Diciembre/2023'
+                    progress={ 0.5 }
+                />
+
                 <View className='mt-6'>
                     <GoalCard 
                         title='Laptop' 
@@ -20,6 +28,7 @@ export const GoalsScreen = () => {
                         iconColor='#D8336A'
                         totalGoalCompleted='1000.00'
                         totalGoalAmount='2000.00'
+                        progress={ 0.5 }
                     />
                     <GoalCard 
                         title='Celular' 
@@ -27,6 +36,7 @@ export const GoalsScreen = () => {
                         iconColor='#33D8A2'
                         totalGoalCompleted='1000.00'
                         totalGoalAmount='2000.00'
+                        progress={ 0.5 }
                     />
                     <GoalCard 
                         title='Monitor' 
@@ -34,6 +44,7 @@ export const GoalsScreen = () => {
                         iconColor='#A233D8'
                         totalGoalCompleted='1000.00'
                         totalGoalAmount='2000.00'
+                        progress={ 0.5 }
                     />
                     <GoalCard 
                         title='Zapatos' 
@@ -41,6 +52,7 @@ export const GoalsScreen = () => {
                         iconColor='#75E2F8'
                         totalGoalCompleted='1000.00'
                         totalGoalAmount='2000.00'
+                        progress={ 0.5 }
                     />
                 </View>
 
