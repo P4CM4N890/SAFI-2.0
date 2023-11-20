@@ -13,6 +13,7 @@ import { TransparentButton } from '../components/buttons/TransparentButton';
 import { useForm } from '../hooks/useForm';
 import { login } from '../api/PostRequests';
 import { checkToken } from '../api/instance';
+import { useState } from 'react';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -21,8 +22,16 @@ const initialState = {
     contrasena: "",
 };
 
+interface loginData {
+    correo: string
+    fecha_de_nacimiento: string
+    nombre: string
+    session_token: string
+}
+
 export const LoginScreen = ({ navigation }: Props) => {
     const { correo, contrasena, onChange } = useForm(initialState);
+    const [ error, setError ] = useState<string | null>(null);
 
     const isValidEmail = () : Boolean => {
         const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -33,27 +42,33 @@ export const LoginScreen = ({ navigation }: Props) => {
     const onLogin = async () => {
         Keyboard.dismiss()
 
-        try{
-            console.log(correo, contrasena)
+        if (!isValidEmail()) {
+            setError("Correo invalido.");
+            return;
+        } else if (contrasena.length === 0) {
+            setError("Ingresa tu contraseña.");
+            return;
+        } else if (contrasena.length > 0 && contrasena.length <= 2) {
+            setError("Ingresa una contraseña valida.");
+            return;
+        }
 
+        try{
             const response = await login(correo, contrasena);
 
             const { data } = response;
         
-            console.log(data)
+            await AsyncStorage.setItem("session_token", data.session_token);
+            await AsyncStorage.setItem("correo", data.correo);
 
-            // await AsyncStorage.setItem("session_token", data.session_token);
-            // await AsyncStorage.setItem("correo", data.correo);
-            // await AsyncStorage.setItem("id_cuenta", data.id_cuenta);
+            const token = await checkToken();
 
-            // const token = await checkToken();
+            if (token) { 
+                onChange("", 'correo');
+                onChange("", 'contrasena');
 
-            // if (token) { 
-            //     onChange("", 'correo');
-            //     onChange("", 'contrasena');
-
-            //     navigation.replace('LoadingScreen');
-            // }
+                navigation.replace('LoadingScreen');
+            }
         }
         catch(error){
             const err = error as Error;
@@ -65,7 +80,7 @@ export const LoginScreen = ({ navigation }: Props) => {
             else{
                 console.log("Ha ocurrido un error. Intentalo de nuevo más tarde.");
             }
-
+            
             // setModalVisible(true);
         }
     }
