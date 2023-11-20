@@ -11,7 +11,7 @@ import { Input } from '../components/inputs/Input';
 import { Button } from '../components/buttons/Button';
 import { TransparentButton } from '../components/buttons/TransparentButton';
 import { useForm } from '../hooks/useForm';
-import { login } from '../api/PostRequests';
+import { login } from '../api/postRequests';
 import { checkToken } from '../api/instance';
 import { useState } from 'react';
 
@@ -52,7 +52,7 @@ export const LoginScreen = ({ navigation }: Props) => {
             setError("Ingresa una contraseña valida.");
             return;
         }
-
+        
         try{
             const response = await login(correo, contrasena);
 
@@ -95,6 +95,7 @@ export const LoginScreen = ({ navigation }: Props) => {
                     placeholder='Correo electrónico' 
                     type='email' 
                     extraClass='mt-12'
+                    autoCapitalize='none'
                     value={ correo }
                     onChange={ (value) => onChange(value, 'correo') }
                 />
@@ -104,6 +105,7 @@ export const LoginScreen = ({ navigation }: Props) => {
                     type='text'
                     extraClass='mt-6'
                     secureTextEntry
+                    autoCapitalize='none'
                     value={ contrasena }
                     onChange={ (value) => onChange(value, 'contrasena') }
                 />
