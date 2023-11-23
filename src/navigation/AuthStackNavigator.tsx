@@ -24,27 +24,32 @@ export const AuthStackNavigator = () => {
             }}
         >
             {
-                (status !== 'authenticated') 
-                ? 
-                    (
-                        <>
-                            <AuthStack.Screen name='LoginScreen' options={{ title: 'LogIn' }} component={ LoginScreen }/>
-                            <AuthStack.Screen name='SignUpScreen' options={{ title: 'SignUp' }} component={ SignUpScreen }/>
-                            <AuthStack.Screen name='ResetPasswordScreen' options={{ title: 'Reset Password' }} component={ ResetPasswordScreen }/>
-                            <AuthStack.Screen name='ForgotPasswordScreen' options={{ title: 'Forgot Password' }} component={ ForgotPasswordScreen }/>
-                            <AuthStack.Screen name='TokenVerificationScreen' options={{ title: 'Token Verification' }} component={ TokenVerificationScreen }/>
-                            <AuthStack.Screen name='LoadingScreen' options={{ title: 'Loading' }} component={ LoadingScreen }/>
-                        </>
-                    )
-                :
-                    (
-                        <>
-                            {/* AQUI VA EL BOTTOM NAVIGATOR */}
-                            <AuthStack.Screen name='temp' options={{ title: 'temp' }} component={ TempScreen }/>
+                // (status !== 'authenticated') 
+                // ? 
+                //     (
+                //         <>
+                //             <AuthStack.Screen name='LoginScreen' options={{ title: 'LogIn' }} component={ LoginScreen }/>
+                //             <AuthStack.Screen name='SignUpScreen' options={{ title: 'SignUp' }} component={ SignUpScreen }/>
+                //             <AuthStack.Screen name='ResetPasswordScreen' options={{ title: 'Reset Password' }} component={ ResetPasswordScreen }/>
+                //             <AuthStack.Screen name='ForgotPasswordScreen' options={{ title: 'Forgot Password' }} component={ ForgotPasswordScreen }/>
+                //             <AuthStack.Screen name='TokenVerificationScreen' options={{ title: 'Token Verification' }} component={ TokenVerificationScreen }/>
+                //             <AuthStack.Screen name='LoadingScreen' options={{ title: 'Loading' }} component={ LoadingScreen }/>
+                //         </>
+                //     )
+                // :
+                //     (
+                //         <>
+                //             {/* AQUI VA EL BOTTOM NAVIGATOR */}
+                //             <AuthStack.Screen name='temp' options={{ title: 'temp' }} component={ TempScreen }/>
 
-                        </>
-                    )
+                //         </>
+                //     )
             }
+            <AuthStack.Screen name='LoginScreen' options={{ title: 'LogIn' }} component={ LoginScreen }/>
+            <AuthStack.Screen name='SignUpScreen' options={{ title: 'SignUp' }} component={ SignUpScreen }/>
+            <AuthStack.Screen name='ResetPasswordScreen' options={{ title: 'Reset Password' }} component={ ResetPasswordScreen }/>
+            <AuthStack.Screen name='ForgotPasswordScreen' options={{ title: 'Forgot Password' }} component={ ForgotPasswordScreen }/>
+            <AuthStack.Screen name='TokenVerificationScreen' options={{ title: 'Token Verification' }} component={ TokenVerificationScreen }/>
         
         </AuthStack.Navigator>
     );

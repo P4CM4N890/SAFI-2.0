@@ -22,13 +22,6 @@ const initialState = {
     contrasena: "",
 };
 
-interface loginData {
-    correo: string
-    fecha_de_nacimiento: string
-    nombre: string
-    session_token: string
-}
-
 export const LoginScreen = ({ navigation }: Props) => {
     const { correo, contrasena, onChange } = useForm(initialState);
     const [ error, setError ] = useState<string | null>(null);
@@ -40,49 +33,48 @@ export const LoginScreen = ({ navigation }: Props) => {
     }
 
     const onLogin = async () => {
-        Keyboard.dismiss()
+        // Keyboard.dismiss()
 
-        if (!isValidEmail()) {
-            setError("Correo invalido.");
-            return;
-        } else if (contrasena.length === 0) {
-            setError("Ingresa tu contraseña.");
-            return;
-        } else if (contrasena.length > 0 && contrasena.length <= 2) {
-            setError("Ingresa una contraseña valida.");
-            return;
-        }
+        // if (!isValidEmail()) {
+        //     setError("Correo invalido.");
+        //     return;
+        // } else if (contrasena.length === 0) {
+        //     setError("Ingresa tu contraseña.");
+        //     return;
+        // } else if (contrasena.length > 0 && contrasena.length <= 2) {
+        //     setError("Ingresa una contraseña valida.");
+        //     return;
+        // }
         
-        try{
-            const response = await login(correo, contrasena);
+        // try{
+        //     const response = await login(correo, contrasena);
 
-            const { data } = response;
+        //     const { data } = response;
         
-            await AsyncStorage.setItem("session_token", data.session_token);
-            await AsyncStorage.setItem("correo", data.correo);
+        //     await AsyncStorage.setItem("session_token", data.session_token);
+        //     await AsyncStorage.setItem("correo", data.correo);
 
-            const token = await checkToken();
+        //     const token = await checkToken();
 
-            if (token) { 
-                onChange("", 'correo');
-                onChange("", 'contrasena');
+        //     if (token) { 
+        //         onChange("", 'correo');
+        //         onChange("", 'contrasena');
 
-                navigation.replace('LoadingScreen');
-            }
-        }
-        catch(error){
-            const err = error as Error;
-            console.log(err);
+        //         navigation.replace('LoadingScreen');
+        //     }
+        // }
+        // catch(error){
+        //     const err = error as Error;
+        //     console.log(err);
             
-            if (err.message === "Invalid credentials"){
-                console.log("Los datos ingresados no son correctos.");
-            }
-            else{
-                console.log("Ha ocurrido un error. Intentalo de nuevo más tarde.");
-            }
-            
-            // setModalVisible(true);
-        }
+        //     if (err.message === "Invalid credentials"){
+        //         console.log("Los datos ingresados no son correctos.");
+        //     }
+        //     else{
+        //         console.log("Ha ocurrido un error. Intentalo de nuevo más tarde.");
+        //     }
+
+        // }
     }
 
     return (

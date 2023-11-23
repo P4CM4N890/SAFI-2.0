@@ -6,9 +6,9 @@ interface Props {
     type: 'email' | 'text' | 'numeric',
     extraClass?: string,
     secureTextEntry?: boolean,
-    value: string,
+    value?: string,
     autoCapitalize?: 'characters' | 'none' | 'sentences' | 'words',
-    onChange: (value: string) => void,
+    onChange?: (value: string) => void,
 }
 
 export const Input = ( { placeholder = 'Text', type, secureTextEntry, extraClass, value, autoCapitalize, onChange } : Props ) => {
