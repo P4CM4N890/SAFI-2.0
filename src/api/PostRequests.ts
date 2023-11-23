@@ -101,7 +101,7 @@ export const crearUsuario = async (usuario: UsuarioCreate): Promise<AxiosRespons
         },
     };
 
-    let url = "/usuario/";
+    let url = "/usuarios/";
 
     let body = {
         ...usuario,

@@ -13,7 +13,7 @@ export const obtenerUsuarios = async (): Promise<AxiosResponse<UsuarioResponse[]
         },
     };
 
-    let url = "/usuario/";
+    let url = "/usuarios/";
 
     try {
         const response = await apiInstance.get<UsuarioResponse[]>(url, config);
@@ -31,7 +31,7 @@ export const obtenerUsuarios = async (): Promise<AxiosResponse<UsuarioResponse[]
     };
 }
 
-export const obtenerUsuario = async (correo: number): Promise<AxiosResponse<UsuarioResponse>> => {
+export const obtenerUsuario = async (correo: string): Promise<AxiosResponse<UsuarioResponse>> => {
     const token = await checkToken();
 
     let config = {
@@ -40,7 +40,7 @@ export const obtenerUsuario = async (correo: number): Promise<AxiosResponse<Usua
         },
     };
 
-    let url = `/usuario/${correo}`;
+    let url = `/usuarios/${correo}`;
 
     try {
         const response = await apiInstance.get<UsuarioResponse>(url, config);
@@ -85,7 +85,7 @@ export const obtenerCategorias = async (): Promise<AxiosResponse<CategoriaRespon
     };
 }
 
-export const obtenerCategoria = async (nombre: string): Promise<AxiosResponse<CategoriaResponse>> => {
+export const obtenerCategoria = async (id: string): Promise<AxiosResponse<CategoriaResponse>> => {
     const token = await checkToken();
 
     let config = {
@@ -94,7 +94,7 @@ export const obtenerCategoria = async (nombre: string): Promise<AxiosResponse<Ca
         },
     };
 
-    let url = `/categoria/${nombre}`;
+    let url = `/categoria/${id}`;
 
     try {
         const response = await apiInstance.get<CategoriaResponse>(url, config);
