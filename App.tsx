@@ -5,6 +5,15 @@ import { SafeAreaView, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { AuthStackNavigator } from './src/navigation/AuthStackNavigator';
+import { AuthProvider } from './src/context/AuthContext';
+
+const AppState = ({ children }: any) => {
+    return (
+        <AuthProvider>
+            { children }
+        </AuthProvider>
+    )
+};
 
 const App = () => {
 
@@ -14,7 +23,9 @@ const App = () => {
                 hidden
             />
             <NavigationContainer>
-                <AuthStackNavigator />
+                <AppState>
+                    <AuthStackNavigator />
+                </AppState>
             </NavigationContainer>
         </SafeAreaView>
     );

@@ -7,9 +7,12 @@ interface Props {
     type: 'email' | 'text' | 'numeric',
     extraClass?: string,
     secureTextEntry?: boolean,
+    value?: string,
+    autoCapitalize?: 'characters' | 'none' | 'sentences' | 'words',
+    onChange?: (value: string) => void,
 }
 
-export const InputLabel = ( { label, placeholder = '', type, secureTextEntry, extraClass } : Props ) => {
+export const InputLabel = ( { label, placeholder = '', type, secureTextEntry, extraClass, value, onChange, autoCapitalize } : Props ) => {
     return (
         <>
             <Text className={`w-5/6 mb-1 font-semibold text-base text-primary ${ extraClass }`}>{ label }</Text>
@@ -18,6 +21,9 @@ export const InputLabel = ( { label, placeholder = '', type, secureTextEntry, ex
                 className='bg-white w-5/6 text-lg py-3 pl-3 rounded-xl shadow-xl shadow-gray-700'
                 inputMode={ type }
                 secureTextEntry={ secureTextEntry }
+                autoCapitalize={ autoCapitalize }
+                value={ value }
+                onChangeText={ onChange }
             />
         </>
     );

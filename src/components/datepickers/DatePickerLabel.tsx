@@ -6,13 +6,15 @@ import DatePicker from 'react-native-date-picker';
 interface Props {
     label: string,
     mode: 'time' | 'date' | 'datetime',
-    extraClass?: string
+    extraClass?: string,
+    value?: string,
+    onChange: (value: string) => void,
 }
 
-export const DatePickerLabel = ({ label, mode, extraClass }: Props) => {
+export const DatePickerLabel = ({ label, mode, extraClass, value, onChange }: Props) => {
     
     const [ date, setDate ] = useState(new Date());
-    const [ formattedDate, setDormattedDate ] = useState('');
+    const [ formattedDate, setFormattedDate ] = useState('');
 
     const [ open, setOpen ] = useState(false);
 
@@ -44,7 +46,8 @@ export const DatePickerLabel = ({ label, mode, extraClass }: Props) => {
                 onConfirm={(date) => {
                     setOpen(false);
                     setDate(date);
-                    setDormattedDate(date.toLocaleDateString('es-MX'));
+                    setFormattedDate(date.toLocaleDateString('es-MX'));
+                    onChange(date.toISOString().split('T')[0]);
                 }}
                 onCancel={() => {
                     setOpen(false);
