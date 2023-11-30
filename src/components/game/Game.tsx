@@ -1,4 +1,4 @@
-import { Dimensions, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import { Snake } from "./Snake";
@@ -10,9 +10,9 @@ import { Header } from "./Header";
 import { Colores } from "../../styles/colors";
 
 const SNAKE_POSICION_INICIAL = [{ x: 5, y: 5}];
-const COMIDA_POSICION_INICIAL = { x: 5, y: 5 };
-const BORDES = { xMin: 0, xMax: 50, yMin: 0, yMax: 40 };
-const INTERVALO_MOVIMIENTO = 50;
+const BORDES = { xMin: 0, xMax: 34, yMin: 0, yMax: 68 };
+const COMIDA_POSICION_INICIAL = randomPosition(BORDES.xMax, BORDES.yMax);
+const INTERVALO_MOVIMIENTO = 20;
 const INCREMENTO_SCORE = 1;
 
 enum Direcciones {
@@ -98,10 +98,13 @@ export const Game = () => {
     const onSwipe = (event: PanGestureHandlerGestureEvent) => {
         const { translationX, translationY } = event.nativeEvent;
 
+        const transX = Math.round(translationX);
+        const transY = Math.round(translationY);
+
         // Validar si nos movemos en el eje X.
-        if (Math.abs(translationX) > Math.abs(translationY)) {
+        if (Math.abs(transX) > Math.abs(transY)) {
             // Validar si nos movemos a la izq o der.
-            if(translationX > 0){
+            if(transX > 0){
                 setDirection(Direcciones.Right);
             }
             else{
@@ -110,7 +113,7 @@ export const Game = () => {
         }
         else{
             // Validar si nos movemos arriba o abajo.
-            if(translationY > 0){
+            if(transY > 0){
                 setDirection(Direcciones.Down);
             }
             else {
@@ -128,7 +131,15 @@ export const Game = () => {
                     pauseGame={ pauseGame }
                     isGameOver={ gameOver }
                 >
-                    <Text style={{ fontSize: 22, fontWeight: 'bold', color: Colores.primary }}>{ score }</Text>
+                    {
+                        !gameOver ?
+                            <Text style={{ fontSize: 22, fontWeight: 'bold', color: Colores.primary }}>Puntuación: { score }</Text>
+                            :
+                            <>
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: Colores.primary }}>Puntuación: { score }</Text>
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: Colores.primary }}>Record: { score }</Text>
+                            </>
+                    }
                 </Header>
 
                 <View style={ styles.bound }>

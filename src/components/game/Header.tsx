@@ -21,7 +21,7 @@ export const Header = ({ children, reloadGame, pauseGame, isPaused, isGameOver}:
                 {
                     !isGameOver &&
                     <Icon 
-                        name={ isPaused ? "pause-circle-outline" : "play-circle-outline" } 
+                        name={ isPaused ? "play-circle-outline" : "pause-circle-outline" } 
                         size={ 30 } 
                         color={ Colores.primary }
                         disabled
