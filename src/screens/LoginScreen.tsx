@@ -2,6 +2,7 @@ import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
+import PushNotification from 'react-native-push-notification';
 
 import { Logo } from '../assets/Logo';
 import { WaveTop } from '../assets/WaveTop';
@@ -13,7 +14,7 @@ import { TransparentButton } from '../components/buttons/TransparentButton';
 import { useForm } from '../hooks/useForm';
 import { login } from '../api/postRequests';
 import { checkToken } from '../api/instance';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -26,11 +27,18 @@ export const LoginScreen = ({ navigation }: Props) => {
     const { correo, contrasena, onChange } = useForm(initialState);
     const [ error, setError ] = useState<string | null>(null);
 
+    const createNotificationChannel = () => {
+        PushNotification.createChannel({
+            channelId: 'safi-recordatorios',
+            channelName: 'SAFI recordatorios'
+        }, () => console.log("Canal de notificaciones creado."));
+    };
+
     const isValidEmail = () : Boolean => {
         const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
         return regex.test(correo);
-    }
+    };
 
     const onLogin = async () => {
         // Keyboard.dismiss()
@@ -75,7 +83,11 @@ export const LoginScreen = ({ navigation }: Props) => {
         //     }
 
         // }
-    }
+    };
+
+    useEffect(() => {
+        createNotificationChannel();
+    }, []);
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>
