@@ -3,7 +3,11 @@ import { TouchableOpacity } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export const UserImageButton = () => {
+interface props {
+    size?: number;
+}
+
+export const UserImageButton = ({ size = 50 }: props) => {
 
     return (
         <TouchableOpacity 
@@ -13,7 +17,7 @@ export const UserImageButton = () => {
             <Icon 
                 name='person-circle-outline'
                 color='#4F33D8'
-                size={ 50 } 
+                size={ size } 
             />
         </TouchableOpacity>
     );
