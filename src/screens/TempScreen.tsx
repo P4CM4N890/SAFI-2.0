@@ -1,18 +1,13 @@
-import { Text } from "react-native";
-import { View } from "react-native";
+import { Text, View, PermissionsAndroid, Platform } from "react-native";
 import { Button } from "../components/buttons/Button";
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AuthContext } from "../context/AuthContext";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { obtenerCategoria, obtenerCategorias, obtenerMeta, obtenerMetas, obtenerUsuario, obtenerUsuarios } from "../api/getRequests";
-import { CategoriaEdit, UsuarioCreate, UsuarioEdit } from "../interfaces/ApiInterfaces";
-import { actualizarCategoria, actualizarUsuario } from "../api/putRequests";
-import { eliminarUsuario } from "../api/delRequests";
-import { crearUsuario } from "../api/postRequests";
+import PushNotification from "react-native-push-notification";
 
 export const TempScreen = () => {
     const { logOut } = useContext( AuthContext );
-
+    
     const onLogOut = async () => {
         try{
             logOut();
@@ -23,35 +18,82 @@ export const TempScreen = () => {
     };
 
     const peticion = async () => {
+        PushNotification.getScheduledLocalNotifications((notificaciones) => {
+            console.log(notificaciones);
+        });
         
-        try{
-            // const { id, nombre, descripcion } = (await obtenerCategoria("e1b20484-fb9e-431b-a8c7-49ed6f3e25d4")).data;
+        // try{
+        //     // const { id, nombre, descripcion } = (await obtenerCategoria("e1b20484-fb9e-431b-a8c7-49ed6f3e25d4")).data;
             
-            // console.log(id, nombre, descripcion);
+        //     // console.log(id, nombre, descripcion);
 
-            // let categoria: CategoriaEdit = {
-            //     nombre: "Transportacion",
-            // }
+        //     // let categoria: CategoriaEdit = {
+        //     //     nombre: "Transportacion",
+        //     // }
 
-            // let usuario: UsuarioCreate = {
-            //     nombre: "Prueba",
-            //     correo: "prueba@gmail.com",
-            //     fecha_de_nac: "2002-10-21",
-            //     contrasena: "1234",
-            //     ruta_imagen: "",
-            // }
+        //     // let usuario: UsuarioCreate = {
+        //     //     nombre: "Prueba",
+        //     //     correo: "prueba@gmail.com",
+        //     //     fecha_de_nac: "2002-10-21",
+        //     //     contrasena: "1234",
+        //     //     ruta_imagen: "",
+        //     // }
 
-            // const response = (await crearUsuario(usuario));
+        //     // const response = (await crearUsuario(usuario));
 
-            const response = (await eliminarUsuario("prueba@gmail.com")).data
+        //     const response = (await eliminarUsuario("prueba@gmail.com")).data
             
-            console.log(response);
-        }
-        catch(error) {
-            console.error(error);
-        }
+        //     console.log(response);
+        // }
+        // catch(error) {
+        //     console.error(error);
+        // }
 
     }
+
+    PushNotification.localNotificationSchedule({
+        date: new Date(),
+        message: "Prueba",
+        channelId: 'safi-recordatorios',
+        id: 5,
+    });
+
+    const checkPermissions = async () => {
+        if ('Release' in Platform.constants){
+            if (Platform.constants.Release  === '13') {
+                try {
+                    const permissionGranted = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS);
+    
+                    if (!permissionGranted) {
+                        const granted = await PermissionsAndroid.request(
+                            PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS,
+                            {
+                                title: 'Necesitamos tu permiso',
+                                message:
+                                'Activa las notificaciones para vivir la maxima experiencia',
+                                buttonNeutral: 'Ask Me Later',
+                                buttonNegative: 'Cancel',
+                                buttonPositive: 'OK',
+                            },
+                        );
+                        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                            console.log('You can use the notifications');
+                        } else {
+                            console.log('Notifications permission denied');
+                        }
+                    }
+                } 
+                catch (err) {
+                    console.warn(err);
+                }
+            }
+        }
+    }
+
+    useEffect(() => {
+        checkPermissions();
+        // PushNotification.cancelAllLocalNotifications();
+    }, []);
 
     return (
         <>

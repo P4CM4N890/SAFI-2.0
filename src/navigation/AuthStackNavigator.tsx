@@ -50,7 +50,9 @@ export const AuthStackNavigator = () => {
             <AuthStack.Screen name='ResetPasswordScreen' options={{ title: 'Reset Password' }} component={ ResetPasswordScreen }/>
             <AuthStack.Screen name='ForgotPasswordScreen' options={{ title: 'Forgot Password' }} component={ ForgotPasswordScreen }/>
             <AuthStack.Screen name='TokenVerificationScreen' options={{ title: 'Token Verification' }} component={ TokenVerificationScreen }/>
-        
+            <AuthStack.Screen name='TempScreen' options={{ title: 'temp' }} component={ TempScreen }/>
+            
+
         </AuthStack.Navigator>
     );
 }

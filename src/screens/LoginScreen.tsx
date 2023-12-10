@@ -41,7 +41,9 @@ export const LoginScreen = ({ navigation }: Props) => {
     };
 
     const onLogin = async () => {
-        // Keyboard.dismiss()
+        Keyboard.dismiss();
+
+        navigation.navigate("TempScreen")
 
         // if (!isValidEmail()) {
         //     setError("Correo invalido.");
