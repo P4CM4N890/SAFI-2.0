@@ -12,7 +12,7 @@ interface Props {
 
 export const MainGoalCard = ({ title, startDate, endDate, progress }: Props) => {
     return (
-        <View className='w-full items-center mt-6 rounded-xl border-2 border-slate-200 overflow-hidden bg-white'>
+        <View className='w-full h-44 items-center mt-6 rounded-xl border-2 border-slate-200 overflow-hidden bg-white'>
             <View className='w-full bg-rose-600 py-1'>
                 <Text className='text-base text-white text-center font-bold uppercase'>Meta Establecida</Text>
             </View>

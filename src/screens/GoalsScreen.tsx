@@ -1,11 +1,64 @@
-import React from 'react';
-import { View, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { View, ScrollView, Dimensions } from 'react-native';
 
 import { Header } from '../components/headers/Header';
 import { GoalCard } from '../components/cards/GoalCard';
 import { MainGoalCard } from '../components/cards/MainGoalCard';
+import { LatestIncomeCard } from '../components/cards/LatestIncomeCard';
+
+import Carousel, { Pagination } from 'react-native-snap-carousel';
+
+const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
+
+interface Slide {
+    title: string;
+    startDate?: string;
+    endDate?: string;
+    progress?: number;
+    incomeAmount?: number;
+    type: 'mainGoal' | 'latestIncome'
+}
+
+const cards: Slide[] = [
+    {
+        title: 'Laptop Asus',
+        startDate: '12/Octubre/2023',
+        endDate: '12/Diciembre/2023',
+        progress: 0.5,
+        type: 'mainGoal'
+    },
+    {
+        title: 'Abono a laptop',
+        incomeAmount: 5000,
+        type: 'latestIncome'
+    }
+];
 
 export const GoalsScreen = () => {
+
+    const [ activeIndex, setActiveindex ] = useState(0);
+
+    const renderItem = (item: any) => {
+        if(item.type === 'mainGoal') {
+            return (
+                <MainGoalCard 
+                    title={ item.title } 
+                    startDate={ item.startDate } 
+                    endDate={ item.endDate } 
+                    progress={ item.progress }
+                />
+            )
+
+        } else {
+            return (
+                <LatestIncomeCard 
+                    title={ item.title }
+                    amount={ item.incomeAmount }
+                />
+            )
+        }
+    }
+
     return (
         <View className='w-full h-full items-center p-5'>
             <ScrollView 
@@ -14,14 +67,23 @@ export const GoalsScreen = () => {
             >
                 <Header title='Tus Metas' extraClass='text-2xl'/>
 
-                <MainGoalCard 
-                    title='Laptop Asus' 
-                    startDate='12/Octubre/2023'
-                    endDate='12/Diciembre/2023'
-                    progress={ 0.5 }
-                />
+                <View>
+                    <Carousel 
+                        data={ cards }
+                        renderItem={({ item }: any) => renderItem(item)}
+                        sliderWidth={ screenWidth * 0.90 }
+                        itemWidth={ screenWidth * 0.90 }
+                        layout='default'
+                        onSnapToItem={(index) => setActiveindex(index)}
+                    />
 
-                <View className='mt-6'>
+                    <Pagination 
+                        dotsLength={ cards.length }
+                        activeDotIndex={ activeIndex }
+                    />
+                </View>
+
+                <View className='-mt-4'>
                     <GoalCard 
                         title='Laptop' 
                         iconName='game-controller-outline' 
