@@ -4,7 +4,9 @@ import { HomeScreen } from '../screens/HomeScreen';
 import { IncomeScreen } from '../screens/IncomeScreen';
 import { TabBarButton } from '../components/buttons/TabBarButton';
 import { GoalsScreen } from '../screens/GoalsScreen';
-import { SettingsScreen } from '../screens/SettingsScreen';
+import { NotificationsScreen } from '../screens/NotificationsScreen';
+
+import { SettingsStackNavigator } from './SettingsStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,8 +22,8 @@ export const BottomTabNavigator = () => {
 
                 tabBarStyle: {
                     height: 65,
-                    borderTopColor: 'rgba(0, 0, 0, 0.1)', // Color de la sombra
-                    borderTopWidth: 2, // Grosor de la sombra en la parte superior
+                    borderTopColor: 'rgba(0, 0, 0, 0.1)',
+                    borderTopWidth: 2
                 }
             }}
         >
@@ -29,7 +31,7 @@ export const BottomTabNavigator = () => {
                 name='HomeScreen' 
                 component={ HomeScreen } 
                 options={{ 
-                    title: 'Inicio',
+                    title: 'Home',
                     tabBarIcon: ({ focused, color, size }) => (
                         <TabBarButton 
                             iconColor={ color } 
@@ -45,7 +47,7 @@ export const BottomTabNavigator = () => {
                 name='IncomeScreen' 
                 component={ IncomeScreen }
                 options={{
-                    title: 'Ingresos',
+                    title: 'Incomes',
                     tabBarIcon: ({ focused, color, size }) => (
                         <TabBarButton 
                             iconColor={ color } 
@@ -61,7 +63,7 @@ export const BottomTabNavigator = () => {
                 name='GoalsScreen' 
                 component={ GoalsScreen }
                 options={{
-                    title: 'Metas',
+                    title: 'Goals',
                     tabBarIcon: ({ focused, color, size }) => (
                         <TabBarButton 
                             iconColor={ color } 
@@ -74,10 +76,10 @@ export const BottomTabNavigator = () => {
                 }} 
             />
             <Tab.Screen 
-                name='SettingsScreen' 
-                component={ SettingsScreen }
+                name='SettingsStackNavigator' 
+                component={ SettingsStackNavigator }
                 options={{
-                    title: 'Ajustes',
+                    title: 'Settings',
                     tabBarIcon: ({ focused, color, size }) => (
                         <TabBarButton 
                             iconColor={ color } 
@@ -88,6 +90,13 @@ export const BottomTabNavigator = () => {
                         />
                     )
                 }} 
+            />
+            <Tab.Screen 
+                name='NotificationsScreen' 
+                component={ NotificationsScreen }
+                options={{
+                    tabBarButton: () => null
+                }}
             />
         </Tab.Navigator>
     );
