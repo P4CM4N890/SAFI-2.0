@@ -4,7 +4,7 @@ import { View, Text, Image, ScrollView } from 'react-native';
 import { Header } from '../components/headers/Header';
 import { IncomeCard } from '../components/cards/IncomeCard';
 
-export const IncomeScreen = () => {
+export const IncomesScreen = () => {
     return (
         <View className='w-full h-full items-center p-5'>
             <ScrollView 

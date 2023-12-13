@@ -1,15 +1,13 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { HomeScreen } from '../screens/HomeScreen';
-import { IncomeScreen } from '../screens/IncomeScreen';
+import { IncomesScreen } from '../screens/IncomesScreen';
 import { TabBarButton } from '../components/buttons/TabBarButton';
 import { GoalsScreen } from '../screens/GoalsScreen';
-import { NotificationsScreen } from '../screens/NotificationsScreen';
-import { AddNotificationScreen } from '../screens/AddNotificationScreen';
-import { EditNotificationScreen } from '../screens/EditNotificationScreen';
 
 import { SettingsStackNavigator } from './SettingsStackNavigator';
 import { NotificationsStackNavigator } from './NotificationsStackNavigator';
+import { IncomesStackNavigator } from './IncomesStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,11 +44,12 @@ export const BottomTabNavigator = () => {
                     )
                 }}    
             />
+            
             <Tab.Screen 
-                name='IncomeScreen' 
-                component={ IncomeScreen }
+                name='IncomesStackNavigator' 
+                component={ IncomesStackNavigator }
                 options={{
-                    title: 'Incomes',
+                    title: 'IncomesStackNavigator',
                     tabBarIcon: ({ focused, color, size }) => (
                         <TabBarButton 
                             iconColor={ color } 
@@ -62,6 +61,7 @@ export const BottomTabNavigator = () => {
                     )
                 }} 
             />
+
             <Tab.Screen 
                 name='GoalsScreen' 
                 component={ GoalsScreen }
@@ -78,11 +78,12 @@ export const BottomTabNavigator = () => {
                     )
                 }} 
             />
+
             <Tab.Screen 
                 name='SettingsStackNavigator' 
                 component={ SettingsStackNavigator }
                 options={{
-                    title: 'Settings',
+                    title: 'SettingsStackNavigator',
                     tabBarIcon: ({ focused, color, size }) => (
                         <TabBarButton 
                             iconColor={ color } 
