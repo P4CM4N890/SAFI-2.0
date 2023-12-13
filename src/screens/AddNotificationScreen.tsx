@@ -6,10 +6,14 @@ import { InputLabel } from '../components/inputs/InputLabel';
 import { Button } from '../components/buttons/Button';
 import { DatePickerLabel } from '../components/pickers/DatePickerLabel';
 import { TimePickerLabel } from '../components/pickers/TimePickerLabel';
+import { OptionPickerLabel } from '../components/pickers/OptionPickerLabel';
 
 interface Props extends StackScreenProps<any, any> {};
 
 export const AddNotificationScreen = ({ navigation }: Props) => {
+
+    const periods = ['Una vez', 'Dos veces', 'Tres veces']
+
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <View className='w-full h-full items-center'>
@@ -38,10 +42,9 @@ export const AddNotificationScreen = ({ navigation }: Props) => {
                     extraClass='mt-3'
                 />
 
-                <InputLabel 
-                    label='Repetir alerta' 
-                    placeholder='' 
-                    type='text'
+                <OptionPickerLabel 
+                    data={ periods }
+                    label='Repetir alerta'
                     extraClass='mt-3'
                 />
 
