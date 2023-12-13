@@ -9,7 +9,7 @@ export const AddGoalButton = () => {
     const navigation = useNavigation<any>();
 
     return (
-        <View className='items-center absolute bottom-2'>
+        <View className='items-center absolute bottom-5'>
             <TouchableOpacity 
                 className='bg-primary w-16 h-16 justify-center items-center rounded-full z-10' 
                 activeOpacity={ 0.8 }

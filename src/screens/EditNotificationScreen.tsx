@@ -7,7 +7,6 @@ import { Button } from '../components/buttons/Button';
 import { DatePickerLabel } from '../components/pickers/DatePickerLabel';
 import { TimePickerLabel } from '../components/pickers/TimePickerLabel';
 import { OptionPickerLabel } from '../components/pickers/OptionPickerLabel';
-
 import { CustomSwitch } from '../components/buttons/CustomSwitch';
 
 interface Props extends StackScreenProps<any, any> {};
