@@ -9,6 +9,7 @@ import { ForgotPasswordScreen } from '../screens/ForgotPasswordScreen';
 import { LoadingScreen } from '../screens/LoadingScreen';
 import { AuthContext } from '../context/AuthContext';
 import { TempScreen } from '../screens/TempScreen';
+import { Game } from '../components/game/Game';
 
 const AuthStack = createStackNavigator();
 
@@ -50,7 +51,8 @@ export const AuthStackNavigator = () => {
             <AuthStack.Screen name='ResetPasswordScreen' options={{ title: 'Reset Password' }} component={ ResetPasswordScreen }/>
             <AuthStack.Screen name='ForgotPasswordScreen' options={{ title: 'Forgot Password' }} component={ ForgotPasswordScreen }/>
             <AuthStack.Screen name='TokenVerificationScreen' options={{ title: 'Token Verification' }} component={ TokenVerificationScreen }/>
-        
+            <AuthStack.Screen name='Game' options={{ title: 'Game'}} component={ Game } />
+
         </AuthStack.Navigator>
     );
 }

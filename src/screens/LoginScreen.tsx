@@ -75,6 +75,8 @@ export const LoginScreen = ({ navigation }: Props) => {
         //     }
 
         // }
+
+        navigation.navigate("Game");
     }
 
     return (
