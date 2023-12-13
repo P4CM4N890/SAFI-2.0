@@ -4,20 +4,20 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { IncomesScreen } from '../screens/IncomesScreen';
 import { AddIncomeScreen } from '../screens/AddIncomeScreen';
 
-const NotificationsStack = createStackNavigator();
+const IncomesStack = createStackNavigator();
 
 export const IncomesStackNavigator = () => {
     return (
-        < NotificationsStack.Navigator
+        < IncomesStack.Navigator
             initialRouteName='IncomesScreen'
             screenOptions={{
                 headerShown: false
             }}
         >
             
-            <NotificationsStack.Screen name='IncomesScreen' options={{ title: 'Incomes' }} component={ IncomesScreen } />
-            <NotificationsStack.Screen name='AddIncomeScreen' options={{ title: 'Add income' }} component={ AddIncomeScreen } />
+            <IncomesStack.Screen name='IncomesScreen' options={{ title: 'Incomes' }} component={ IncomesScreen } />
+            <IncomesStack.Screen name='AddIncomeScreen' options={{ title: 'Add income' }} component={ AddIncomeScreen } />
         
-        </NotificationsStack.Navigator>
+        </IncomesStack.Navigator>
     );
 }

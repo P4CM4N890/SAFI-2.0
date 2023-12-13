@@ -1,13 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { HomeScreen } from '../screens/HomeScreen';
-import { IncomesScreen } from '../screens/IncomesScreen';
 import { TabBarButton } from '../components/buttons/TabBarButton';
-import { GoalsScreen } from '../screens/GoalsScreen';
 
 import { SettingsStackNavigator } from './SettingsStackNavigator';
 import { NotificationsStackNavigator } from './NotificationsStackNavigator';
 import { IncomesStackNavigator } from './IncomesStackNavigator';
+import { GoalsStackNavigator } from './GoalsStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -44,7 +43,7 @@ export const BottomTabNavigator = () => {
                     )
                 }}    
             />
-            
+
             <Tab.Screen 
                 name='IncomesStackNavigator' 
                 component={ IncomesStackNavigator }
@@ -63,10 +62,10 @@ export const BottomTabNavigator = () => {
             />
 
             <Tab.Screen 
-                name='GoalsScreen' 
-                component={ GoalsScreen }
+                name='GoalsStackNavigator' 
+                component={ GoalsStackNavigator }
                 options={{
-                    title: 'Goals',
+                    title: 'GoalsStackNavigator',
                     tabBarIcon: ({ focused, color, size }) => (
                         <TabBarButton 
                             iconColor={ color } 
