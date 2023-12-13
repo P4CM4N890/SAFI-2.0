@@ -12,7 +12,7 @@ export const NotificationsButton = () => {
         <TouchableOpacity 
             className='rounded-full z-10'
             activeOpacity={ 0.7 }
-            onPress={ () => navigation.navigate('NotificationsScreen') }
+            onPress={ () => navigation.navigate('NotificationsStackNavigator') }
         >
             <Icon 
                 name='notifications-circle-outline'

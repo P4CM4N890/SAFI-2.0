@@ -9,6 +9,7 @@ import { AddNotificationScreen } from '../screens/AddNotificationScreen';
 import { EditNotificationScreen } from '../screens/EditNotificationScreen';
 
 import { SettingsStackNavigator } from './SettingsStackNavigator';
+import { NotificationsStackNavigator } from './NotificationsStackNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -94,30 +95,9 @@ export const BottomTabNavigator = () => {
                 }} 
             />
 
-            {/* Cambiar esto a un stack */}
             <Tab.Screen 
-                name='NotificationsScreen' 
-                component={ NotificationsScreen }
-                options={{
-                    tabBarButton: () => null,
-                    tabBarStyle: {
-                        display: 'none'
-                    }
-                }}
-            />
-            <Tab.Screen 
-                name='AddNotificationScreen' 
-                component={ AddNotificationScreen }
-                options={{
-                    tabBarButton: () => null,
-                    tabBarStyle: {
-                        display: 'none'
-                    }
-                }}
-            />
-            <Tab.Screen 
-                name='EditNotificationScreen' 
-                component={ EditNotificationScreen }
+                name='NotificationsStackNavigator' 
+                component={ NotificationsStackNavigator }
                 options={{
                     tabBarButton: () => null,
                     tabBarStyle: {
