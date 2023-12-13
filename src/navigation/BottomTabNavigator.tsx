@@ -6,6 +6,7 @@ import { TabBarButton } from '../components/buttons/TabBarButton';
 import { GoalsScreen } from '../screens/GoalsScreen';
 import { NotificationsScreen } from '../screens/NotificationsScreen';
 import { AddNotificationScreen } from '../screens/AddNotificationScreen';
+import { EditNotificationScreen } from '../screens/EditNotificationScreen';
 
 import { SettingsStackNavigator } from './SettingsStackNavigator';
 
@@ -92,6 +93,8 @@ export const BottomTabNavigator = () => {
                     )
                 }} 
             />
+
+            {/* Cambiar esto a un stack */}
             <Tab.Screen 
                 name='NotificationsScreen' 
                 component={ NotificationsScreen }
@@ -105,6 +108,16 @@ export const BottomTabNavigator = () => {
             <Tab.Screen 
                 name='AddNotificationScreen' 
                 component={ AddNotificationScreen }
+                options={{
+                    tabBarButton: () => null,
+                    tabBarStyle: {
+                        display: 'none'
+                    }
+                }}
+            />
+            <Tab.Screen 
+                name='EditNotificationScreen' 
+                component={ EditNotificationScreen }
                 options={{
                     tabBarButton: () => null,
                     tabBarStyle: {
