@@ -13,16 +13,16 @@ export const NotificationsScreen = ({ navigation }: Props) => {
 
     return (
         <View className='w-full h-full items-center p-5'>
-
             <BackButton 
                 iconColor='#FFF' 
                 iconSize={ 30 } 
                 extraClass='bg-primary'
                 onPress={ () => navigation.goBack() }
             />
+
             <Text className='text-black text-2xl font-semibold mt-2 tracking-widest'>Notificaciones</Text>
 
-            <View className='mt-6'>
+            <View className='mt-4'>
                 <ScrollView>
                     <NotificationCard 
                         title='Abono para celular'

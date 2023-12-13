@@ -7,6 +7,7 @@ interface Props {
     type: 'email' | 'text' | 'numeric',
     extraClass?: string,
     secureTextEntry?: boolean,
+    iconName?: string
 }
 
 export const InputLabel = ( { label, placeholder = '', type, secureTextEntry, extraClass } : Props ) => {
@@ -22,3 +23,24 @@ export const InputLabel = ( { label, placeholder = '', type, secureTextEntry, ex
         </>
     );
 }
+
+// export const InputLabel = ( { label, placeholder = '', iconName='', type, secureTextEntry, extraClass } : Props ) => {
+//     return (
+//         <>
+//             <Text className={`w-5/6 mb-1 font-semibold text-base text-primary ${ extraClass }`}>{ label }</Text>
+//             <View className='flex-row items-center pl-2 bg-white w-5/6 text-lg rounded-xl shadow-xl shadow-gray-700'>
+                
+//                 {
+//                     iconName ? <Icon name={ iconName } size={ 30 }/>: <></>
+//                 }
+                
+//                 <TextInput 
+//                     placeholder={ placeholder }
+//                     className='w-full text-lg py-3 pl-3'
+//                     inputMode={ type }
+//                     secureTextEntry={ secureTextEntry }
+//                 />
+//             </View>
+//         </>
+//     );
+// }

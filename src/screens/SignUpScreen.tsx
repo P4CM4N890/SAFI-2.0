@@ -9,7 +9,7 @@ import { Button } from '../components/buttons/Button';
 import { InputLabel } from '../components/inputs/InputLabel';
 import { BackButton } from '../components/buttons/BackButton';
 import { TransparentButton } from '../components/buttons/TransparentButton';
-import { DatePickerLabel } from '../components/datepickers/DatePickerLabel';
+import { DatePickerLabel } from '../components/pickers/DatePickerLabel';
 
 interface Props extends StackScreenProps<any, any> {};
 

@@ -5,6 +5,7 @@ import { IncomeScreen } from '../screens/IncomeScreen';
 import { TabBarButton } from '../components/buttons/TabBarButton';
 import { GoalsScreen } from '../screens/GoalsScreen';
 import { NotificationsScreen } from '../screens/NotificationsScreen';
+import { AddNotificationScreen } from '../screens/AddNotificationScreen';
 
 import { SettingsStackNavigator } from './SettingsStackNavigator';
 
@@ -94,6 +95,16 @@ export const BottomTabNavigator = () => {
             <Tab.Screen 
                 name='NotificationsScreen' 
                 component={ NotificationsScreen }
+                options={{
+                    tabBarButton: () => null,
+                    tabBarStyle: {
+                        display: 'none'
+                    }
+                }}
+            />
+            <Tab.Screen 
+                name='AddNotificationScreen' 
+                component={ AddNotificationScreen }
                 options={{
                     tabBarButton: () => null,
                     tabBarStyle: {

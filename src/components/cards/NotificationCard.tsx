@@ -15,7 +15,7 @@ interface Props {
 
 export const NotificationCard = ({ title, iconName, iconColor, date, time }: Props) => {
     return (
-        <View className='w-full flex-row items-center bg-white rounded-2xl p-2 border-2 border-slate-200 mt-2'>
+        <View className='w-full flex-row items-center bg-white rounded-2xl p-2 border-2 border-slate-200 mt-4'>
             <View className='w-3/5 flex-row items-center gap-x-2'>
 
                 <View className='items-center justify-center rounded-full h-14 w-14' style={{ backgroundColor: iconColor }}>

@@ -13,7 +13,7 @@ export const AddNotificationButton = () => {
             <TouchableOpacity 
                 className='bg-primary w-16 h-16 justify-center items-center rounded-full z-10' 
                 activeOpacity={ 0.8 }
-                onPress={ () => navigation.navigate('') }
+                onPress={ () => navigation.navigate('AddNotificationScreen') }
             >
                 <Icon name='add-outline' size={ 40 } color='#FFF'/>
             </TouchableOpacity>
