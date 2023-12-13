@@ -17,9 +17,9 @@ export const AddNotificationScreen = ({ navigation }: Props) => {
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <ScrollView>
-                <View className='w-full h-full items-center'>
+                <View className='w-full h-full items-center mb-5'>
 
-                    <Text className='mt-12 text-2xl font-bold text-primary uppercase tracking-widest'>
+                    <Text className='mt-8 text-2xl font-bold text-primary uppercase tracking-widest'>
                         Nueva
                     </Text>
                     <Text className='text-2xl font-bold text-primary uppercase tracking-widest'>

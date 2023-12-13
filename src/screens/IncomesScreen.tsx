@@ -3,6 +3,7 @@ import { View, Text, Image, ScrollView } from 'react-native';
 
 import { Header } from '../components/headers/Header';
 import { IncomeCard } from '../components/cards/IncomeCard';
+import { AddIncomeButton } from '../components/buttons/AddIncomeButton';
 
 export const IncomesScreen = () => {
     return (
@@ -57,6 +58,8 @@ export const IncomesScreen = () => {
                 </View>
 
             </ScrollView>
+
+            <AddIncomeButton />
         </View>
     );
 }

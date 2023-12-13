@@ -7,7 +7,7 @@ import { Button } from '../components/buttons/Button';
 
 interface Props extends StackScreenProps<any, any> {};
 
-export const AddIncomeScreen = ({ navigation }: Props) => {
+export const EditIncomeScreen = ({ navigation }: Props) => {
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>
@@ -15,7 +15,7 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
                 <View className='w-full h-full items-center'>
 
                     <Text className='mt-12 text-2xl font-bold text-primary uppercase tracking-widest'>
-                        Nuevo Ingreso
+                        Editar Ingreso
                     </Text>
 
                     <InputLabel 
@@ -41,7 +41,7 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
                         <Button 
                             label='Cancelar' 
                             extraClass='bg-rose-600'
-                            onPress={ () => navigation.navigate('IncomesScreen') }
+                            onPress={ () => navigation.navigate('GoalsScreen') }
                         />
                     </View>
 

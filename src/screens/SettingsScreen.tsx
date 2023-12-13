@@ -21,7 +21,7 @@ export const SettingsScreen = () => {
 
                 <View className='w-full mt-5 rounded-xl border-slate-200 border-2'>
                     <SettingsOption icon='help-circle-outline' option='Notificaciones' extraClass='border-0'/>
-                    <SettingsOption icon='eye-off-outline' option='Aviso de Privacidad' extraClass='border-0'/>
+                    <SettingsOption icon='game-controller-outline' option='Videojuego' extraClass='border-0'/>
                     <SettingsOption icon='business-outline' option='Acerca de Nosotros' extraClass='border-0'/>
                 </View>
 

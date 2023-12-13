@@ -4,10 +4,12 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 import { InputLabel } from '../components/inputs/InputLabel';
 import { Button } from '../components/buttons/Button';
+import { DatePickerLabel } from '../components/pickers/DatePickerLabel';
+import { CustomSwitch } from '../components/buttons/CustomSwitch';
 
 interface Props extends StackScreenProps<any, any> {};
 
-export const AddIncomeScreen = ({ navigation }: Props) => {
+export const EditGoalScreen = ({ navigation }: Props) => {
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>
@@ -15,22 +17,48 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
                 <View className='w-full h-full items-center'>
 
                     <Text className='mt-12 text-2xl font-bold text-primary uppercase tracking-widest'>
-                        Nuevo Ingreso
+                        Editar Meta
                     </Text>
 
+                    <View className='w-5/6 mt-2 flex-row items-center justify-end'>
+                        <Text className='text-sm text-primary mr-2'>Fijar</Text>
+                        <CustomSwitch 
+                            isOn={ false }
+                            scale={ 1.2 }
+                            color='#60D833'
+                        />
+                    </View>
+
                     <InputLabel 
-                        label='Nombrel del ingreso' 
+                        label='Nombre de la meta' 
                         placeholder='' 
                         type='text'
-                        extraClass='mt-16'
+                        extraClass='mt-4'
+                    />
+
+                    <DatePickerLabel 
+                        label='Fecha de inicio'
+                        extraClass='mt-3'
+                    />
+
+                    <DatePickerLabel 
+                        label='Fecha de finalización'
+                        extraClass='mt-3'
                     />
 
                     <InputLabel 
-                        label='Cantidad' 
+                        label='Meta a alcanzar' 
                         placeholder='' 
                         type='numeric'
                         extraClass='mt-4'
                         iconName='cash-outline'
+                    />
+
+                    <InputLabel 
+                        label='Notas (opcional)' 
+                        placeholder='' 
+                        type='text'
+                        extraClass='mt-3'
                     />
 
                     <View className='mt-16 w-5/6 flex-row justify-between'>

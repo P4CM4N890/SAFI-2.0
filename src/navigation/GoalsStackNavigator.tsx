@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { GoalsScreen } from '../screens/GoalsScreen';
 import { AddGoalScreen } from '../screens/AddGoalScreen';
+import { EditGoalScreen } from '../screens/EditGoalScreen';
 
 import { NotificationsStackNavigator } from '../navigation/NotificationsStackNavigator'
 
@@ -19,6 +20,7 @@ export const GoalsStackNavigator = () => {
             
             <GoalsStack.Screen name='GoalsScreen' options={{ title: 'GoalsScreen' }} component={ GoalsScreen } />
             <GoalsStack.Screen name='AddGoalScreen' options={{ title: 'AddGoalScreen' }} component={ AddGoalScreen } />
+            <GoalsStack.Screen name='EditGoalScreen' options={{ title: 'EditGoalScreen' }} component={ EditGoalScreen } />
             
             <GoalsStack.Screen name='NotificationsStackNavigator' options={{ title: 'NotificationsStackNavigator' }} component={ NotificationsStackNavigator } />
         
