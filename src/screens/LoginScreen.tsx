@@ -10,7 +10,7 @@ import { Input } from '../components/inputs/Input';
 import { Button } from '../components/buttons/Button';
 import { TransparentButton } from '../components/buttons/TransparentButton';
 
-interface Props extends StackScreenProps<any, any> {};
+interface Props extends StackScreenProps<any, any>{};
 
 export const LoginScreen = ({ navigation }: Props) => {
     return (

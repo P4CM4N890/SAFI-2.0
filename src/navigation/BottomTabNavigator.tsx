@@ -95,7 +95,10 @@ export const BottomTabNavigator = () => {
                 name='NotificationsScreen' 
                 component={ NotificationsScreen }
                 options={{
-                    tabBarButton: () => null
+                    tabBarButton: () => null,
+                    tabBarStyle: {
+                        display: 'none'
+                    }
                 }}
             />
         </Tab.Navigator>

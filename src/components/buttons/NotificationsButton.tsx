@@ -1,12 +1,12 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-
-interface Props extends BottomTabScreenProps<any, any> {};
+import { useNavigation } from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export const NotificationsButton = ({ navigation }: Props) => {
+export const NotificationsButton = () => {
+
+    const navigation = useNavigation<any>();
 
     return (
         <TouchableOpacity 
