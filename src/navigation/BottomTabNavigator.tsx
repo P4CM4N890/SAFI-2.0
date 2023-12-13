@@ -1,6 +1,8 @@
+import React, { useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { HomeScreen } from '../screens/HomeScreen';
+
 import { TabBarButton } from '../components/buttons/TabBarButton';
 
 import { SettingsStackNavigator } from './SettingsStackNavigator';
@@ -11,6 +13,9 @@ import { GoalsStackNavigator } from './GoalsStackNavigator';
 const Tab = createBottomTabNavigator();
 
 export const BottomTabNavigator = () => {
+
+    const [ showTabBar, setShowTabBar ] = useState(true);
+
     return (
         <Tab.Navigator
             initialRouteName='HomeScreen'
@@ -23,7 +28,8 @@ export const BottomTabNavigator = () => {
                 tabBarStyle: {
                     height: 65,
                     borderTopColor: 'rgba(0, 0, 0, 0.1)',
-                    borderTopWidth: 2
+                    borderTopWidth: 2,
+                    display: showTabBar ? 'flex' : 'none'
                 }
             }}
         >
@@ -31,7 +37,7 @@ export const BottomTabNavigator = () => {
                 name='HomeScreen' 
                 component={ HomeScreen } 
                 options={{ 
-                    title: 'Home',
+                    title: 'HomeScreen',
                     tabBarIcon: ({ focused, color, size }) => (
                         <TabBarButton 
                             iconColor={ color } 
@@ -95,16 +101,6 @@ export const BottomTabNavigator = () => {
                 }} 
             />
 
-            <Tab.Screen 
-                name='NotificationsStackNavigator' 
-                component={ NotificationsStackNavigator }
-                options={{
-                    tabBarButton: () => null,
-                    tabBarStyle: {
-                        display: 'none'
-                    }
-                }}
-            />
         </Tab.Navigator>
     );
 }

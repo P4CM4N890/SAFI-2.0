@@ -13,7 +13,7 @@ export const SettingsStackNavigator = () => {
                 headerShown: false
             }}
         >
-            <SettingsStack.Screen name='SettingsScreen' options={{ title: 'Settings' }} component={ SettingsScreen }/>
+            <SettingsStack.Screen name='SettingsScreen' options={{ title: 'SettingsScreen' }} component={ SettingsScreen }/>
     
         </SettingsStack.Navigator>
     );

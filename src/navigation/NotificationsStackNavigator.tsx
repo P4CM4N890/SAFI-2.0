@@ -16,9 +16,9 @@ export const  NotificationsStackNavigator = () => {
             }}
         >
             
-            <NotificationsStack.Screen name='NotificationsScreen' options={{ title: 'Notifications' }} component={ NotificationsScreen } />
-            <NotificationsStack.Screen name='AddNotificationScreen' options={{ title: 'Add Notification' }} component={ AddNotificationScreen } />
-            <NotificationsStack.Screen name='EditNotificationScreen' options={{ title: 'Edit Notification' }} component={ EditNotificationScreen } />
+            <NotificationsStack.Screen name='NotificationsScreen' options={{ title: 'NotificationsScreen' }} component={ NotificationsScreen } />
+            <NotificationsStack.Screen name='AddNotificationScreen' options={{ title: 'AddNotificationScreen' }} component={ AddNotificationScreen } />
+            <NotificationsStack.Screen name='EditNotificationScreen' options={{ title: 'EditNotificationScreen' }} component={ EditNotificationScreen } />
         
         </NotificationsStack.Navigator>
     );

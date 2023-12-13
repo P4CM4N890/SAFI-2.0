@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { IncomesScreen } from '../screens/IncomesScreen';
 import { AddIncomeScreen } from '../screens/AddIncomeScreen';
 
+import { NotificationsStackNavigator } from '../navigation/NotificationsStackNavigator'
+
 const IncomesStack = createStackNavigator();
 
 export const IncomesStackNavigator = () => {
@@ -15,8 +17,10 @@ export const IncomesStackNavigator = () => {
             }}
         >
             
-            <IncomesStack.Screen name='IncomesScreen' options={{ title: 'Incomes' }} component={ IncomesScreen } />
-            <IncomesStack.Screen name='AddIncomeScreen' options={{ title: 'Add income' }} component={ AddIncomeScreen } />
+            <IncomesStack.Screen name='IncomesScreen' options={{ title: 'IncomesScreen' }} component={ IncomesScreen } />
+            <IncomesStack.Screen name='AddIncomeScreen' options={{ title: 'IncomesScreen' }} component={ AddIncomeScreen } />
+            
+            <IncomesStack.Screen name='NotificationsStackNavigator' options={{ title: 'NotificationsStackNavigator' }} component={ NotificationsStackNavigator } />
         
         </IncomesStack.Navigator>
     );

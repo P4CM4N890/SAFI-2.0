@@ -5,6 +5,7 @@ import { Header } from '../components/headers/Header';
 import { GoalCard } from '../components/cards/GoalCard';
 import { MainGoalCard } from '../components/cards/MainGoalCard';
 import { LatestIncomeCard } from '../components/cards/LatestIncomeCard';
+import { AddGoalButton } from '../components/buttons/AddGoalButton';
 
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
@@ -133,8 +134,9 @@ export const GoalsScreen = () => {
                         progress={ 0.5 }
                     />
                 </View>
-
             </ScrollView>
+
+            <AddGoalButton />
         </View>
     );
 }
