@@ -7,13 +7,15 @@ interface props {
     icon: string;
     option: string;
     extraClass?: string;
+    onPress?: () => void
 }
 
-export const SettingsOption = ({ icon, option, extraClass }: props) => {
+export const SettingsOption = ({ icon, option, extraClass, onPress }: props) => {
     return (
         <TouchableOpacity 
             className={`w-full flex flex-row items-center rounded-xl px-2 py-3 border-slate-200 border-2 ${ extraClass }`}
             activeOpacity={ 0.7 }
+            onPress={ onPress }
         >
             <Icon name={ icon } size={ 32 } color='#000'/>
             <Text className='text-black font-medium text-xl ml-4'>{ option }</Text>

@@ -18,7 +18,7 @@ export const IncomesStackNavigator = () => {
         >
             
             <IncomesStack.Screen name='IncomesScreen' options={{ title: 'IncomesScreen' }} component={ IncomesScreen } />
-            <IncomesStack.Screen name='AddIncomeScreen' options={{ title: 'IncomesScreen' }} component={ AddIncomeScreen } />
+            <IncomesStack.Screen name='AddIncomeScreen' options={{ title: 'AddIncomeScreen' }} component={ AddIncomeScreen } />
             
             <IncomesStack.Screen name='NotificationsStackNavigator' options={{ title: 'NotificationsStackNavigator' }} component={ NotificationsStackNavigator } />
         

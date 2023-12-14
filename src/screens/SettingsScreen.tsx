@@ -1,11 +1,14 @@
 import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 
 import { UserImageButton } from '../components/buttons/UserImageButton';
 import { SettingsOption } from '../components/buttons/SettingsOption';
 import { SettingsToggleOption } from '../components/buttons/SettingsToggleOption';
 
-export const SettingsScreen = () => {
+interface Props extends StackScreenProps<any, any>{};
+
+export const SettingsScreen = ({ navigation }: Props) => {
     return (
         <ScrollView showsVerticalScrollIndicator={ false }>
             <View className='w-full h-full items-center p-5'>
@@ -20,8 +23,15 @@ export const SettingsScreen = () => {
                 </View>
 
                 <View className='w-full mt-5 rounded-xl border-slate-200 border-2'>
-                    <SettingsOption icon='help-circle-outline' option='Notificaciones' extraClass='border-0'/>
                     <SettingsOption icon='game-controller-outline' option='Videojuego' extraClass='border-0'/>
+                    
+                    <SettingsOption 
+                        icon='help-circle-outline' 
+                        option='Foro de preguntas' 
+                        onPress={ () => navigation.navigate('ForumStackNavigator') } 
+                        extraClass='border-0'
+                    />
+                    
                     <SettingsOption icon='business-outline' option='Acerca de Nosotros' extraClass='border-0'/>
                 </View>
 
