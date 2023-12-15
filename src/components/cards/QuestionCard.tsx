@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props {
+    id: number;
     title: string;
     numberOfAnswers: number;
     dateOrTime: string;
@@ -11,12 +13,15 @@ interface Props {
     extraClass?: string;
 }
 
-export const QuestionCard = ({ iconColor, title, numberOfAnswers, dateOrTime, extraClass }: Props) => {
+export const QuestionCard = ({ id, iconColor, title, numberOfAnswers, dateOrTime, extraClass }: Props) => {
+    
+    const navigation = useNavigation<any>();
+    
     return (
         <TouchableOpacity 
             className={`w-full flex-row items-center bg-white rounded-2xl p-2 border-2 border-slate-200 mt-3 ${ extraClass }`}
             activeOpacity={ 0.8 }
-            onPress={() => {}}
+            onPress={ () => navigation.navigate('QuestionScreen', { questionId: id }) }
         >
             <View className='w-14 h-14 justify-center items-center rounded-full' style={{ backgroundColor: iconColor }}>
                 <Icon name='help-circle' size={ 45 } color='#FFF'/>

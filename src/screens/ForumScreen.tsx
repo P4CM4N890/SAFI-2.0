@@ -20,6 +20,7 @@ export const ForumScreen = () => {
 
                 <View className='mt-8 w-full'>
                     <QuestionCard 
+                        id={ 1 }
                         iconColor='#D8336A' 
                         title='¿Cómo usar la app?' 
                         numberOfAnswers={ 2 }
@@ -27,6 +28,7 @@ export const ForumScreen = () => {
                         extraClass='mt-2'
                     />
                     <QuestionCard 
+                        id={ 2 }
                         iconColor='#75E2F8' 
                         title='¿Cómo invertir mis ahorros?' 
                         numberOfAnswers={ 100 }

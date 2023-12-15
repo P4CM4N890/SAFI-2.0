@@ -26,7 +26,7 @@ interface Props {
 //     );
 // }
 
-export const InputLabel = ( { label, placeholder = '', iconName='', type, secureTextEntry, extraClass } : Props ) => {
+export const InputLabel = ( { label, placeholder = '', iconName, type, secureTextEntry, extraClass } : Props ) => {
     return (
         <>
             <Text className={`w-5/6 mb-1 font-semibold text-base text-primary ${ extraClass }`}>{ label }</Text>

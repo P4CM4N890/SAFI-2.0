@@ -4,11 +4,16 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { QuestionScreen } from '../screens/QuestionScreen';
 import { ForumScreen } from '../screens/ForumScreen';
 
-const ForumStack = createStackNavigator();
+export type ForumStackParams = {
+    ForumScreen: undefined;
+    QuestionScreen: { questionId: number };
+};
+
+const ForumStack = createStackNavigator<ForumStackParams>();
 
 export const ForumStackNavigator = () => {
     return (
-        < ForumStack.Navigator
+        <ForumStack.Navigator
             initialRouteName='ForumScreen'
             screenOptions={{
                 headerShown: false
