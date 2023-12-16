@@ -4,7 +4,7 @@ import { View, ScrollView, Dimensions } from 'react-native';
 import { Header } from '../components/headers/Header';
 import { GoalCard } from '../components/cards/GoalCard';
 import { MainGoalCard } from '../components/cards/MainGoalCard';
-import { LatestIncomeCard } from '../components/cards/LatestIncomeCard';
+import { GoalsSummaryCard } from '../components/cards/GoalsSummaryCard';
 import { AddGoalButton } from '../components/buttons/AddGoalButton';
 
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -12,12 +12,12 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
 
 interface Slide {
-    title: string;
+    title?: string;
     startDate?: string;
     endDate?: string;
     progress?: number;
-    incomeAmount?: number;
-    type: 'mainGoal' | 'latestIncome'
+    percentage?: number;
+    type: 'mainGoal' | 'GoalsSummary'
 }
 
 const cards: Slide[] = [
@@ -29,9 +29,8 @@ const cards: Slide[] = [
         type: 'mainGoal'
     },
     {
-        title: 'Abono a laptop',
-        incomeAmount: 5000,
-        type: 'latestIncome'
+        percentage: 20,
+        type: 'GoalsSummary'
     }
 ];
 
@@ -51,10 +50,10 @@ export const GoalsScreen = () => {
             )
 
         } else {
+
             return (
-                <LatestIncomeCard 
-                    title={ item.title }
-                    amount={ item.incomeAmount }
+                <GoalsSummaryCard 
+                    percentage={ item.percentage }
                 />
             )
         }
