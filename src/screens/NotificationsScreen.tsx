@@ -25,6 +25,7 @@ export const NotificationsScreen = ({ navigation }: Props) => {
             <View className='mt-4'>
                 <ScrollView>
                     <NotificationCard 
+                        id={ 1 }
                         title='Abono para celular'
                         iconName='calendar-outline'
                         iconColor='#33D8A2'
@@ -33,6 +34,7 @@ export const NotificationsScreen = ({ navigation }: Props) => {
                     />
 
                     <NotificationCard 
+                        id={ 2 }
                         title='Abono para laptop'
                         iconName='calendar-outline'
                         iconColor='#33D8A2'

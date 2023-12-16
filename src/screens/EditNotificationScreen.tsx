@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, KeyboardAvoidingView, Text } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { InputLabel } from '../components/inputs/InputLabel';
@@ -9,17 +9,21 @@ import { TimePickerLabel } from '../components/pickers/TimePickerLabel';
 import { OptionPickerLabel } from '../components/pickers/OptionPickerLabel';
 import { CustomSwitch } from '../components/buttons/CustomSwitch';
 
-interface Props extends StackScreenProps<any, any> {};
+import { NotificationsStackParams } from '../navigation/NotificationsStackNavigator';
 
-export const EditNotificationScreen = ({ navigation }: Props) => {
+interface Props extends StackScreenProps<NotificationsStackParams, 'EditNotificationScreen'>{};
+
+export const EditNotificationScreen = ({ navigation, route }: Props) => {
 
     const periods = ['Una vez', 'Dos veces', 'Tres veces']
 
-    return (
-        <KeyboardAvoidingView className='w-full h-full'>
-            <View className='w-full h-full items-center'>
+    const { notificationId } = route.params;
 
-                <Text className='mt-12 text-2xl font-bold text-primary uppercase tracking-widest'>
+    return (
+        <ScrollView>
+            <View className='w-full h-full items-center py-5'>
+
+                <Text className='mt-3 text-2xl font-bold text-primary uppercase tracking-widest'>
                     Editar
                 </Text>
                 <Text className='text-2xl font-bold text-primary uppercase tracking-widest'>
@@ -65,7 +69,7 @@ export const EditNotificationScreen = ({ navigation }: Props) => {
                     extraClass='mt-3'
                 />
 
-                <View className='mt-16 w-5/6 flex-row justify-between'>
+                <View className='mt-8 w-5/6 flex-row justify-between'>
                     <Button 
                         label='Guardar' 
                         onPress={ () => {} }
@@ -78,6 +82,6 @@ export const EditNotificationScreen = ({ navigation }: Props) => {
                 </View>
 
             </View>
-        </KeyboardAvoidingView>
+        </ScrollView>
     );
 }

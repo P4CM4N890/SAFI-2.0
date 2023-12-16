@@ -7,11 +7,18 @@ import { EditGoalScreen } from '../screens/EditGoalScreen';
 
 import { NotificationsStackNavigator } from '../navigation/NotificationsStackNavigator'
 
-const GoalsStack = createStackNavigator();
+export type GoalsStackParams = {
+    GoalsScreen: undefined;
+    AddGoalScreen: undefined;
+    EditGoalScreen: { goalId: number };
+    NotificationsStackNavigator: undefined;
+};
+
+const GoalsStack = createStackNavigator<GoalsStackParams>();
 
 export const GoalsStackNavigator = () => {
     return (
-        < GoalsStack.Navigator
+        <GoalsStack.Navigator
             initialRouteName='GoalsScreen'
             screenOptions={{
                 headerShown: false

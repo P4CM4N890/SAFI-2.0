@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props {
+    id: number;
     title: string;
     iconName: string;
     iconColor: string;
@@ -11,9 +13,16 @@ interface Props {
     time: string;
 }
 
-export const IncomeCard = ({ title, iconName, iconColor, money, time }: Props) => {
+export const IncomeCard = ({ id, title, iconName, iconColor, money, time }: Props) => {
+    
+    const navigation = useNavigation<any>();    
+
     return (
-        <View className='w-full flex-row items-center bg-white rounded-2xl p-2 border-2 border-slate-200 mt-2'>
+        <TouchableOpacity 
+            className='w-full flex-row items-center bg-white rounded-2xl p-2 border-2 border-slate-200 mt-2'
+            activeOpacity={ 0.8 }
+            onPress={ () => navigation.navigate('EditIncomeScreen', { incomeId: id }) }
+        >
             <View className='w-3/4 flex-row items-center gap-x-3'>
 
                 <View className='items-center justify-center rounded-full h-14 w-14' style={{ backgroundColor: iconColor }}>
@@ -32,6 +41,6 @@ export const IncomeCard = ({ title, iconName, iconColor, money, time }: Props) =
                 <Text className='text-right text-sm'>{ time }</Text>
             </View>
             
-        </View>
+        </TouchableOpacity>
     );
 }

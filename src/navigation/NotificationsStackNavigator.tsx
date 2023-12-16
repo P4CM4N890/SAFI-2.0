@@ -5,11 +5,17 @@ import { NotificationsScreen } from '../screens/NotificationsScreen';
 import { AddNotificationScreen } from '../screens/AddNotificationScreen';
 import { EditNotificationScreen } from '../screens/EditNotificationScreen';
 
-const NotificationsStack = createStackNavigator();
+export type NotificationsStackParams = {
+    NotificationsScreen: undefined;
+    AddNotificationScreen: undefined;
+    EditNotificationScreen: { notificationId: number };
+};
+
+const NotificationsStack = createStackNavigator<NotificationsStackParams>();
 
 export const  NotificationsStackNavigator = () => {
     return (
-        < NotificationsStack.Navigator
+        <NotificationsStack.Navigator
             initialRouteName='NotificationsScreen'
             screenOptions={{
                 headerShown: false

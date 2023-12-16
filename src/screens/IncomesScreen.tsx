@@ -24,6 +24,7 @@ export const IncomesScreen = () => {
                 <View className='mt-6'>
                     <Text className='text-black font-semibold text-sm uppercase'>Noviembre 3</Text>
                     <IncomeCard 
+                        id={ 1 }
                         title='Ahorro semanal' 
                         iconName='calendar-outline' 
                         iconColor='#33D8A2'
@@ -31,6 +32,7 @@ export const IncomesScreen = () => {
                         time='12:00 p.m.'
                     />
                     <IncomeCard 
+                        id={ 2 }
                         title='Venta de juegos' 
                         iconName='game-controller-outline' 
                         iconColor='#75E2F8'
@@ -42,6 +44,7 @@ export const IncomesScreen = () => {
                 <View className='mt-6'>
                     <Text className='text-black font-semibold text-sm uppercase'>Noviembre 1</Text>
                     <IncomeCard 
+                        id={ 3 }
                         title='Ahorro semanal' 
                         iconName='calendar-outline' 
                         iconColor='#33D8A2'
@@ -49,6 +52,7 @@ export const IncomesScreen = () => {
                         time='12:00 p.m.'
                     />
                     <IncomeCard 
+                        id={ 4 }
                         title='Venta de juegos' 
                         iconName='game-controller-outline' 
                         iconColor='#75E2F8'

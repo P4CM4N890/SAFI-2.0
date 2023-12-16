@@ -5,9 +5,13 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { InputLabel } from '../components/inputs/InputLabel';
 import { Button } from '../components/buttons/Button';
 
-interface Props extends StackScreenProps<any, any> {};
+import { IncomesStackParams } from '../navigation/IncomesStackNavigator';
 
-export const EditIncomeScreen = ({ navigation }: Props) => {
+interface Props extends StackScreenProps<IncomesStackParams, 'EditIncomeScreen'>{};
+
+export const EditIncomeScreen = ({ navigation, route }: Props) => {
+
+    const { incomeId } = route.params;
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>
@@ -41,7 +45,7 @@ export const EditIncomeScreen = ({ navigation }: Props) => {
                         <Button 
                             label='Cancelar' 
                             extraClass='bg-rose-600'
-                            onPress={ () => navigation.navigate('GoalsScreen') }
+                            onPress={ () => navigation.navigate('IncomesScreen') }
                         />
                     </View>
 
