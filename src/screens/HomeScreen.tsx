@@ -65,7 +65,7 @@ export const HomeScreen = () => {
                 className='w-full h-full' 
                 showsVerticalScrollIndicator={ false }
             >
-                <Header title='' extraClass='text-sm'/>
+                {/* <Header title='' extraClass='text-sm'/> */}
 
                 <View>
                     <Carousel
