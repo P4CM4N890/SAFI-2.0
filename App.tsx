@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 
 import React from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 
 import { AuthStackNavigator } from './src/navigation/AuthStackNavigator';
 import { AuthProvider } from './src/context/AuthContext';
@@ -15,6 +15,14 @@ const AppState = ({ children }: any) => {
     )
 };
 
+const theme = {
+    ...DefaultTheme,
+    colors : {
+        ...DefaultTheme.colors,
+        background: '#FCFCFC'
+    }
+}
+
 const App = () => {
 
     return (
@@ -22,7 +30,7 @@ const App = () => {
             <StatusBar
                 hidden
             />
-            <NavigationContainer>
+            <NavigationContainer theme={ theme }>
                 <AppState>
                     <AuthStackNavigator />
                 </AppState>

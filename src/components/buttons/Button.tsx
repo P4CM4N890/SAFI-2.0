@@ -14,7 +14,7 @@ export const Button = ( { label = 'Click me', onPress, extraClass } : Props ) =>
             activeOpacity={ 0.8 }
             onPress={ onPress }
         >
-            <Text className='text-white text-base font-bold uppercase'>{ label }</Text>
+            <Text className='text-center text-white text-base font-bold uppercase'>{ label }</Text>
         </TouchableOpacity>
     );
 }

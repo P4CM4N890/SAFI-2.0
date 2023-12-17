@@ -11,6 +11,8 @@ import { AuthContext } from '../context/AuthContext';
 import { TempScreen } from '../screens/TempScreen';
 import { Game } from '../components/game/Game';
 
+import { BottomTabNavigator } from './BottomTabNavigator';
+
 const AuthStack = createStackNavigator();
 
 export const AuthStackNavigator = () => {
@@ -21,7 +23,7 @@ export const AuthStackNavigator = () => {
     return (
         <AuthStack.Navigator
             screenOptions={{
-                headerShown: false,
+                headerShown: false
             }}
         >
             {
@@ -46,12 +48,14 @@ export const AuthStackNavigator = () => {
                 //         </>
                 //     )
             }
-            <AuthStack.Screen name='LoginScreen' options={{ title: 'LogIn' }} component={ LoginScreen }/>
-            <AuthStack.Screen name='SignUpScreen' options={{ title: 'SignUp' }} component={ SignUpScreen }/>
-            <AuthStack.Screen name='ResetPasswordScreen' options={{ title: 'Reset Password' }} component={ ResetPasswordScreen }/>
-            <AuthStack.Screen name='ForgotPasswordScreen' options={{ title: 'Forgot Password' }} component={ ForgotPasswordScreen }/>
-            <AuthStack.Screen name='TokenVerificationScreen' options={{ title: 'Token Verification' }} component={ TokenVerificationScreen }/>
+            <AuthStack.Screen name='LoginScreen' options={{ title: 'LoginScreen' }} component={ LoginScreen }/>
+            <AuthStack.Screen name='SignUpScreen' options={{ title: 'SignUpScreen' }} component={ SignUpScreen }/>
+            <AuthStack.Screen name='ResetPasswordScreen' options={{ title: 'ResetPasswordScreen' }} component={ ResetPasswordScreen }/>
+            <AuthStack.Screen name='ForgotPasswordScreen' options={{ title: 'ForgotPasswordScreen' }} component={ ForgotPasswordScreen }/>
+            <AuthStack.Screen name='TokenVerificationScreen' options={{ title: 'TokenVerificationScreen' }} component={ TokenVerificationScreen }/>
             <AuthStack.Screen name='Game' options={{ title: 'Game'}} component={ Game } />
+            
+            <AuthStack.Screen name='BottomTabNavigator' options={{ title: 'BottomTabNavigator' }} component={ BottomTabNavigator }/>
 
         </AuthStack.Navigator>
     );

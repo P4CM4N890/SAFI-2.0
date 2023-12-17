@@ -15,7 +15,7 @@ import { login } from '../api/postRequests';
 import { checkToken } from '../api/instance';
 import { useState } from 'react';
 
-interface Props extends StackScreenProps<any, any> {};
+interface Props extends StackScreenProps<any, any>{};
 
 const initialState = {
     correo: "",
@@ -76,7 +76,7 @@ export const LoginScreen = ({ navigation }: Props) => {
 
         // }
 
-        navigation.navigate("Game");
+        navigation.navigate('Game');
     }
 
     return (
@@ -114,7 +114,8 @@ export const LoginScreen = ({ navigation }: Props) => {
                 <Button 
                     label='Iniciar sesión' 
                     extraClass='mt-10' 
-                    onPress={ onLogin }
+                    // onPress={ onLogin }
+                    onPress={ () => navigation.navigate('BottomTabNavigator') }
                 />
 
                 <View className='w-5/6 border-t-2 border-gray-700 mt-12'/>
