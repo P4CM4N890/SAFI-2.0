@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View, ScrollView, Dimensions } from 'react-native';
 
-import Carousel, { Pagination } from 'react-native-snap-carousel';
-
-import { AddButton } from '../components/buttons/AddButton';
 import { Header } from '../components/headers/Header';
 import { MainGoalCard } from '../components/cards/MainGoalCard';
 import { LatestIncomeCard } from '../components/cards/LatestIncomeCard';
+import { AddButton } from '../components/buttons/AddButton';
+
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
 
@@ -61,23 +61,29 @@ export const HomeScreen = () => {
 
     return (
         <View className='w-full h-full items-center p-5'>
-            <Header title='Inicio' extraClass='text-2xl'/>
+            <ScrollView 
+                className='w-full h-full' 
+                showsVerticalScrollIndicator={ false }
+            >
+                <Header title='' extraClass='text-sm'/>
 
-            <View className='h-2/5'>
-                <Carousel
-                    data={ cards }
-                    renderItem={({ item }: any) => renderItem(item)}
-                    sliderWidth={ screenWidth * 0.90 }
-                    itemWidth={ screenWidth * 0.90 }
-                    layout='default'
-                    onSnapToItem={(index) => setActiveindex(index)}
-                />
+                <View>
+                    <Carousel
+                        data={ cards }
+                        renderItem={({ item }: any) => renderItem(item)}
+                        sliderWidth={ screenWidth * 0.90 }
+                        itemWidth={ screenWidth * 0.90 }
+                        layout='default'
+                        onSnapToItem={(index) => setActiveindex(index)}
+                    />
 
                 <Pagination 
                     dotsLength={ cards.length }
                     activeDotIndex={ activeIndex }
                 />
-            </View>
+                    
+                </View>
+            </ScrollView>
 
             <AddButton />
         </View>
