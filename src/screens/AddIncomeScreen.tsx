@@ -6,20 +6,20 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { InputLabel } from '../components/inputs/InputLabel';
 import { Button } from '../components/buttons/Button';
-import { IncomeCategoryModal } from '../components/modals/IncomeCategoryModal';
+import { CategoryModal } from '../components/modals/CategoryModal';
+import { ColorModal } from '../components/modals/ColorModal';
 
-import { incomeCategoryIcon, incomeInconColor } from '../types/incomeTypes';
-import { IncomeColorModal } from '../components/modals/IncomeColorModal';
+import { categoryIcon, iconColor } from '../types/modalTypes';
 
 interface Props extends StackScreenProps<any, any> {};
 
 export const AddIncomeScreen = ({ navigation }: Props) => {
 
     const [ categoryModalVisible, setCategoryModalVisible ] = useState(false);
-    const [ selectedCategory, setSelectedCategory ] = useState<incomeCategoryIcon>('flag-outline');
+    const [ selectedCategory, setSelectedCategory ] = useState<categoryIcon>('flag-outline');
 
     const [ colorModalVisible, setColorModalVisible ] = useState(false);
-    const [ selectedColor, setSelectedColor ] = useState<incomeInconColor>('#A233D8');
+    const [ selectedColor, setSelectedColor ] = useState<iconColor>('#A233D8');
 
     const openCategoryModal = () => {
         setCategoryModalVisible(true);
@@ -29,7 +29,7 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
         setCategoryModalVisible(false);
     };
 
-    const selectCategory = (category: incomeCategoryIcon) => {
+    const selectCategory = (category: categoryIcon) => {
         setSelectedCategory(category);
         closeCategoryModal();
     };
@@ -42,7 +42,7 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
         setColorModalVisible(false);
     };
 
-    const selectColor = (color: incomeInconColor) => {
+    const selectColor = (color: iconColor) => {
         setSelectedColor(color);
         closeColorModal();
     };
@@ -113,13 +113,13 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
 
                 </View>
 
-                <IncomeCategoryModal 
+                <CategoryModal 
                     isModalVisible={ categoryModalVisible } 
                     selectCategory={ selectCategory }
                     color={ selectedColor }
                 />
 
-                <IncomeColorModal 
+                <ColorModal 
                     isModalVisible={ colorModalVisible }
                     selectColor={ selectColor }
                 />

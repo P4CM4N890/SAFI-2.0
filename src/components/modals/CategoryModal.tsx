@@ -4,15 +4,15 @@ import { View, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { incomeCategoryIcon, incomeInconColor } from '../../types/incomeTypes';
+import { categoryIcon, iconColor } from '../../types/modalTypes';
 
 interface Props {
     isModalVisible: boolean;
-    color: incomeInconColor;
-    selectCategory: (category: incomeCategoryIcon) => void;
+    color: iconColor;
+    selectCategory: (category: categoryIcon) => void;
 }
 
-export const IncomeCategoryModal = ({ isModalVisible, color, selectCategory }: Props) => {
+export const CategoryModal = ({ isModalVisible, color, selectCategory }: Props) => {
 
     return (
         <Modal 
