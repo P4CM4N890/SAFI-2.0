@@ -1,0 +1,2 @@
+export type incomeCategoryIcon = 'game-controller-outline' | 'home-outline' | 'gift-outline' | 'book-outline' | 'airplane-outline' | 'flag-outline';
+export type incomeInconColor = '#A233D8' | '#F48FB1' | '#F1C40F' | '#6D6D6D' | '#E67E22' | '#0C0C0C' | '#4F33D8' | '#75E2F8' | '#D8336A' | '#54D8AD';

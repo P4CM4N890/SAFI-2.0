@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 
-import Modal from "react-native-modal";
+import Modal from 'react-native-modal';
 
 import { AddQuestionButton } from '../components/buttons/AddQuestionButton';
 import { RankingButton } from '../components/buttons/RankingButton';
