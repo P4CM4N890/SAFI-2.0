@@ -4,28 +4,30 @@ import { View, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { incomeCategoryIcon } from '../../types/incomeTypes';
+import { incomeCategoryIcon, incomeInconColor } from '../../types/incomeTypes';
 
 interface Props {
-    categoryModalVisible: boolean;
+    isModalVisible: boolean;
+    color: incomeInconColor;
     selectCategory: (category: incomeCategoryIcon) => void;
 }
 
-export const IncomeCategoryModal = ({ categoryModalVisible, selectCategory }: Props) => {
+export const IncomeCategoryModal = ({ isModalVisible, color, selectCategory }: Props) => {
 
     return (
         <Modal 
-            isVisible={ categoryModalVisible }
+            isVisible={ isModalVisible }
             animationIn={ 'bounce' }
         >
             <View className='w-full items-center gap-y-3 rounded-2xl py-5'>
         
                 <View className='w-1/2 flex-row justify-around'>
-                    <View className='items-center '>
+                    <View className='items-center'>
                         <TouchableOpacity
                             activeOpacity={ 0.7 }
                             onPress={ () => selectCategory('home-outline') }
-                            className='bg-purple-600 rounded-full h-12 w-12 items-center justify-center'
+                            className='rounded-full h-12 w-12 items-center justify-center'
+                            style={{ backgroundColor: color }}
                         >
                             <Icon name='home-outline' color='#FFF' size={ 30 }/>
                         </TouchableOpacity>
@@ -34,18 +36,20 @@ export const IncomeCategoryModal = ({ categoryModalVisible, selectCategory }: Pr
                     <TouchableOpacity
                         activeOpacity={ 0.7 }
                         onPress={ () => selectCategory('gift-outline') }
-                        className='bg-purple-600 rounded-full h-12 w-12 items-center justify-center'
+                        className='rounded-full h-12 w-12 items-center justify-center'
+                        style={{ backgroundColor: color }}
                     >
                         <Icon name='gift-outline' color='#FFF' size={ 30 }/>
                     </TouchableOpacity>
                 </View>
 
                 <View className='w-1/2 flex-row justify-around'>
-                    <View className='items-center '>
+                    <View className='items-center'>
                         <TouchableOpacity
                             activeOpacity={ 0.7 }
                             onPress={ () => selectCategory('game-controller-outline') }
-                            className='bg-purple-600 rounded-full h-12 w-12 items-center justify-center'
+                            className='rounded-full h-12 w-12 items-center justify-center'
+                            style={{ backgroundColor: color }}
                         >
                             <Icon name='game-controller-outline' color='#FFF' size={ 30 }/>
                         </TouchableOpacity>
@@ -54,18 +58,20 @@ export const IncomeCategoryModal = ({ categoryModalVisible, selectCategory }: Pr
                     <TouchableOpacity
                         activeOpacity={ 0.7 }
                         onPress={ () => selectCategory('book-outline') }
-                        className='bg-purple-600 rounded-full h-12 w-12 items-center justify-center'
+                        className='rounded-full h-12 w-12 items-center justify-center'
+                        style={{ backgroundColor: color }}
                     >
                         <Icon name='book-outline' color='#FFF' size={ 30 }/>
                     </TouchableOpacity>
                 </View>
 
                 <View className='w-1/2 flex-row justify-around'>
-                    <View className='items-center '>
+                    <View className='items-center'>
                         <TouchableOpacity
                             activeOpacity={ 0.7 }
                             onPress={ () => selectCategory('flag-outline') }
-                            className='bg-purple-600 rounded-full h-12 w-12 items-center justify-center'
+                            className='rounded-full h-12 w-12 items-center justify-center'
+                            style={{ backgroundColor: color }}
                         >
                             <Icon name='flag-outline' color='#FFF' size={ 30 }/>
                         </TouchableOpacity>
@@ -74,7 +80,8 @@ export const IncomeCategoryModal = ({ categoryModalVisible, selectCategory }: Pr
                     <TouchableOpacity
                         activeOpacity={ 0.7 }
                         onPress={ () => selectCategory('airplane-outline') }
-                        className='bg-purple-600 rounded-full h-12 w-12 items-center justify-center'
+                        className='rounded-full h-12 w-12 items-center justify-center'
+                        style={{ backgroundColor: color }}
                     >
                         <Icon name='airplane-outline' color='#FFF' size={ 30 }/>
                     </TouchableOpacity>

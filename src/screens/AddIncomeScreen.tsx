@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
@@ -6,9 +6,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { InputLabel } from '../components/inputs/InputLabel';
 import { Button } from '../components/buttons/Button';
-
-import { incomeCategoryIcon } from '../types/incomeTypes';
 import { IncomeCategoryModal } from '../components/modals/IncomeCategoryModal';
+
+import { incomeCategoryIcon, incomeInconColor } from '../types/incomeTypes';
+import { IncomeColorModal } from '../components/modals/IncomeColorModal';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -17,9 +18,8 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
     const [ categoryModalVisible, setCategoryModalVisible ] = useState(false);
     const [ selectedCategory, setSelectedCategory ] = useState<incomeCategoryIcon>('flag-outline');
 
-    useEffect(() => {
-        closeCategoryModal();
-    }, [ selectedCategory ]);
+    const [ colorModalVisible, setColorModalVisible ] = useState(false);
+    const [ selectedColor, setSelectedColor ] = useState<incomeInconColor>('#A233D8');
 
     const openCategoryModal = () => {
         setCategoryModalVisible(true);
@@ -31,6 +31,20 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
 
     const selectCategory = (category: incomeCategoryIcon) => {
         setSelectedCategory(category);
+        closeCategoryModal();
+    };
+
+    const openColorModal = () => {
+        setColorModalVisible(true);
+    };
+  
+    const closeColorModal = () => {
+        setColorModalVisible(false);
+    };
+
+    const selectColor = (color: incomeInconColor) => {
+        setSelectedColor(color);
+        closeColorModal();
     };
 
     return (
@@ -65,7 +79,8 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
                             <TouchableOpacity
                                 activeOpacity={ 0.7 }
                                 onPress={ openCategoryModal }
-                                className='bg-purple-600 rounded-full h-12 w-12 items-center justify-center'
+                                className='rounded-full h-12 w-12 items-center justify-center'
+                                style={{ backgroundColor: selectedColor }}
                             >
                                 <Icon name={ selectedCategory } color='#FFF' size={ 30 }/>
                             </TouchableOpacity>
@@ -76,10 +91,10 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
 
                             <TouchableOpacity
                                 activeOpacity={ 0.7 }
-                                onPress={ () => {} }
-                                className='bg-purple-600 rounded-full h-12 w-12 items-center justify-center'
-                            >
-                            </TouchableOpacity>
+                                onPress={ openColorModal }
+                                className='rounded-full h-12 w-12 items-center justify-center'
+                                style={{ backgroundColor: selectedColor }}
+                            />
                         </View>
 
                     </View>
@@ -99,8 +114,14 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
                 </View>
 
                 <IncomeCategoryModal 
-                    categoryModalVisible={ categoryModalVisible } 
+                    isModalVisible={ categoryModalVisible } 
                     selectCategory={ selectCategory }
+                    color={ selectedColor }
+                />
+
+                <IncomeColorModal 
+                    isModalVisible={ colorModalVisible }
+                    selectColor={ selectColor }
                 />
                 
             </ScrollView>
