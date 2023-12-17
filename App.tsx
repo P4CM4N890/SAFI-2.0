@@ -5,6 +5,15 @@ import { SafeAreaView, StatusBar } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 
 import { AuthStackNavigator } from './src/navigation/AuthStackNavigator';
+import { AuthProvider } from './src/context/AuthContext';
+
+const AppState = ({ children }: any) => {
+    return (
+        <AuthProvider>
+            { children }
+        </AuthProvider>
+    )
+};
 
 const theme = {
     ...DefaultTheme,
@@ -22,7 +31,9 @@ const App = () => {
                 hidden
             />
             <NavigationContainer theme={ theme }>
-                <AuthStackNavigator />
+                <AppState>
+                    <AuthStackNavigator />
+                </AppState>
             </NavigationContainer>
         </SafeAreaView>
     );
