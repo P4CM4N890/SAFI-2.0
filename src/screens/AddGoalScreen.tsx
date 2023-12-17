@@ -10,9 +10,9 @@ import { DatePickerLabel } from '../components/pickers/DatePickerLabel';
 import { CustomSwitch } from '../components/buttons/CustomSwitch';
 import { CategoryModal } from '../components/modals/CategoryModal';
 import { ColorModal } from '../components/modals/ColorModal';
+import { PriorityModal } from '../components/modals/PriorityModal';
 
 import { categoryIcon, iconColor, priority, priorityColor } from '../types/modalTypes';
-import { PriorityModal } from '../components/modals/PriorityModal';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -73,7 +73,7 @@ export const AddGoalScreen = ({ navigation }: Props) => {
             <ScrollView>
                 <View className='w-full h-full items-center mb-9'>
 
-                    <Text className='mt-9 text-2xl font-bold text-primary uppercase tracking-widest'>
+                    <Text className='mt-6 text-2xl font-bold text-primary uppercase tracking-widest'>
                         Nueva Meta
                     </Text>
 
