@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 interface Props {
     iconColor: string,
     iconSize: number,
-    extraClass: string,
+    extraClass?: string,
     onPress?: () => void,
 }
 

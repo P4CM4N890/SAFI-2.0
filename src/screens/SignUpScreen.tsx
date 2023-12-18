@@ -2,7 +2,6 @@ import React from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
-import { Logo } from '../assets/Logo';
 import { WaveTop } from '../assets/WaveTop';
 import { WaveBottom } from '../assets/WaveBottom';
 
@@ -10,7 +9,7 @@ import { Button } from '../components/buttons/Button';
 import { InputLabel } from '../components/inputs/InputLabel';
 import { BackButton } from '../components/buttons/BackButton';
 import { TransparentButton } from '../components/buttons/TransparentButton';
-import { DatePickerLabel } from '../components/datepickers/DatePickerLabel';
+import { DatePickerLabel } from '../components/pickers/DatePickerLabel';
 import { useForm } from '../hooks/useForm';
 
 interface Props extends StackScreenProps<any, any> {};
@@ -32,10 +31,13 @@ export const SignUpScreen = ({ navigation }: Props) => {
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>
-            <ScrollView className='w-full h-full'>
+            <ScrollView 
+                className='w-full h-full'
+                showsVerticalScrollIndicator={ false }
+            >
                 <WaveTop/>
 
-                <View className='w-full h-full flex items-center justify-center z-10 py-6 mt-5'>
+                <View className='w-full h-full items-center justify-center z-10 py-6 mt-5'>
                     <BackButton 
                         iconColor='#000' 
                         iconSize={ 30 } 
@@ -63,7 +65,6 @@ export const SignUpScreen = ({ navigation }: Props) => {
                     />
                     <DatePickerLabel 
                         label='Fecha de nacimiento' 
-                        mode='date'
                         extraClass='mt-6'
                         value={ fecha_de_nac }
                         onChange={ (value) => onChange(value, 'fecha_de_nac') }
@@ -100,6 +101,7 @@ export const SignUpScreen = ({ navigation }: Props) => {
                         onPress={ () => navigation.navigate('LoginScreen') }
                     />
                 </View>
+
                 <WaveBottom/>
             </ScrollView>
         </KeyboardAvoidingView>
