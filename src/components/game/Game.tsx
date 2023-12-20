@@ -10,7 +10,7 @@ import { Header } from "./Header";
 import { Colores } from "../../styles/colors";
 
 const SNAKE_POSICION_INICIAL = [{ x: 5, y: 5}];
-const BORDES = { xMin: 0, xMax: 34, yMin: 0, yMax: 68 };
+const BORDES = { xMin: 0, xMax: 34, yMin: 0, yMax: 62 };
 const COMIDA_POSICION_INICIAL = randomPosition(BORDES.xMax, BORDES.yMax);
 const INTERVALO_MOVIMIENTO = 20;
 const INCREMENTO_SCORE = 1;
