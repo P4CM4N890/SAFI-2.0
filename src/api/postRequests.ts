@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { apiInstance, checkToken } from './instance';
 import { AbonoCreate, CategoriaCreate, GastoCreate, IngresoCreate, 
     InicioSesion, MetaCreate, UsuarioCreate, ValidarToken, RecordatorioDePagoCreate, 
-    PreguntaCreate, RespuestaCreate, MetaFijadaCreate, PredictorObject } from '../interfaces/ApiInterfaces';
+    PreguntaCreate, RespuestaCreate, MetaFijadaCreate, PredictorObject, LogroCreate } from '../interfaces/ApiInterfaces';
 
 export const login = async (correo: string, password: string): 
     Promise<AxiosResponse> => {
@@ -411,6 +411,38 @@ export const crearMetaFijada = async (metaFijada: MetaFijadaCreate): Promise<Axi
     }
 }
 
+export const crearLogro = async (logro: LogroCreate): Promise<AxiosResponse> => {
+    const token = await checkToken();
+
+    let config = {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
+    let url = "/logro/";
+
+    let body = {
+        ...logro,
+    };
+
+    try {
+        const response = await apiInstance.post(url, body, config);
+
+        return response;
+    }
+    catch (err) {
+        const errors = err as Error | AxiosError;
+        
+        if(!axios.isAxiosError(errors)){
+            throw new Error(errors.message);
+        }
+
+        throw new Error(errors.response?.data?.detail);
+    }
+}
+
 export const predecirMeta = async (predictor: PredictorObject): Promise<AxiosResponse> => {
     const token = await checkToken();
 
@@ -442,3 +474,33 @@ export const predecirMeta = async (predictor: PredictorObject): Promise<AxiosRes
         throw new Error(errors.response?.data?.detail);
     }
 }
+
+export const agregarLogro = async (id_usuario: number, id_logro: string): Promise<AxiosResponse> => {
+    const token = await checkToken();
+
+    let config = {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
+    let url = `/logrosObtenidos/${id_logro}/${id_usuario}/`;
+
+    let body = { };
+
+    try {
+        const response = await apiInstance.post(url, body, config);
+
+        return response;
+    }
+    catch (err) {
+        const errors = err as Error | AxiosError;
+        
+        if(!axios.isAxiosError(errors)){
+            throw new Error(errors.message);
+        }
+
+        throw new Error(errors.response?.data?.detail);
+    }
+};

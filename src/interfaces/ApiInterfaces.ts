@@ -7,6 +7,8 @@ export interface UsuarioCreate {
     contrasena: string
     fecha_de_nac: string
     ruta_imagen: string
+    high_score: number
+    experiencia: number
 };
 
 export interface TokenCreate {
@@ -75,6 +77,8 @@ export interface PreguntaCreate {
     titulo: string
     descripcion: string
     fecha: string
+    categoria: string
+    likes: number
 }
 
 export interface RespuestaCreate {
@@ -82,6 +86,7 @@ export interface RespuestaCreate {
     id_usuario: number
     cuerpo: string
     fecha: string
+    likes: number
 }
 
 export interface MetaFijadaCreate {
@@ -91,7 +96,16 @@ export interface MetaFijadaCreate {
 
 export interface PredictorObject {
     id_usuario: number
-    id_meta: string
+    cantidad: number
+    fecha_inicio: string
+    fecha_fin: string
+}
+
+export interface LogroCreate {
+    nombre: string
+    descripcion: string
+    experiencia: number
+    cantidad_metas_cumplidas: number
 }
 
 // GET
@@ -103,6 +117,8 @@ export interface UsuarioResponse {
     contrasena: string
     fecha_de_nac: string
     ruta_imagen: string
+    high_score: number
+    experiencia: number
 }
 
 export interface TokenResponse {
@@ -170,6 +186,8 @@ export interface PreguntaResponse {
     titulo: string
     descripcion: string
     fecha: string
+    categoria: string
+    likes: number
 }
 
 export interface RespuestaResponse {
@@ -178,12 +196,27 @@ export interface RespuestaResponse {
     id_usuario: number
     cuerpo: string
     fecha: string
+    likes: number
 }
 
 export interface MetaFijadaResponse {
     id: string
     id_usuario: number
     id_meta: string
+}
+
+export interface LogroResponse {
+    id: string
+    nombre: string
+    descripcion: string
+    experiencia: number
+    cantidad_metas_cumplidas: number
+}
+
+export interface LogrosObtenidosResponse {
+    id: string
+    id_usuario: number
+    logros_obtenidos: string[]
 }
 
 // PUT
@@ -194,6 +227,8 @@ export interface UsuarioEdit {
     contrasena?: string
     fecha_de_nac: string
     ruta_imagen: string
+    high_score: number
+    experiencia: number
 }
 
 export interface TokenEdit {
@@ -245,12 +280,21 @@ export interface RecordatorioDePagoEdit {
 export interface PreguntaEdit {
     titulo?: string
     descripcion?: string
+    likes?: string
 }
 
 export interface RespuestaEdit {
     cuerpo?: string
+    likes?: string
 }
 
 export interface MetaFijadaEdit {
     id_meta?: string
+}
+
+export interface LogroEdit {
+    nombre?: string
+    descripcion?: string
+    experiencia?: number
+    cantidad_metas_cumplidas?: number
 }
