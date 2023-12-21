@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Text } from 'react-native';
 
 import Modal from 'react-native-modal';
 
-import { priority, priorityColor } from '../../types/modalTypes';
+import { priority, priorityColor } from '../../types/appTypes';
 
 interface Props {
     isModalVisible: boolean;

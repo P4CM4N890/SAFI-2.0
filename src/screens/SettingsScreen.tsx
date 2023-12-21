@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, Text, ScrollView } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { UserImageButton } from '../components/buttons/UserImageButton';
 import { SettingsOption } from '../components/buttons/SettingsOption';
 import { SettingsToggleOption } from '../components/buttons/SettingsToggleOption';
+import { ActiveComponentContext } from '../context/ActiveComponentContext';
 
 interface Props extends StackScreenProps<any, any>{};
 
 export const SettingsScreen = ({ navigation }: Props) => {
+
+    const { changeActiveComponent } = useContext(ActiveComponentContext);
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        if(isFocused) changeActiveComponent('SettingsStackNavigator');
+    }, [ isFocused ]);
+
     return (
         <ScrollView showsVerticalScrollIndicator={ false }>
             <View className='w-full h-full items-center p-5'>

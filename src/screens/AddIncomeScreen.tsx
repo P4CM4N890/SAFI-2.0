@@ -9,7 +9,7 @@ import { Button } from '../components/buttons/Button';
 import { CategoryModal } from '../components/modals/CategoryModal';
 import { ColorModal } from '../components/modals/ColorModal';
 
-import { categoryIcon, iconColor } from '../types/modalTypes';
+import { categoryIcon, iconColor } from '../types/appTypes';
 
 interface Props extends StackScreenProps<any, any> {};
 

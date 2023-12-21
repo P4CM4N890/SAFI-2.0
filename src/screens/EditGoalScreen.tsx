@@ -12,7 +12,7 @@ import { CategoryModal } from '../components/modals/CategoryModal';
 import { ColorModal } from '../components/modals/ColorModal';
 import { PriorityModal } from '../components/modals/PriorityModal';
 
-import { categoryIcon, iconColor, priority, priorityColor } from '../types/modalTypes';
+import { categoryIcon, iconColor, priority, priorityColor } from '../types/appTypes';
 
 import { GoalsStackParams } from '../navigation/GoalsStackNavigator';
 

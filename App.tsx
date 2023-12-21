@@ -6,11 +6,14 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 
 import { AuthStackNavigator } from './src/navigation/AuthStackNavigator';
 import { AuthProvider } from './src/context/AuthContext';
+import { ActiveComponentProvider } from './src/context/ActiveComponentContext';
 
 const AppState = ({ children }: any) => {
     return (
         <AuthProvider>
-            { children }
+            <ActiveComponentProvider>
+                { children }
+            </ActiveComponentProvider>
         </AuthProvider>
     )
 };

@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { HomeScreen } from '../screens/HomeScreen';
-
 import { TabBarButton } from '../components/buttons/TabBarButton';
+import { ActiveComponentContext } from '../context/ActiveComponentContext';
 
 import { SettingsStackNavigator } from './SettingsStackNavigator';
-import { NotificationsStackNavigator } from './NotificationsStackNavigator';
 import { IncomesStackNavigator } from './IncomesStackNavigator';
 import { GoalsStackNavigator } from './GoalsStackNavigator';
 
@@ -15,12 +14,18 @@ const Tab = createBottomTabNavigator();
 export const BottomTabNavigator = () => {
 
     const [ showTabBar, setShowTabBar ] = useState(true);
+    const { component } = useContext(ActiveComponentContext);
+
+    useEffect(() => {
+        console.log(component);
+    }, [component]);
 
     return (
         <Tab.Navigator
             initialRouteName='HomeScreen'
             screenOptions={{
                 headerShown: false,
+                // tabBarHideOnKeyboard: true,
                 tabBarActiveTintColor: '#4F33D8',
                 tabBarInactiveTintColor: '#000',   
                 tabBarShowLabel: false,
@@ -45,6 +50,7 @@ export const BottomTabNavigator = () => {
                             isFocused={ focused }
                             iconName='home-outline'
                             label='Inicio'
+                            // onFocus={ () => changeActiveComponent('HomeScreen') }
                         />
                     )
                 }}    
@@ -62,6 +68,7 @@ export const BottomTabNavigator = () => {
                             isFocused={ focused }
                             iconName='cash-outline'
                             label='Ingresos'
+                            // onFocus={ () => changeActiveComponent('IncomesStackNavigator') }
                         />
                     )
                 }} 
@@ -79,6 +86,7 @@ export const BottomTabNavigator = () => {
                             isFocused={ focused }
                             iconName='flag-outline'
                             label='Metas'
+                            // onFocus={ () => changeActiveComponent('GoalsStackNavigator') }
                         />
                     )
                 }} 
@@ -96,6 +104,7 @@ export const BottomTabNavigator = () => {
                             isFocused={ focused }
                             iconName='settings-outline'
                             label='Ajustes'
+                            // onFocus={ () => changeActiveComponent('SettingsStackNavigator') }
                         />
                     )
                 }} 

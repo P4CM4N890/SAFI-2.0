@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 
 import Modal from 'react-native-modal';
 
-import { iconColor } from '../../types/modalTypes';
+import { iconColor } from '../../types/appTypes';
 
 interface Props {
     isModalVisible: boolean;

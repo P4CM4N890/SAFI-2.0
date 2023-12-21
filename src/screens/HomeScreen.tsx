@@ -85,7 +85,7 @@ export const HomeScreen = () => {
                 </View>
             </ScrollView>
 
-            <AddButton />
+            {/* <AddButton /> */}
         </View>
     );
 }
