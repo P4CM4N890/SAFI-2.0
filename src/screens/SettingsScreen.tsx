@@ -1,14 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { UserImageButton } from '../components/buttons/UserImageButton';
 import { SettingsOption } from '../components/buttons/SettingsOption';
 import { SettingsToggleOption } from '../components/buttons/SettingsToggleOption';
+import { AuthContext } from '../context/AuthContext';
+import { obtenerLogros } from '../api/getRequests';
 
 interface Props extends StackScreenProps<any, any>{};
 
 export const SettingsScreen = ({ navigation }: Props) => {
+    const { logOut } = useContext( AuthContext );
+
+    const onLogOut = async () => {
+        try{
+            logOut();
+        }
+        catch(err){
+            console.error(err);
+        }
+    };
+
+    const consultar = async () => {
+        const { data: logros } = await obtenerLogros();
+
+        console.log(logros);
+    };
+
     return (
         <ScrollView showsVerticalScrollIndicator={ false }>
             <View className='w-full h-full items-center p-5'>
@@ -23,7 +42,12 @@ export const SettingsScreen = ({ navigation }: Props) => {
                 </View>
 
                 <View className='w-full mt-5 rounded-xl border-slate-200 border-2'>
-                    <SettingsOption icon='game-controller-outline' option='Videojuego' extraClass='border-0'/>
+                    <SettingsOption 
+                        icon='game-controller-outline' 
+                        option='Videojuego' 
+                        extraClass='border-0'
+                        onPress={ () => navigation.navigate('Game') } 
+                    />
                     
                     <SettingsOption 
                         icon='help-circle-outline' 
@@ -32,10 +56,20 @@ export const SettingsScreen = ({ navigation }: Props) => {
                         extraClass='border-0'
                     />
                     
-                    <SettingsOption icon='business-outline' option='Acerca de Nosotros' extraClass='border-0'/>
+                    <SettingsOption 
+                        icon='business-outline' 
+                        option='Acerca de Nosotros' 
+                        extraClass='border-0'
+                        onPress={ consultar }
+                    />
                 </View>
 
-                <SettingsOption icon='log-out-outline' option='Cerrar Sesión' extraClass='mt-8'/>
+                <SettingsOption 
+                    icon='log-out-outline' 
+                    option='Cerrar Sesión' 
+                    extraClass='mt-8'
+                    onPress={ onLogOut }
+                />
             </View>
         </ScrollView>
     );
