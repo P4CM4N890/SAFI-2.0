@@ -45,7 +45,6 @@ export const GoalsScreen = () => {
     useEffect(() => {
         if(isFocused) {
             changeActiveComponent('GoalsStackNavigator');
-            // console.log()
         }
     }, [ isFocused ]);
 

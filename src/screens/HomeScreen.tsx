@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, ScrollView, Dimensions } from 'react-native';
 
-import { Header } from '../components/headers/Header';
 import { MainGoalCard } from '../components/cards/MainGoalCard';
 import { LatestIncomeCard } from '../components/cards/LatestIncomeCard';
-import { AddButton } from '../components/buttons/AddButton';
 
 import Carousel, { Pagination } from 'react-native-snap-carousel';
+import { useIsFocused } from '@react-navigation/native';
+import { ActiveComponentContext } from '../context/ActiveComponentContext';
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
 
@@ -37,6 +37,13 @@ const cards: Slide[] = [
 export const HomeScreen = () => {
 
     const [ activeIndex, setActiveindex ] = useState(0);
+    const { changeActiveComponent } = useContext(ActiveComponentContext);
+    
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        if(isFocused) changeActiveComponent('HomeScreen');
+    }, [ isFocused ]);
 
     const renderItem = (item: any) => {
         if(item.type === 'mainGoal') {

@@ -8,6 +8,9 @@ import { ActiveComponentContext } from '../context/ActiveComponentContext';
 import { SettingsStackNavigator } from './SettingsStackNavigator';
 import { IncomesStackNavigator } from './IncomesStackNavigator';
 import { GoalsStackNavigator } from './GoalsStackNavigator';
+import { AddButton } from '../components/buttons/AddButton';
+import { AddGoalButton } from '../components/buttons/AddGoalButton';
+import { AddIncomeButton } from '../components/buttons/AddIncomeButton';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,14 +21,14 @@ export const BottomTabNavigator = () => {
 
     useEffect(() => {
         console.log(component);
-    }, [component]);
+    }, [ component ]);
 
     return (
         <Tab.Navigator
             initialRouteName='HomeScreen'
             screenOptions={{
                 headerShown: false,
-                // tabBarHideOnKeyboard: true,
+                tabBarHideOnKeyboard: true,
                 tabBarActiveTintColor: '#4F33D8',
                 tabBarInactiveTintColor: '#000',   
                 tabBarShowLabel: false,
@@ -50,7 +53,6 @@ export const BottomTabNavigator = () => {
                             isFocused={ focused }
                             iconName='home-outline'
                             label='Inicio'
-                            // onFocus={ () => changeActiveComponent('HomeScreen') }
                         />
                     )
                 }}    
@@ -68,11 +70,52 @@ export const BottomTabNavigator = () => {
                             isFocused={ focused }
                             iconName='cash-outline'
                             label='Ingresos'
-                            // onFocus={ () => changeActiveComponent('IncomesStackNavigator') }
                         />
                     )
                 }} 
             />
+
+            {
+                component === 'HomeScreen' && (
+                    <Tab.Screen 
+                        name='AddButton' 
+                        component={ AddButton }
+                        options={{
+                            tabBarIcon: () => (
+                                <AddButton />
+                            )
+                        }} 
+                    />
+                )
+            }
+
+            {
+                component === 'GoalsStackNavigator' && (
+                    <Tab.Screen 
+                        name='AddGoalButton' 
+                        component={ AddGoalButton }
+                        options={{
+                            tabBarIcon: () => (
+                                <AddGoalButton />
+                            )
+                        }} 
+                    />
+                )
+            }
+
+            {
+                component === 'IncomesStackNavigator' && (
+                    <Tab.Screen 
+                        name='AddIncomeButton' 
+                        component={ AddIncomeButton }
+                        options={{
+                            tabBarIcon: () => (
+                                <AddIncomeButton />
+                            )
+                        }} 
+                    />
+                )
+            }
 
             <Tab.Screen 
                 name='GoalsStackNavigator' 
@@ -86,7 +129,6 @@ export const BottomTabNavigator = () => {
                             isFocused={ focused }
                             iconName='flag-outline'
                             label='Metas'
-                            // onFocus={ () => changeActiveComponent('GoalsStackNavigator') }
                         />
                     )
                 }} 
@@ -104,7 +146,6 @@ export const BottomTabNavigator = () => {
                             isFocused={ focused }
                             iconName='settings-outline'
                             label='Ajustes'
-                            // onFocus={ () => changeActiveComponent('SettingsStackNavigator') }
                         />
                     )
                 }} 
