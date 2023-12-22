@@ -77,7 +77,7 @@ export const BottomTabNavigator = () => {
             />
 
             {
-                component === 'HomeScreen' || component === 'SettingsStackNavigator' && (
+                (component === 'HomeScreen' || component === 'SettingsStackNavigator') && (
                     <Tab.Screen 
                         name='AddButton' 
                         component={ AddButton }
