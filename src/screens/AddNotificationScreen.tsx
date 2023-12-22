@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
@@ -7,28 +7,17 @@ import { Button } from '../components/buttons/Button';
 import { DatePickerLabel } from '../components/pickers/DatePickerLabel';
 import { TimePickerLabel } from '../components/pickers/TimePickerLabel';
 import { OptionPickerLabel } from '../components/pickers/OptionPickerLabel';
-import { ActiveComponentContext } from '../context/ActiveComponentContext';
 
 interface Props extends StackScreenProps<any, any> {};
 
 export const AddNotificationScreen = ({ navigation }: Props) => {
 
-    const periods = ['Una vez', 'Dos veces', 'Tres veces'];
-
-    // const { changeTabBarVisibility } = useContext(ActiveComponentContext);
-
-    // useEffect(() => {
-    //     changeTabBarVisibility(false);
-
-    //     return () => {
-    //         changeTabBarVisibility(true);
-    //       };
-    // }, []);
+    const periods = ['Una vez', 'Dos veces', 'Tres veces']
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <ScrollView>
-                <View className='w-full h-full items-center mb-5'>
+                <View className='w-full h-full items-center'>
 
                     <Text className='mt-8 text-2xl font-bold text-primary uppercase tracking-widest'>
                         Nueva

@@ -14,13 +14,13 @@ export const NotificationsScreen = ({ navigation }: Props) => {
 
     const { changeTabBarVisibility } = useContext(ActiveComponentContext);
 
-    // useEffect(() => {
-    //     changeTabBarVisibility(false);
+    useEffect(() => {
+        changeTabBarVisibility(false);
 
-    //     return () => {
-    //         changeTabBarVisibility(true);
-    //       };
-    // }, []);
+        return () => {
+            changeTabBarVisibility(true);
+          };
+    }, []);
 
     return (
         <View className='w-full h-full items-center p-5'>
