@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, ScrollView, Text } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
@@ -10,14 +10,25 @@ import { OptionPickerLabel } from '../components/pickers/OptionPickerLabel';
 import { CustomSwitch } from '../components/buttons/CustomSwitch';
 
 import { NotificationsStackParams } from '../navigation/NotificationsStackNavigator';
+import { ActiveComponentContext } from '../context/ActiveComponentContext';
 
 interface Props extends StackScreenProps<NotificationsStackParams, 'EditNotificationScreen'>{};
 
 export const EditNotificationScreen = ({ navigation, route }: Props) => {
 
-    const periods = ['Una vez', 'Dos veces', 'Tres veces']
-
     const { notificationId } = route.params;
+
+    const periods = ['Una vez', 'Dos veces', 'Tres veces']
+    
+    // const { changeTabBarVisibility } = useContext(ActiveComponentContext);
+
+    // useEffect(() => {
+    //     changeTabBarVisibility(false);
+
+    //     return () => {
+    //         changeTabBarVisibility(true);
+    //       };
+    // }, []);
 
     return (
         <ScrollView>

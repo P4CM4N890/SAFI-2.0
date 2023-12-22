@@ -1,10 +1,12 @@
-import { createContext, useEffect, useReducer } from 'react';
+import { createContext, useEffect, useReducer, useState } from 'react';
 
 import { ActiveComponentState, activeComponentReducer } from './ActiveComponentReducer';
 import { components } from '../types/appTypes';
 
 type ActiveComponentContextProps = {
     component: components;
+    showTabBar: boolean;
+    changeTabBarVisibility: (visibility: boolean) => void;
     changeActiveComponent: (component: components) => void;
 };
 
@@ -16,10 +18,16 @@ export const ActiveComponentContext = createContext( {} as ActiveComponentContex
 
 export const ActiveComponentProvider = ({ children }: any) => {
     const [ state, dispatch ] = useReducer(activeComponentReducer, activeComponentInitialState);
+    const [ showTabBar, setShowTabBar ] = useState<boolean>(true);
 
     useEffect(() => {
         changeActiveComponent('HomeScreen');
+        changeTabBarVisibility(true);
     }, []);
+
+    const changeTabBarVisibility = (visibility: boolean) => {
+        setShowTabBar(visibility);
+    };
 
     const changeActiveComponent = (component: components) => {
         if(component === 'HomeScreen') 
@@ -40,6 +48,8 @@ export const ActiveComponentProvider = ({ children }: any) => {
             value={{
                 ...state,
                 changeActiveComponent,
+                changeTabBarVisibility,
+                showTabBar
             }}
         >
             { children }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 
 import { AddNotificationButton } from '../components/buttons/AddNotificationButton';
@@ -6,10 +6,21 @@ import { BackButton } from '../components/buttons/BackButton';
 import { NotificationCard } from '../components/cards/NotificationCard';
 
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { ActiveComponentContext } from '../context/ActiveComponentContext';
 
 interface Props extends BottomTabScreenProps<any, any> {};
 
 export const NotificationsScreen = ({ navigation }: Props) => {
+
+    const { changeTabBarVisibility } = useContext(ActiveComponentContext);
+
+    // useEffect(() => {
+    //     changeTabBarVisibility(false);
+
+    //     return () => {
+    //         changeTabBarVisibility(true);
+    //       };
+    // }, []);
 
     return (
         <View className='w-full h-full items-center p-5'>

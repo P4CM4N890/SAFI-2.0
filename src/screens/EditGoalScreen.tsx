@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, ScrollView, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
@@ -15,6 +15,7 @@ import { PriorityModal } from '../components/modals/PriorityModal';
 import { categoryIcon, iconColor, priority, priorityColor } from '../types/appTypes';
 
 import { GoalsStackParams } from '../navigation/GoalsStackNavigator';
+import { ActiveComponentContext } from '../context/ActiveComponentContext';
 
 interface Props extends StackScreenProps<GoalsStackParams, 'EditGoalScreen'>{};
 
@@ -31,6 +32,16 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
     const [ priorityModalVisible, setPriorityModalVisible ] = useState(false);
     const [ selectedPriority, setSelectedPriority ] = useState<priority>('Baja');
     const [ selectedPriorityColor, setSelectedPriorityColor ] = useState<priorityColor>('#60D833');
+
+    // const { changeTabBarVisibility } = useContext(ActiveComponentContext);
+
+    // useEffect(() => {
+    //     changeTabBarVisibility(false);
+
+    //     return () => {
+    //         changeTabBarVisibility(true);
+    //       };
+    // }, []);
 
     const openCategoryModal = () => {
         setCategoryModalVisible(true);
