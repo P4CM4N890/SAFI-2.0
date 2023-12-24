@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, Text } from 'react-native';
+import { View, ScrollView, Text, TouchableOpacity, LogBox } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { InputLabel } from '../components/inputs/InputLabel';
@@ -10,14 +10,25 @@ import { OptionPickerLabel } from '../components/pickers/OptionPickerLabel';
 import { CustomSwitch } from '../components/buttons/CustomSwitch';
 
 import { NotificationsStackParams } from '../navigation/NotificationsStackNavigator';
+import PushNotification from 'react-native-push-notification';
 
 interface Props extends StackScreenProps<NotificationsStackParams, 'EditNotificationScreen'>{};
 
 export const EditNotificationScreen = ({ navigation, route }: Props) => {
+    LogBox.ignoreLogs([
+        'Non-serializable values were found in the navigation state',
+    ]);
 
     const periods = ['Una vez', 'Dos veces', 'Tres veces']
 
-    const { notificationId } = route.params;
+    const { id, deleteNotification } = route.params;
+
+    const onDelete = () => {
+        deleteNotification(id);
+
+        PushNotification.cancelLocalNotification(id);
+        navigation.goBack();
+    };
 
     return (
         <ScrollView>
@@ -30,7 +41,17 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
                     Notificación
                 </Text>
 
-                <View className='w-5/6 mt-6 flex-row items-center justify-end'>
+                <View className='w-5/6 mt-6 flex-row items-center justify-center'>
+                    <TouchableOpacity
+                        onPress={ onDelete }
+                    >
+                        <Text 
+                            className='text-sm text-primary text-red-600 mr-12'
+                            style={{color: 'red', fontWeight: 'bold'}}
+                        >
+                            Eliminar
+                        </Text>
+                    </TouchableOpacity>
                     <Text className='text-sm text-primary mr-2'>Recibir</Text>
                     <CustomSwitch 
                         isOn={ true }

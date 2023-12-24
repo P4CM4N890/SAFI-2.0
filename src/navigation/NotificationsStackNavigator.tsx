@@ -8,7 +8,7 @@ import { EditNotificationScreen } from '../screens/EditNotificationScreen';
 export type NotificationsStackParams = {
     NotificationsScreen: undefined;
     AddNotificationScreen: undefined;
-    EditNotificationScreen: { notificationId: number };
+    EditNotificationScreen: { id: string, deleteNotification: Function };
 };
 
 const NotificationsStack = createStackNavigator<NotificationsStackParams>();

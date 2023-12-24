@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, KeyboardAvoidingView, Text, ScrollView } from 'react-native';
+import { View, KeyboardAvoidingView, Text, ScrollView, LogBox } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { InputLabel } from '../components/inputs/InputLabel';
@@ -7,10 +7,17 @@ import { Button } from '../components/buttons/Button';
 import { DatePickerLabel } from '../components/pickers/DatePickerLabel';
 import { TimePickerLabel } from '../components/pickers/TimePickerLabel';
 import { OptionPickerLabel } from '../components/pickers/OptionPickerLabel';
+import { useRoute } from '@react-navigation/native';
 
 interface Props extends StackScreenProps<any, any> {};
 
 export const AddNotificationScreen = ({ navigation }: Props) => {
+    const route = useRoute();
+    const { notificaciones, setNotificaciones }: any = route.params;
+
+    LogBox.ignoreLogs([
+        'Non-serializable values were found in the navigation state',
+    ]);
 
     const periods = ['Una vez', 'Dos veces', 'Tres veces']
 

@@ -15,6 +15,7 @@ import { useForm } from '../hooks/useForm';
 import { login } from '../api/postRequests';
 import { checkToken } from '../api/instance';
 import { useState, useEffect } from 'react';
+import { createNotificationChannel } from '../utils/notificationFunctions';
 
 interface Props extends StackScreenProps<any, any>{};
 
@@ -26,13 +27,6 @@ const initialState = {
 export const LoginScreen = ({ navigation }: Props) => {
     const { correo, contrasena, onChange } = useForm(initialState);
     const [ error, setError ] = useState<string | null>(null);
-
-    const createNotificationChannel = () => {
-        PushNotification.createChannel({
-            channelId: 'safi-recordatorios',
-            channelName: 'SAFI recordatorios'
-        }, () => console.log("Canal de notificaciones creado."));
-    };
 
     const isValidEmail = () : Boolean => {
         const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -85,6 +79,10 @@ export const LoginScreen = ({ navigation }: Props) => {
         }
     }
 
+    useEffect(() => {
+        createNotificationChannel();
+    }, []);
+
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <WaveTop/>
@@ -120,8 +118,8 @@ export const LoginScreen = ({ navigation }: Props) => {
                 <Button 
                     label='Iniciar sesión' 
                     extraClass='mt-10' 
-                    onPress={ onLogin }
-                    // onPress={ () => navigation.navigate('BottomTabNavigator') }
+                    // onPress={ onLogin }
+                    onPress={ () => navigation.navigate('BottomTabNavigator') }
                 />
 
                 <View className='w-5/6 border-t-2 border-gray-700 mt-12'/>

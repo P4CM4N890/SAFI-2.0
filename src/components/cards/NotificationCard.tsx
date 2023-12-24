@@ -1,33 +1,40 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, LogBox } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { format } from 'date-fns';
 
 import { CustomSwitch } from '../buttons/CustomSwitch';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props {
-    id: number;
+    id: string;
     title: string;
     iconName: string;
     iconColor: string;
-    date: string;
-    time: string;
+    datetime: string;
+    deleteNotification: Function;
 }
 
-export const NotificationCard = ({ id, title, iconName, iconColor, date, time }: Props) => {
-    
+export const NotificationCard = ({ id, title, iconName, iconColor, datetime, deleteNotification }: Props) => {
+    LogBox.ignoreLogs([
+        'Non-serializable values were found in the navigation state',
+    ]);
+
     const navigation = useNavigation<any>();    
     
     return (
         <TouchableOpacity 
-            className='w-full flex-row items-center bg-white rounded-2xl p-2 border-2 border-slate-200 mt-4'
+            className='w-full flex-row items-center bg-white 
+            rounded-2xl p-2 border-2 border-slate-200 mt-4'
             activeOpacity={ 0.8 }
-            onPress={ () => navigation.navigate('EditNotificationScreen', { notificationId: id }) }
+            onPress={ () => navigation.navigate('EditNotificationScreen', 
+            { id: id, deleteNotification: deleteNotification }) }
         >
             <View className='w-3/5 flex-row items-center gap-x-2'>
 
-                <View className='items-center justify-center rounded-full h-14 w-14' style={{ backgroundColor: iconColor }}>
+                <View className='items-center justify-center rounded-full 
+                h-14 w-14' style={{ backgroundColor: iconColor }}>
                     <Icon 
                         name={ iconName }
                         color='#FFF'
@@ -35,9 +42,13 @@ export const NotificationCard = ({ id, title, iconName, iconColor, date, time }:
                     />
                 </View>
 
-                <View className='flex-col bg-red'>
-                    <Text className='text-black text-lg font-bold' numberOfLines={ 1 }>{ title }</Text>
-                    <Text className='text-black text-xs tracking-tight'>Recordatorio para el día { date } a las { time }</Text>
+                <View className='flex-col'>
+                    <Text className='text-black text-lg font-bold' numberOfLines={ 1 }>
+                        { title }
+                    </Text>
+                    <Text className='text-black text-xs tracking-tight'>
+                        Recordatorio para el día { format(datetime, "dd/MM/yyyy 'a las' h':'m aaa") }
+                    </Text>
                 </View>
             </View>
 
