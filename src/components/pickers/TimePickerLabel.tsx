@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import React, { useState }  from 'react'
 import { TouchableOpacity, Text } from 'react-native';
 
@@ -5,11 +6,12 @@ import DatePicker from 'react-native-date-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props {
-    label: string,
-    extraClass?: string
+    label: string;
+    extraClass?: string;
+    onChange: (value: string) => void;
 }
 
-export const TimePickerLabel = ({ label, extraClass }: Props) => {
+export const TimePickerLabel = ({ label, extraClass, onChange }: Props) => {
     
     const [ date, setDate ] = useState(new Date());
     const [ formattedTime, setFormattedTime ] = useState('');
@@ -43,6 +45,8 @@ export const TimePickerLabel = ({ label, extraClass }: Props) => {
                 onConfirm={(date) => {
                     setOpen(false);
                     setDate(date);
+
+                    onChange(format(date, "H':'m':'s"));
 
                     let hours = date.getHours();
                     const minutes = date.getMinutes();

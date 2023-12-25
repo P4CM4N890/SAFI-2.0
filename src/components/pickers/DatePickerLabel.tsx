@@ -1,17 +1,23 @@
 import React, { useState }  from 'react'
 import { TouchableOpacity, Text } from 'react-native';
+import { add, sub } from 'date-fns';
 
 import DatePicker from 'react-native-date-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props {
-    label: string,
-    extraClass?: string
+    label: string;
+    extraClass?: string;
+    maximumDate?: Date;
+    minimumDate?: Date;
+    fechaInicial?: Date;
+    onChange: (value: string) => void;
 }
 
-export const DatePickerLabel = ({ label, extraClass }: Props) => {
+export const DatePickerLabel = ({ label, extraClass, 
+    maximumDate, minimumDate, fechaInicial, onChange }: Props) => {
     
-    const [ date, setDate ] = useState(new Date());
+    const [ date, setDate ] = useState(fechaInicial || add(new Date(), { days: 1 }));
     const [ formattedDate, setFormattedDate ] = useState('');
 
     const [ open, setOpen ] = useState(false);
@@ -34,8 +40,9 @@ export const DatePickerLabel = ({ label, extraClass }: Props) => {
                 title={ label }
                 open={ open }
                 date={ date }
-
-                maximumDate={ new Date() }
+                
+                maximumDate={ maximumDate ? maximumDate : undefined }
+                minimumDate={ minimumDate ? minimumDate : undefined }
 
                 mode='date'
                 confirmText='Confirmar'
@@ -46,6 +53,7 @@ export const DatePickerLabel = ({ label, extraClass }: Props) => {
                     setOpen(false);
                     setDate(date);
                     setFormattedDate(date.toLocaleDateString('es-MX'));
+                    onChange((sub(date, { days: 1 })).toISOString().split('T')[0]);
                 }}
                 onCancel={() => {
                     setOpen(false);

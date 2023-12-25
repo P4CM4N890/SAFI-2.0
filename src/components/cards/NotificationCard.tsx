@@ -4,19 +4,14 @@ import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
 
 import { CustomSwitch } from '../buttons/CustomSwitch';
+import { NotificationCardProps } from '../../types/notificationTypes';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-interface Props {
-    id: string;
-    title: string;
-    iconName: string;
-    iconColor: string;
-    datetime: string;
-    deleteNotification: Function;
-}
+export const NotificationCard = (props: NotificationCardProps) => {
+    const { id, title, iconName, iconColor, 
+            datetime, deleteNotification } = props;
 
-export const NotificationCard = ({ id, title, iconName, iconColor, datetime, deleteNotification }: Props) => {
     LogBox.ignoreLogs([
         'Non-serializable values were found in the navigation state',
     ]);

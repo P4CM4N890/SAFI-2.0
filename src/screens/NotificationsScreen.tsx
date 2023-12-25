@@ -5,18 +5,57 @@ import { BackButton } from '../components/buttons/BackButton';
 import { NotificationCard } from '../components/cards/NotificationCard';
 
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { Notificacion } from '../types/notificationTypes';
+import { Notificacion, NotificationCardProps } from '../types/notificationTypes';
 import RNFS from 'react-native-fs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useFocusEffect } from '@react-navigation/native';
 import { checkPermissions } from '../utils/notificationFunctions';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import PushNotification from 'react-native-push-notification';
 
 interface Props extends BottomTabScreenProps<any, any> {};
 
 export const NotificationsScreen = ({ navigation }: Props) => {
     const [ notificaciones, setNotificaciones ] = useState<Notificacion[]>([]);
     const [ inicial, setInicial ] = useState(true);
+
+    const toggleSwitch = async (isEnabled: boolean, setIsEnabled: Function, notification: NotificationCardProps) => {
+        const path = RNFS.DocumentDirectoryPath + '/notificaciones.json';
+        
+        if(isEnabled) {
+            PushNotification.cancelLocalNotification(notification.id);
+        } 
+        else {
+            PushNotification.localNotificationSchedule({
+                channelId: 'safi-recordatorios',
+                message: notification.title,
+                date: new Date(notification.datetime),
+                allowWhileIdle: true,
+                playSound: true,
+                soundName: "default",
+                visibility: "public",
+                vibrate: true,
+                vibration: 1000,
+                id: notification.id,
+            });
+        }
+
+        const nuevoContenido = notificaciones.map((not: Notificacion) => {
+            return (not.id === notification.id ? { ...not, isActive: !isEnabled } : not)
+        });
+        
+        setNotificaciones(nuevoContenido);
+
+        try{
+            await RNFS.writeFile(path, JSON.stringify(nuevoContenido), 'utf8');
+            console.log("Switch actualizado. Archivo notificaciones.json actualizado.")
+        }
+        catch(error){
+            console.error(error);
+        }
+        
+        setIsEnabled((previousState: Boolean) => !previousState)
+    };
 
     const checkFiles = async () => {
         const path = RNFS.DocumentDirectoryPath + '/notificaciones.json';
@@ -73,6 +112,61 @@ export const NotificationsScreen = ({ navigation }: Props) => {
         }
     };
 
+    const updateNotification = async (notification: any) => {
+        const path = RNFS.DocumentDirectoryPath + '/notificaciones.json';
+        
+        // La notificacion estaba desactivada y ahora esta activa.
+        if ((!notification.prevActive && notification.isActive)) {
+            PushNotification.localNotificationSchedule({
+                channelId: 'safi-recordatorios',
+                message: notification.title,
+                date: new Date(notification.datetime),
+                allowWhileIdle: true,
+                playSound: true,
+                soundName: "default",
+                visibility: "public",
+                vibrate: true,
+                vibration: 1000,
+                id: notification.id,
+            });
+        } 
+        // La notificacion estaba activa y ahora no lo esta.
+        else if (notification.prevActive && !notification.isActive) {
+            PushNotification.cancelLocalNotification(notification.id);
+        } 
+        // La notificacion estaba activa y sigue activa.
+        else if (notification.prevActive && notification.isActive) {
+            PushNotification.cancelLocalNotification(notification.id);
+
+            PushNotification.localNotificationSchedule({
+                channelId: 'safi-recordatorios',
+                message: notification.title,
+                date: new Date(notification.datetime),
+                allowWhileIdle: true,
+                playSound: true,
+                soundName: "default",
+                visibility: "public",
+                vibrate: true,
+                vibration: 1000,
+                id: notification.id,
+            });
+        }
+
+        const nuevoContenido = notificaciones.map((not: Notificacion) => {
+            return (not.id === notification.id ? { ...notification } : not)
+        });
+        
+        setNotificaciones(nuevoContenido);
+
+        try{
+            await RNFS.writeFile(path, JSON.stringify(nuevoContenido), 'utf8');
+            console.log("Notificacion editada. Archivo notificaciones.json actualizado.")
+        }
+        catch(error){
+            console.error(error);
+        }
+    };
+
     useEffect(() => {
         checkPermissions();
     });
@@ -104,9 +198,11 @@ export const NotificationsScreen = ({ navigation }: Props) => {
                                 id={ not.id }
                                 iconColor='red'
                                 iconName='calendar-outline'
-                                datetime={ not.datetime }
+                                datetime={ new Date(not.datetime) }
                                 title={ not.title }
+                                toggleSwitch={ toggleSwitch }
                                 deleteNotification={ deleteNotification }
+                                updateNotification={ updateNotification }
                             />
                         })
                     }
