@@ -1,22 +1,28 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, LogBox } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity, LogBox, Switch } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { format } from 'date-fns';
 
 import { CustomSwitch } from '../buttons/CustomSwitch';
 import { NotificationCardProps } from '../../types/notificationTypes';
+import { es } from 'date-fns/locale/es';
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import ToggleSwitch from 'toggle-switch-react-native';
 
 export const NotificationCard = (props: NotificationCardProps) => {
     const { id, title, iconName, iconColor, 
-            datetime, deleteNotification } = props;
+            datetime, deleteNotification, isActive, toggleSwitch } = props;
+    const [ isEnabled, setIsEnabled ] = useState(isActive);
+    const navigation = useNavigation<any>();   
 
     LogBox.ignoreLogs([
         'Non-serializable values were found in the navigation state',
     ]);
 
-    const navigation = useNavigation<any>();    
+    useEffect(() => {
+        setIsEnabled(isActive);
+    }, [isActive]);
     
     return (
         <TouchableOpacity 
@@ -42,16 +48,19 @@ export const NotificationCard = (props: NotificationCardProps) => {
                         { title }
                     </Text>
                     <Text className='text-black text-xs tracking-tight'>
-                        Recordatorio para el día { format(datetime, "dd/MM/yyyy 'a las' h':'m aaa") }
+                        Recordatorio para el día {new Date(datetime).toLocaleDateString()} - {new Date(datetime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </Text>
                 </View>
             </View>
 
-            <View className='w-2/5'>
-                <CustomSwitch 
-                    isOn={ false }
-                    scale={ 1 }
-                    color='#60D833'
+            <View className='flex w-2/5 items-center pl-10'>            
+                <ToggleSwitch
+                    offColor='#51595D'
+                    onColor='#35D863'
+                    thumbOffStyle={{ backgroundColor: '#ffff' }}
+                    thumbOnStyle={{ backgroundColor: '#ffff' }}
+                    isOn={ isEnabled }
+                    onToggle={ () => toggleSwitch ? toggleSwitch(isEnabled, setIsEnabled, props) : null }
                 />
             </View>
             

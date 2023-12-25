@@ -15,7 +15,7 @@ export interface NotificationCardProps {
     iconName: string;
     iconColor: string;
     datetime: Date;
-    isActive?: boolean;
+    isActive: boolean;
     prevActive?: boolean;
     toggleSwitch?: Function;
     deleteNotification?: Function;

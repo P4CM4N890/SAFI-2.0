@@ -11,6 +11,7 @@ import { CustomSwitch } from '../components/buttons/CustomSwitch';
 
 import { NotificationsStackParams } from '../navigation/NotificationsStackNavigator';
 import PushNotification from 'react-native-push-notification';
+import { DatetimePickerLabel } from '../components/pickers/DatetimePickerLabel';
 
 interface Props extends StackScreenProps<NotificationsStackParams, 'EditNotificationScreen'>{};
 
@@ -67,13 +68,18 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
                     extraClass='mt-6'
                 />
 
-                <DatePickerLabel 
+                {/* <DatePickerLabel 
                     label='Fecha'
                     extraClass='mt-3'
                 />
 
                 <TimePickerLabel 
                     label='Hora' 
+                    extraClass='mt-3'
+                /> */}
+
+                <DatetimePickerLabel 
+                    label='Fecha y hora'
                     extraClass='mt-3'
                 />
 

@@ -13,27 +13,27 @@ import { useForm } from '../hooks/useForm';
 import RNFS from 'react-native-fs';
 import { set } from 'date-fns';
 import PushNotification from 'react-native-push-notification';
+import { DatetimePickerLabel } from '../components/pickers/DatetimePickerLabel';
 
 interface Props extends StackScreenProps<any, any> {};
 
 const initialState = {
     nombre: '',
     fecha: '',
-    hora: '',
     annotations: '',
 };
 
 export const AddNotificationScreen = ({ navigation }: Props) => {
+    LogBox.ignoreLogs([
+        'Non-serializable values were found in the navigation state',
+    ]);
+
     const route = useRoute();
     const { notificaciones, setNotificaciones }: any = route.params;
 
     const [ modalVisible, setModalVisible ] = useState(false);
     const [ modalMessage, setModalMessage ] = useState('');
-    const { nombre, fecha, hora, annotations, onChange } = useForm(initialState);
-
-    LogBox.ignoreLogs([
-        'Non-serializable values were found in the navigation state',
-    ]);
+    const { nombre, fecha, annotations, onChange } = useForm(initialState);
 
     const onAddNotification = async () => {
         Keyboard.dismiss();
@@ -50,12 +50,6 @@ export const AddNotificationScreen = ({ navigation }: Props) => {
     
             return;
         }
-        if (hora.length === 0) {
-            setModalMessage("Selecciona una hora.");
-            setModalVisible(true);
-    
-            return;
-        }
 
         const path = RNFS.DocumentDirectoryPath + '/notificaciones.json';
         const pathId = RNFS.DocumentDirectoryPath + '/lastId.json';
@@ -63,11 +57,7 @@ export const AddNotificationScreen = ({ navigation }: Props) => {
         const idContent = await RNFS.readFile(pathId, 'utf8');
         const idDict = JSON.parse(idContent);
 
-        const fechaD = new Date(fecha);
-        const horaD = hora.split(':');
-
-        const fechaHora = set(fechaD, { hours: Number(horaD[0]), minutes: Number(horaD[1]), seconds: Number(horaD[2]) })
-        fechaHora.setTime( fechaHora.getTime() + fechaHora.getTimezoneOffset() * 60 * 1000 );
+        const fechaHora = new Date(fecha);
 
         const nuevoContenido = [...notificaciones, {
             id: (idDict.lastId + 1),
@@ -138,7 +128,7 @@ export const AddNotificationScreen = ({ navigation }: Props) => {
                         onChange={ (value) => onChange(value, 'nombre') }
                     />
 
-                    <DatePickerLabel 
+                    {/* <DatePickerLabel 
                         label='Fecha'
                         extraClass='mt-3'
                         minimumDate={ new Date() }
@@ -149,8 +139,14 @@ export const AddNotificationScreen = ({ navigation }: Props) => {
                         label='Hora' 
                         extraClass='mt-3'
                         onChange={ (value) => onChange(value, 'hora') }
-                    />
+                    /> */}
                     
+                    <DatetimePickerLabel
+                        label='Fecha y hora'
+                        extraClass='mt-3'
+                        onChange={ (value) => onChange(value, 'fecha')}
+                    />
+
                     <InputLabel 
                         label='Notas (opcional)' 
                         placeholder='' 

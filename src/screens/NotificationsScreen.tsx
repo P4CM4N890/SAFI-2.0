@@ -19,7 +19,7 @@ export const NotificationsScreen = ({ navigation }: Props) => {
     const [ notificaciones, setNotificaciones ] = useState<Notificacion[]>([]);
     const [ inicial, setInicial ] = useState(true);
 
-    const toggleSwitch = async (isEnabled: boolean, setIsEnabled: Function, notification: NotificationCardProps) => {
+    const toggleSwitch = (isEnabled: boolean, setIsEnabled: Function, notification: NotificationCardProps) => {
         const path = RNFS.DocumentDirectoryPath + '/notificaciones.json';
         
         if(isEnabled) {
@@ -46,15 +46,14 @@ export const NotificationsScreen = ({ navigation }: Props) => {
         
         setNotificaciones(nuevoContenido);
 
-        try{
-            await RNFS.writeFile(path, JSON.stringify(nuevoContenido), 'utf8');
+        RNFS.writeFile(path, JSON.stringify(nuevoContenido), 'utf8').then(() => {
             console.log("Switch actualizado. Archivo notificaciones.json actualizado.")
-        }
-        catch(error){
+        })
+        .catch((error) => {
             console.error(error);
-        }
+        });
         
-        setIsEnabled((previousState: Boolean) => !previousState)
+        setIsEnabled((previousState: Boolean) => !previousState);
     };
 
     const checkFiles = async () => {
@@ -167,6 +166,27 @@ export const NotificationsScreen = ({ navigation }: Props) => {
         }
     };
 
+    const checkDates = () => {
+        const now = new Date();
+        const newNotifications = notificaciones.map((not: Notificacion) => {
+
+            if (new Date(not.datetime).getTime() < now.getTime()) {             
+                not.isActive = false;
+            }
+            
+            return not;
+        });
+
+        setNotificaciones(newNotifications);
+    };
+
+    useEffect(() => {
+        if ((notificaciones.length > 0) && (inicial)) {
+            checkDates();
+            setInicial(false);
+        }
+    }, [notificaciones]);
+
     useEffect(() => {
         checkPermissions();
     });
@@ -198,8 +218,9 @@ export const NotificationsScreen = ({ navigation }: Props) => {
                                 id={ not.id }
                                 iconColor='red'
                                 iconName='calendar-outline'
-                                datetime={ new Date(not.datetime) }
+                                datetime={ not.datetime }
                                 title={ not.title }
+                                isActive={ not.isActive }
                                 toggleSwitch={ toggleSwitch }
                                 deleteNotification={ deleteNotification }
                                 updateNotification={ updateNotification }
