@@ -1,16 +1,17 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 
-import { BackButton } from '../components/buttons/BackButton';
-import { NotificationCard } from '../components/cards/NotificationCard';
-
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { Notificacion, NotificationCardProps } from '../types/notificationTypes';
+import { useFocusEffect } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import { BackButton } from '../components/buttons/BackButton';
+import { NotificationCard } from '../components/cards/NotificationCard';
+import { checkPermissions } from '../utils/notificationFunctions';
+
 import RNFS from 'react-native-fs';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useFocusEffect } from '@react-navigation/native';
-import { checkPermissions } from '../utils/notificationFunctions';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import PushNotification from 'react-native-push-notification';
 
 interface Props extends BottomTabScreenProps<any, any> {};
@@ -212,20 +213,29 @@ export const NotificationsScreen = ({ navigation }: Props) => {
             <View className='mt-4'>
                 <ScrollView>
                     {
-                        notificaciones.map((not: Notificacion) => {
-                            return <NotificationCard
-                                key={ not.id } 
-                                id={ not.id }
-                                iconColor='red'
-                                iconName='calendar-outline'
-                                datetime={ not.datetime }
-                                title={ not.title }
-                                isActive={ not.isActive }
-                                toggleSwitch={ toggleSwitch }
-                                deleteNotification={ deleteNotification }
-                                updateNotification={ updateNotification }
-                            />
-                        })
+                        notificaciones.length !== 0 ?
+                            notificaciones.map((not: Notificacion) => {
+                                return <NotificationCard
+                                    key={ not.id } 
+                                    id={ not.id }
+                                    annotations={ not.annotations }
+                                    iconColor='#54D8AD'
+                                    iconName='calendar-outline'
+                                    datetime={ not.datetime }
+                                    title={ not.title }
+                                    isActive={ not.isActive }
+                                    toggleSwitch={ toggleSwitch }
+                                    deleteNotification={ deleteNotification }
+                                    updateNotification={ updateNotification }
+                                />
+                            })
+                        :
+                        <Text
+                            className='text-xl font-semibold text-dark-gray 
+                            tracking-widest mt-10'
+                        >
+                            No hay notificaciones. Crea algunas.
+                        </Text>
                     }
                 </ScrollView>
             </View>

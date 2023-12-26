@@ -12,6 +12,7 @@ export interface Notificacion {
 export interface NotificationCardProps {
     id: string;
     title: string;
+    annotations: string;
     iconName: string;
     iconColor: string;
     datetime: Date;

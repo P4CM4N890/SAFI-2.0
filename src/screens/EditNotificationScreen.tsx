@@ -1,29 +1,60 @@
-import React from 'react';
+import { useState } from 'react';
 import { View, ScrollView, Text, TouchableOpacity, LogBox } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
-import { InputLabel } from '../components/inputs/InputLabel';
+import { useForm } from '../hooks/useForm';
 import { Button } from '../components/buttons/Button';
-import { DatePickerLabel } from '../components/pickers/DatePickerLabel';
-import { TimePickerLabel } from '../components/pickers/TimePickerLabel';
-import { OptionPickerLabel } from '../components/pickers/OptionPickerLabel';
-import { CustomSwitch } from '../components/buttons/CustomSwitch';
-
+import { InputLabel } from '../components/inputs/InputLabel';
 import { NotificationsStackParams } from '../navigation/NotificationsStackNavigator';
-import PushNotification from 'react-native-push-notification';
 import { DatetimePickerLabel } from '../components/pickers/DatetimePickerLabel';
+import { MessageModal } from '../components/modals/MessageModal';
+
+import PushNotification from 'react-native-push-notification';
+import ToggleSwitch from 'toggle-switch-react-native';
 
 interface Props extends StackScreenProps<NotificationsStackParams, 'EditNotificationScreen'>{};
+
 
 export const EditNotificationScreen = ({ navigation, route }: Props) => {
     LogBox.ignoreLogs([
         'Non-serializable values were found in the navigation state',
     ]);
+    
+    const { id, title: nombre, datetime: fecha, isActive, 
+        annotations, deleteNotification, updateNotification } = route.params;
 
-    const periods = ['Una vez', 'Dos veces', 'Tres veces']
+    const initialState = {
+        nombre,
+        fecha,
+        annotations,
+    };
 
-    const { id, deleteNotification } = route.params;
+    const { nombre: newNombre, fecha: newFecha, 
+        annotations: newAnnotations, onChange } = useForm(initialState);
+    const [ isEnabled, setIsEnabled ] = useState(isActive);
+    const [ modalVisible, setModalVisible ] = useState(false);
+    const [ modalMessage, setModalMessage ] = useState('');
+    
+    const onUpdate = () => {
+        if (nombre.length === 0) {
+            setModalMessage("Debes darle un nombre a la notificación.");
+            setModalVisible(true);
 
+            return;
+        }
+
+        updateNotification({
+            id: id,
+            title: newNombre,
+            datetime: newFecha,
+            annotations: newAnnotations,
+            isActive: isEnabled,
+            prevActive: isActive 
+        });
+
+        navigation.goBack();
+    }
+    
     const onDelete = () => {
         deleteNotification(id);
 
@@ -33,6 +64,12 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
 
     return (
         <ScrollView>
+            <MessageModal
+                message={ modalMessage }
+                modalVisible={ modalVisible }
+                setModalVisible={ setModalVisible }
+            />
+
             <View className='w-full h-full items-center py-5'>
 
                 <Text className='mt-3 text-2xl font-bold text-primary uppercase tracking-widest'>
@@ -53,11 +90,14 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
                             Eliminar
                         </Text>
                     </TouchableOpacity>
-                    <Text className='text-sm text-primary mr-2'>Recibir</Text>
-                    <CustomSwitch 
-                        isOn={ true }
-                        scale={ 1.4 }
-                        color='#60D833'
+
+                    <ToggleSwitch 
+                        offColor='#51595D'
+                        onColor='#35D863'
+                        thumbOffStyle={{ backgroundColor: '#ffff' }}
+                        thumbOnStyle={{ backgroundColor: '#ffff' }}
+                        isOn={ isEnabled }
+                        onToggle={ () => setIsEnabled(prev => !prev) }
                     />
                 </View>
                 
@@ -66,27 +106,15 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
                     placeholder='' 
                     type='text'
                     extraClass='mt-6'
+                    value={ newNombre }
+                    onChange={ (value) => onChange(value, 'nombre') }
                 />
-
-                {/* <DatePickerLabel 
-                    label='Fecha'
-                    extraClass='mt-3'
-                />
-
-                <TimePickerLabel 
-                    label='Hora' 
-                    extraClass='mt-3'
-                /> */}
 
                 <DatetimePickerLabel 
                     label='Fecha y hora'
                     extraClass='mt-3'
-                />
-
-                <OptionPickerLabel 
-                    data={ periods }
-                    label='Repetir alerta'
-                    extraClass='mt-3'
+                    fechaInicial={ fecha }
+                    onChange={ (value) => onChange(value, 'fecha') }
                 />
 
                 <InputLabel 
@@ -94,17 +122,19 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
                     placeholder='' 
                     type='text'
                     extraClass='mt-3'
+                    value={ newAnnotations }
+                    onChange={ (value) => onChange(value, 'annotations') }
                 />
 
                 <View className='mt-8 w-5/6 flex-row justify-between'>
                     <Button 
                         label='Guardar' 
-                        onPress={ () => {} }
+                        onPress={ onUpdate }
                     />
                     <Button 
                         label='Cancelar' 
                         extraClass='bg-rose-600'
-                        onPress={ () => navigation.navigate('NotificationsScreen') }
+                        onPress={ () => navigation.goBack() }
                     />
                 </View>
 

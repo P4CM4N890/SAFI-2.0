@@ -127,19 +127,6 @@ export const AddNotificationScreen = ({ navigation }: Props) => {
                         value={ nombre }
                         onChange={ (value) => onChange(value, 'nombre') }
                     />
-
-                    {/* <DatePickerLabel 
-                        label='Fecha'
-                        extraClass='mt-3'
-                        minimumDate={ new Date() }
-                        onChange={ (value) => onChange(value, 'fecha') }
-                    />
-
-                    <TimePickerLabel 
-                        label='Hora' 
-                        extraClass='mt-3'
-                        onChange={ (value) => onChange(value, 'hora') }
-                    /> */}
                     
                     <DatetimePickerLabel
                         label='Fecha y hora'

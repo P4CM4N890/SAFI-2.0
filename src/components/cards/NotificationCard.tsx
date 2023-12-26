@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import ToggleSwitch from 'toggle-switch-react-native';
 
 export const NotificationCard = (props: NotificationCardProps) => {
-    const { id, title, iconName, iconColor, 
+    const { id, title, iconName, annotations, iconColor, updateNotification, 
             datetime, deleteNotification, isActive, toggleSwitch } = props;
     const [ isEnabled, setIsEnabled ] = useState(isActive);
     const navigation = useNavigation<any>();   
@@ -30,7 +30,9 @@ export const NotificationCard = (props: NotificationCardProps) => {
             rounded-2xl p-2 border-2 border-slate-200 mt-4'
             activeOpacity={ 0.8 }
             onPress={ () => navigation.navigate('EditNotificationScreen', 
-            { id: id, deleteNotification: deleteNotification }) }
+            { id: id, title: title, datetime: datetime,  annotations: annotations,
+                isActive: isActive, updateNotification: updateNotification,
+                deleteNotification: deleteNotification }) }
         >
             <View className='w-3/5 flex-row items-center gap-x-2'>
 

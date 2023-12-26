@@ -16,10 +16,13 @@ interface Props {
 export const DatetimePickerLabel = (props: Props) => {
     const { label, extraClass, maximumDate, minimumDate, 
         fechaInicial, onChange } = props;
-
-    const [ date, setDate ] = useState(new Date());
-    const [ formattedDate, setFormattedDate ] = useState('');
-    const [ open, setOpen ] = useState(false);
+    console.log(fechaInicial);
+    const [ date, setDate ] = useState(new Date(fechaInicial || new Date()));
+    const [ formattedDate, setFormattedDate ] = useState(
+        fechaInicial ? format(fechaInicial, "d'/'M'/'yyyy H':'m")
+        : ''
+    );
+    const [ open, setOpen ] = useState(false); 
 
     return (
         <>
@@ -51,7 +54,7 @@ export const DatetimePickerLabel = (props: Props) => {
                 onConfirm={(date) => {
                     setOpen(false);
                     setDate(date);
-                    setFormattedDate(format(date, "dd'/'mm'/'yyyy H':'m"));
+                    setFormattedDate(format(date, "d'/'M'/'yyyy H':'m"));
                     onChange(date.toISOString());
                 }}
                 onCancel={() => {
