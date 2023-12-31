@@ -1,26 +1,35 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { HomeScreen } from '../screens/HomeScreen';
 
-import { TabBarButton } from '../components/buttons/TabBarButton';
-
 import { SettingsStackNavigator } from './SettingsStackNavigator';
-import { NotificationsStackNavigator } from './NotificationsStackNavigator';
 import { IncomesStackNavigator } from './IncomesStackNavigator';
 import { GoalsStackNavigator } from './GoalsStackNavigator';
+
+import { AddButton } from '../components/buttons/AddButton';
+import { AddGoalButton } from '../components/buttons/AddGoalButton';
+import { AddIncomeButton } from '../components/buttons/AddIncomeButton';
+import { TabBarButton } from '../components/buttons/TabBarButton';
+
+import { ActiveComponentContext } from '../context/ActiveComponentContext';
 
 const Tab = createBottomTabNavigator();
 
 export const BottomTabNavigator = () => {
 
-    const [ showTabBar, setShowTabBar ] = useState(true);
+    const { component, showTabBar } = useContext(ActiveComponentContext);
+
+    // useEffect(() => {
+    //     console.log(component);
+    // }, [ component ]);
 
     return (
         <Tab.Navigator
             initialRouteName='HomeScreen'
             screenOptions={{
                 headerShown: false,
+                tabBarHideOnKeyboard: true,
                 tabBarActiveTintColor: '#4F33D8',
                 tabBarInactiveTintColor: '#000',   
                 tabBarShowLabel: false,
@@ -66,6 +75,48 @@ export const BottomTabNavigator = () => {
                     )
                 }} 
             />
+
+            {
+                (component === 'HomeScreen' || component === 'SettingsStackNavigator') && (
+                    <Tab.Screen 
+                        name='AddButton' 
+                        component={ AddButton }
+                        options={{
+                            tabBarIcon: () => (
+                                <AddButton />
+                            )
+                        }} 
+                    />
+                )
+            }
+
+            {
+                component === 'GoalsStackNavigator' && (
+                    <Tab.Screen 
+                        name='AddGoalButton' 
+                        component={ AddGoalButton }
+                        options={{
+                            tabBarIcon: () => (
+                                <AddGoalButton />
+                            )
+                        }} 
+                    />
+                )
+            }
+
+            {
+                component === 'IncomesStackNavigator' && (
+                    <Tab.Screen 
+                        name='AddIncomeButton' 
+                        component={ AddIncomeButton }
+                        options={{
+                            tabBarIcon: () => (
+                                <AddIncomeButton />
+                            )
+                        }} 
+                    />
+                )
+            }
 
             <Tab.Screen 
                 name='GoalsStackNavigator' 

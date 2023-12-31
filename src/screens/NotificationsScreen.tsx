@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useContext } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
@@ -14,11 +14,23 @@ import RNFS from 'react-native-fs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PushNotification from 'react-native-push-notification';
 
+import { ActiveComponentContext } from '../context/ActiveComponentContext';
+
 interface Props extends BottomTabScreenProps<any, any> {};
 
 export const NotificationsScreen = ({ navigation }: Props) => {
     const [ notificaciones, setNotificaciones ] = useState<Notificacion[]>([]);
     const [ inicial, setInicial ] = useState(true);
+
+    const { changeTabBarVisibility } = useContext(ActiveComponentContext);
+
+    useEffect(() => {
+        changeTabBarVisibility(false);
+
+        return () => {
+            changeTabBarVisibility(true);
+          };
+    }, []);
 
     const toggleSwitch = (isEnabled: boolean, setIsEnabled: Function, notification: NotificationCardProps) => {
         const path = RNFS.DocumentDirectoryPath + '/notificaciones.json';
@@ -186,7 +198,7 @@ export const NotificationsScreen = ({ navigation }: Props) => {
             checkDates();
             setInicial(false);
         }
-    }, [notificaciones]);
+    }, [ notificaciones ]);
 
     useEffect(() => {
         checkPermissions();
@@ -230,12 +242,11 @@ export const NotificationsScreen = ({ navigation }: Props) => {
                                 />
                             })
                         :
-                        <Text
-                            className='text-xl font-semibold text-dark-gray 
-                            tracking-widest mt-10'
-                        >
-                            No hay notificaciones. Crea algunas.
-                        </Text>
+                        <View>
+                            <Text className='text-xl font-semibold text-dark-gray tracking-widest mt-5'>
+                                No hay notificaciones
+                            </Text>
+                        </View>
                     }
                 </ScrollView>
             </View>

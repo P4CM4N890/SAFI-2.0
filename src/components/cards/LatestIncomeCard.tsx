@@ -9,7 +9,7 @@ interface Props {
 export const LatestIncomeCard = ({ title, amount }: Props) => {
     return (
         <View className='w-full h-44 items-center mt-6 rounded-xl border-2 border-slate-200 overflow-hidden bg-white'>
-            <View className='w-full bg-purple-700 py-1 mb-10'>
+            <View className='w-full bg-purple py-1 mb-10'>
                 <Text className='text-base text-white text-center font-bold uppercase'>Último Ingreso</Text>
             </View>
 

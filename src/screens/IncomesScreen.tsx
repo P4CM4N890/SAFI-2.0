@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 
 import { Header } from '../components/headers/Header';
 import { IncomeCard } from '../components/cards/IncomeCard';
-import { AddIncomeButton } from '../components/buttons/AddIncomeButton';
+import { ActiveComponentContext } from '../context/ActiveComponentContext';
 
 export const IncomesScreen = () => {
+    const { changeActiveComponent } = useContext(ActiveComponentContext);
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        if(isFocused) changeActiveComponent('IncomesStackNavigator');
+    }, [ isFocused ]);
+
     return (
         <View className='w-full h-full items-center p-5'>
             <ScrollView 
@@ -63,7 +71,7 @@ export const IncomesScreen = () => {
 
             </ScrollView>
 
-            <AddIncomeButton />
+            {/* <AddIncomeButton /> */}
         </View>
     );
 }

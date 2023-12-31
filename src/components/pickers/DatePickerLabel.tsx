@@ -27,7 +27,7 @@ export const DatePickerLabel = ({ label, extraClass,
             <Text className={`w-5/6 mb-1 font-semibold text-base text-primary ${ extraClass }`}>{ label }</Text>
 
             <TouchableOpacity
-                className='flex-row pl-3 w-5/6 bg-white py-3 rounded-xl shadow-xl shadow-gray-700'
+                className='flex-row pl-3 w-5/6 bg-white py-3 rounded-xl shadow-xl shadow-dark-gray'
                 activeOpacity={ 0.8 }
                 onPress={ () => setOpen(true) }
             >

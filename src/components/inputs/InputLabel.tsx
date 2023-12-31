@@ -20,7 +20,7 @@ secureTextEntry, extraClass, autoCapitalize, value, onChange } : Props ) => {
     return (
         <>
             <Text className={`w-5/6 mb-1 font-semibold text-base text-primary ${ extraClass }`}>{ label }</Text>
-            <View className='flex-row items-center pl-1 bg-white w-5/6 text-lg rounded-xl shadow-xl shadow-gray-700'>
+            <View className='flex-row items-center pl-1 bg-white w-5/6 text-lg rounded-xl shadow-xl shadow-dark-gray'>
                 
                 {
                     iconName ? <Icon name={ iconName } size={ 30 } style={{ paddingLeft: 9 }}/>: <></>

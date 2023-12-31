@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
@@ -9,9 +9,10 @@ import { Button } from '../components/buttons/Button';
 import { CategoryModal } from '../components/modals/CategoryModal';
 import { ColorModal } from '../components/modals/ColorModal';
 
-import { categoryIcon, iconColor } from '../types/modalTypes';
+import { categoryIcon, iconColor } from '../types/appTypes';
 
 import { IncomesStackParams } from '../navigation/IncomesStackNavigator';
+import { ActiveComponentContext } from '../context/ActiveComponentContext';
 
 interface Props extends StackScreenProps<IncomesStackParams, 'EditIncomeScreen'>{};
 
@@ -24,6 +25,16 @@ export const EditIncomeScreen = ({ navigation, route }: Props) => {
 
     const [ colorModalVisible, setColorModalVisible ] = useState(false);
     const [ selectedColor, setSelectedColor ] = useState<iconColor>('#A233D8');
+
+    const { changeTabBarVisibility } = useContext(ActiveComponentContext);
+
+    useEffect(() => {
+        changeTabBarVisibility(false);
+
+        return () => {
+            changeTabBarVisibility(true);
+          };
+    }, []);
 
     const openCategoryModal = () => {
         setCategoryModalVisible(true);

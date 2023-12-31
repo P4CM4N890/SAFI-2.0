@@ -19,7 +19,7 @@ export const Input = ( { placeholder = 'Text', type, secureTextEntry, extraClass
             value={ value }
             onChangeText={ onChange }
             placeholder={ placeholder }
-            className={`bg-white w-5/6 text-base py-3 text-center rounded-xl shadow-xl shadow-gray-700 ${ extraClass }`}
+            className={`bg-white w-5/6 text-base py-3 text-center rounded-xl shadow-xl shadow-dark-gray ${ extraClass }`}
             inputMode={ type }
             secureTextEntry={ secureTextEntry }
             autoCapitalize={ autoCapitalize }

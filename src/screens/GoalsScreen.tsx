@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, ScrollView, Dimensions } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 
 import { Header } from '../components/headers/Header';
 import { GoalCard } from '../components/cards/GoalCard';
 import { MainGoalCard } from '../components/cards/MainGoalCard';
 import { GoalsSummaryCard } from '../components/cards/GoalsSummaryCard';
-import { AddGoalButton } from '../components/buttons/AddGoalButton';
 
 import Carousel, { Pagination } from 'react-native-snap-carousel';
+import { ActiveComponentContext } from '../context/ActiveComponentContext';
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
 
@@ -37,6 +38,15 @@ const cards: Slide[] = [
 export const GoalsScreen = () => {
 
     const [ activeIndex, setActiveindex ] = useState(0);
+    const { changeActiveComponent } = useContext(ActiveComponentContext);
+    
+    const isFocused = useIsFocused();
+
+    useEffect(() => {
+        if(isFocused) {
+            changeActiveComponent('GoalsStackNavigator');
+        }
+    }, [ isFocused ]);
 
     const renderItem = (item: any) => {
         if(item.type === 'mainGoal') {
@@ -141,7 +151,7 @@ export const GoalsScreen = () => {
                 </View>
             </ScrollView>
 
-            <AddGoalButton />
+            {/* <AddGoalButton /> */}
         </View>
     );
 }

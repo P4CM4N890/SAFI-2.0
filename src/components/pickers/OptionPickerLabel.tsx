@@ -19,7 +19,7 @@ export const OptionPickerLabel = ({ label, extraClass, data }: Props) => {
             <Text className={`w-5/6 mb-1 font-semibold text-base text-primary ${ extraClass }`}>{ label }</Text>
 
             <TouchableOpacity
-                className='flex-row items-center pl-2 w-5/6 bg-white rounded-xl shadow-xl shadow-gray-700 overflow-hidden'
+                className='flex-row items-center pl-2 w-5/6 bg-white rounded-xl shadow-xl shadow-dark-gray overflow-hidden'
                 activeOpacity={ 0.8 }
             >
                 <Icon name='sync-outline' size={ 30 } style={{ position: 'absolute', marginLeft: 12, zIndex: 10 }}/>

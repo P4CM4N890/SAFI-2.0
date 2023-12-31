@@ -1,17 +1,19 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props {
-    iconName: string,
-    iconSize: number,
-    iconColor: string,
-    isFocused: boolean,
-    label: string
+    iconName: string;
+    iconSize: number;
+    iconColor: string;
+    isFocused: boolean;
+    label: string;
+    // onFocus: () => void;
 };
 
 export const TabBarButton = ({ iconName, iconColor, iconSize, label, isFocused }: Props) => {
+
     return (
         <View className='justify-center items-center py-3'>
             <Icon
