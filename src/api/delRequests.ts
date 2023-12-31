@@ -252,3 +252,31 @@ export const eliminarRespuesta = async (id: string): Promise<AxiosResponse> => {
         throw new Error(errors.response?.data?.detail);
     }
 }
+
+export const eliminarLogro = async (id: string): Promise<AxiosResponse> => {
+    const token = await checkToken();
+
+    let config = {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
+    let url = `/logro/${id}`;
+
+    try {
+        const response = await apiInstance.delete(url, config);
+
+        return response;
+    }
+    catch (err) {
+        const errors = err as Error | AxiosError;
+
+        if(!axios.isAxiosError(errors)){
+            throw new Error(errors.message);
+        }
+
+        throw new Error(errors.response?.data?.detail);
+    }
+}

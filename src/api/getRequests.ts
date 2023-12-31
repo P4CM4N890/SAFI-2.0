@@ -1,6 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { apiInstance, checkToken } from './instance';
 import { AbonoResponse, CategoriaResponse, GastoResponse, IngresoResponse, 
+    LogroResponse, 
+    LogrosObtenidosResponse, 
     MetaFijadaResponse, MetaResponse, PreguntaResponse, RecordatorioDePagoResponse, 
     RespuestaResponse, UsuarioResponse } from "../interfaces/ApiInterfaces";
 
@@ -544,3 +546,110 @@ export const obtenerMetaFijada = async (id: string): Promise<AxiosResponse<MetaF
     };
 }
 
+export const obtenerLogros = async (): Promise<AxiosResponse<LogroResponse[]>> => {
+    const token = await checkToken();
+
+    let config = {
+        headers: {
+            Authorization: `Bearer ${token}`, 
+        },
+    };
+
+    let url = `/logro/`;
+
+    try {
+        const response = await apiInstance.get<LogroResponse[]>(url, config);
+        
+        return response;
+    }
+    catch(err) {
+        const errors = err as Error | AxiosError;
+
+        if(!axios.isAxiosError(errors)){
+            throw new Error(errors.message);
+        }
+
+        throw new Error(errors.response?.data?.detail);
+    };
+}
+
+export const obtenerLogro = async (id: string): Promise<AxiosResponse<LogroResponse>> => {
+    const token = await checkToken();
+
+    let config = {
+        headers: {
+            Authorization: `Bearer ${token}`, 
+        },
+    };
+
+    let url = `/logro/${id}/`;
+
+    try {
+        const response = await apiInstance.get<LogroResponse>(url, config);
+        
+        return response;
+    }
+    catch(err) {
+        const errors = err as Error | AxiosError;
+
+        if(!axios.isAxiosError(errors)){
+            throw new Error(errors.message);
+        }
+
+        throw new Error(errors.response?.data?.detail);
+    };
+}
+
+export const obtenerLogrosObtenidosGeneral = async (): Promise<AxiosResponse<LogrosObtenidosResponse[]>> => {
+    const token = await checkToken();
+
+    let config = {
+        headers: {
+            Authorization: `Bearer ${token}`, 
+        },
+    };
+
+    let url = `/logrosObtenidos/`;
+
+    try {
+        const response = await apiInstance.get<LogrosObtenidosResponse[]>(url, config);
+        
+        return response;
+    }
+    catch(err) {
+        const errors = err as Error | AxiosError;
+
+        if(!axios.isAxiosError(errors)){
+            throw new Error(errors.message);
+        }
+
+        throw new Error(errors.response?.data?.detail);
+    };
+}
+
+export const obtenerLogrosObtenidosUsuario = async (id_usuario: number): Promise<AxiosResponse<LogrosObtenidosResponse>> => {
+    const token = await checkToken();
+
+    let config = {
+        headers: {
+            Authorization: `Bearer ${token}`, 
+        },
+    };
+
+    let url = `/logrosObtenidos/${id_usuario}`;
+
+    try {
+        const response = await apiInstance.get<LogrosObtenidosResponse>(url, config);
+        
+        return response;
+    }
+    catch(err) {
+        const errors = err as Error | AxiosError;
+
+        if(!axios.isAxiosError(errors)){
+            throw new Error(errors.message);
+        }
+
+        throw new Error(errors.response?.data?.detail);
+    };
+}

@@ -1,8 +1,7 @@
-import React, { useState }  from 'react'
-import { TouchableOpacity, Text } from 'react-native';
-import { add, sub } from 'date-fns';
-
-import DatePicker from 'react-native-date-picker';
+import { format, sub } from "date-fns";
+import { useState } from "react";
+import { Text, TouchableOpacity } from "react-native";
+import DatePicker from "react-native-date-picker";
 import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props {
@@ -14,20 +13,23 @@ interface Props {
     onChange: (value: string) => void;
 }
 
-export const DatePickerLabel = ({ label, extraClass, 
-    maximumDate, minimumDate, fechaInicial, onChange }: Props) => {
-    
-    const [ date, setDate ] = useState(fechaInicial || add(new Date(), { days: 1 }));
-    const [ formattedDate, setFormattedDate ] = useState('');
-
-    const [ open, setOpen ] = useState(false);
+export const DatetimePickerLabel = (props: Props) => {
+    const { label, extraClass, maximumDate, minimumDate, 
+        fechaInicial, onChange } = props;
+    console.log(fechaInicial);
+    const [ date, setDate ] = useState(new Date(fechaInicial || new Date()));
+    const [ formattedDate, setFormattedDate ] = useState(
+        fechaInicial ? format(fechaInicial, "d'/'M'/'yyyy H':'m")
+        : ''
+    );
+    const [ open, setOpen ] = useState(false); 
 
     return (
         <>
             <Text className={`w-5/6 mb-1 font-semibold text-base text-primary ${ extraClass }`}>{ label }</Text>
 
             <TouchableOpacity
-                className='flex-row pl-3 w-5/6 bg-white py-3 rounded-xl shadow-xl shadow-dark-gray'
+                className='flex-row pl-3 w-5/6 bg-white py-3 rounded-xl shadow-xl shadow-gray-700'
                 activeOpacity={ 0.8 }
                 onPress={ () => setOpen(true) }
             >
@@ -44,7 +46,7 @@ export const DatePickerLabel = ({ label, extraClass,
                 maximumDate={ maximumDate ? maximumDate : undefined }
                 minimumDate={ minimumDate ? minimumDate : undefined }
 
-                mode='date'
+                mode='datetime'
                 confirmText='Confirmar'
                 cancelText='Cancelar'
                 androidVariant='iosClone'
@@ -52,8 +54,8 @@ export const DatePickerLabel = ({ label, extraClass,
                 onConfirm={(date) => {
                     setOpen(false);
                     setDate(date);
-                    setFormattedDate(date.toLocaleDateString('es-MX'));
-                    onChange((sub(date, { days: 1 })).toISOString().split('T')[0]);
+                    setFormattedDate(format(date, "d'/'M'/'yyyy H':'m"));
+                    onChange(date.toISOString());
                 }}
                 onCancel={() => {
                     setOpen(false);
@@ -61,4 +63,4 @@ export const DatePickerLabel = ({ label, extraClass,
             />
         </>
     );
-}
+};
