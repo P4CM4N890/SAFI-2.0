@@ -2,6 +2,7 @@ import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
+import PushNotification from 'react-native-push-notification';
 
 import { Logo } from '../assets/Logo';
 import { WaveTop } from '../assets/WaveTop';
@@ -13,7 +14,8 @@ import { TransparentButton } from '../components/buttons/TransparentButton';
 import { useForm } from '../hooks/useForm';
 import { login } from '../api/postRequests';
 import { checkToken } from '../api/instance';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createNotificationChannel } from '../utils/notificationFunctions';
 
 interface Props extends StackScreenProps<any, any>{};
 
@@ -30,7 +32,7 @@ export const LoginScreen = ({ navigation }: Props) => {
         const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
         return regex.test(correo);
-    }
+    };
 
     const onLogin = async () => {
         Keyboard.dismiss();
@@ -77,6 +79,10 @@ export const LoginScreen = ({ navigation }: Props) => {
         }
     }
 
+    useEffect(() => {
+        createNotificationChannel();
+    }, []);
+
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <WaveTop/>
@@ -112,8 +118,8 @@ export const LoginScreen = ({ navigation }: Props) => {
                 <Button 
                     label='Iniciar sesión' 
                     extraClass='mt-10' 
-                    onPress={ onLogin }
-                    // onPress={ () => navigation.navigate('BottomTabNavigator') }
+                    // onPress={ onLogin }
+                    onPress={ () => navigation.navigate('BottomTabNavigator') }
                 />
 
                 <View className='w-5/6 border-t-2 border-gray-700 mt-12'/>
