@@ -29,15 +29,15 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     const [ selectedPriority, setSelectedPriority ] = useState<priority>('Baja');
     const [ selectedPriorityColor, setSelectedPriorityColor ] = useState<priorityColor>('#60D833');
 
-    // const { changeTabBarVisibility } = useContext(ActiveComponentContext);
+    const { changeTabBarVisibility } = useContext(ActiveComponentContext);
 
-    // useEffect(() => {
-    //     changeTabBarVisibility(false);
+    useEffect(() => {
+        changeTabBarVisibility(false);
 
-    //     return () => {
-    //         changeTabBarVisibility(true);
-    //       };
-    // }, []);
+        return () => {
+            changeTabBarVisibility(true);
+          };
+    }, []);
 
     const openCategoryModal = () => {
         setCategoryModalVisible(true);

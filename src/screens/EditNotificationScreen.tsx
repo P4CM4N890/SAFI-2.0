@@ -20,15 +20,15 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
 
     const periods = ['Una vez', 'Dos veces', 'Tres veces']
     
-    // const { changeTabBarVisibility } = useContext(ActiveComponentContext);
+    const { changeTabBarVisibility } = useContext(ActiveComponentContext);
 
-    // useEffect(() => {
-    //     changeTabBarVisibility(false);
+    useEffect(() => {
+        changeTabBarVisibility(false);
 
-    //     return () => {
-    //         changeTabBarVisibility(true);
-    //       };
-    // }, []);
+        return () => {
+            changeTabBarVisibility(true);
+          };
+    }, []);
 
     return (
         <ScrollView>

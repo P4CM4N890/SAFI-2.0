@@ -29,7 +29,7 @@ export const BottomTabNavigator = () => {
             initialRouteName='HomeScreen'
             screenOptions={{
                 headerShown: false,
-                // tabBarHideOnKeyboard: true,
+                tabBarHideOnKeyboard: true,
                 tabBarActiveTintColor: '#4F33D8',
                 tabBarInactiveTintColor: '#000',   
                 tabBarShowLabel: false,

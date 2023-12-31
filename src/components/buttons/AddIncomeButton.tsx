@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export const AddIncomeButton = () => {
+export const AddIncomeButton = ({ show }: any) => {
 
     const navigation = useNavigation<any>();
 

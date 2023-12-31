@@ -35,7 +35,7 @@ export const NotificationCard = ({ id, title, iconName, iconColor, date, time }:
                     />
                 </View>
 
-                <View className='flex-col bg-red'>
+                <View className='flex-col'>
                     <Text className='text-black text-lg font-bold' numberOfLines={ 1 }>{ title }</Text>
                     <Text className='text-black text-xs tracking-tight'>Recordatorio para el día { date } a las { time }</Text>
                 </View>

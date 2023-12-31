@@ -22,15 +22,15 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
     const [ colorModalVisible, setColorModalVisible ] = useState(false);
     const [ selectedColor, setSelectedColor ] = useState<iconColor>('#A233D8');
 
-    // const { changeTabBarVisibility } = useContext(ActiveComponentContext);
+    const { changeTabBarVisibility } = useContext(ActiveComponentContext);
 
-    // useEffect(() => {
-    //     changeTabBarVisibility(false);
+    useEffect(() => {
+        changeTabBarVisibility(false);
 
-    //     return () => {
-    //         changeTabBarVisibility(true);
-    //       };
-    // }, []);
+        return () => {
+            changeTabBarVisibility(true);
+          };
+    }, []);
 
     const openCategoryModal = () => {
         setCategoryModalVisible(true);
@@ -68,7 +68,7 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
                     </Text>
 
                     <InputLabel 
-                        label='Nombrel del ingreso' 
+                        label='Nombre del ingreso' 
                         placeholder='' 
                         type='text'
                         extraClass='mt-16'
