@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView, LogBox, Keyboard } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useRoute } from '@react-navigation/native';
+
+import PushNotification from 'react-native-push-notification';
+import RNFS from 'react-native-fs';
 
 import { InputLabel } from '../components/inputs/InputLabel';
 import { Button } from '../components/buttons/Button';
-import { DatePickerLabel } from '../components/pickers/DatePickerLabel';
-import { TimePickerLabel } from '../components/pickers/TimePickerLabel';
-import { OptionPickerLabel } from '../components/pickers/OptionPickerLabel';
-import { useRoute } from '@react-navigation/native';
-import { MessageModal } from '../components/modals/MessageModal';
-import { useForm } from '../hooks/useForm';
-import RNFS from 'react-native-fs';
-import { set } from 'date-fns';
-import PushNotification from 'react-native-push-notification';
 import { DatetimePickerLabel } from '../components/pickers/DatetimePickerLabel';
+import { MessageModal } from '../components/modals/MessageModal';
+
+import { useForm } from '../hooks/useForm';
 
 interface Props extends StackScreenProps<any, any> {};
 

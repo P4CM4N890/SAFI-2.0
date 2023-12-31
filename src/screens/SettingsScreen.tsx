@@ -1,4 +1,4 @@
-import React, { useContext }, { useContext, useEffect } from 'react';
+import React,{ useContext, useEffect } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';

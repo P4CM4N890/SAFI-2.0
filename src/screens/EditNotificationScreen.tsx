@@ -1,28 +1,34 @@
-import { useState }, { useContext, useEffect } from 'react';
+import { useState }from 'react';
 import { View, ScrollView, Text, TouchableOpacity, LogBox } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
+import PushNotification from 'react-native-push-notification';
+import ToggleSwitch from 'toggle-switch-react-native';
 
 import { useForm } from '../hooks/useForm';
+
 import { Button } from '../components/buttons/Button';
 import { InputLabel } from '../components/inputs/InputLabel';
 import { NotificationsStackParams } from '../navigation/NotificationsStackNavigator';
 import { DatetimePickerLabel } from '../components/pickers/DatetimePickerLabel';
 import { MessageModal } from '../components/modals/MessageModal';
 
-import PushNotification from 'react-native-push-notification';
-import ToggleSwitch from 'toggle-switch-react-native';
-import { ActiveComponentContext } from '../context/ActiveComponentContext';
-
 interface Props extends StackScreenProps<NotificationsStackParams, 'EditNotificationScreen'>{};
 
-
 export const EditNotificationScreen = ({ navigation, route }: Props) => {
+    
     LogBox.ignoreLogs([
         'Non-serializable values were found in the navigation state',
     ]);
     
-    const { id, title: nombre, datetime: fecha, isActive, 
-        annotations, deleteNotification, updateNotification } = route.params;
+    const { 
+        id, 
+        title: nombre, 
+        datetime: fecha, 
+        isActive, 
+        annotations, 
+        deleteNotification, 
+        updateNotification 
+    } = route.params;
 
     const initialState = {
         nombre,
@@ -30,8 +36,8 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
         annotations,
     };
 
-    const { nombre: newNombre, fecha: newFecha, 
-        annotations: newAnnotations, onChange } = useForm(initialState);
+    const { nombre: newNombre, fecha: newFecha, annotations: newAnnotations, onChange } = useForm(initialState);
+
     const [ isEnabled, setIsEnabled ] = useState(isActive);
     const [ modalVisible, setModalVisible ] = useState(false);
     const [ modalMessage, setModalMessage ] = useState('');
@@ -80,14 +86,11 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
                     Notificación
                 </Text>
 
-                <View className='w-5/6 mt-6 flex-row items-center justify-center'>
+                <View className='w-5/6 mt-6 flex-row items-center justify-between'>
                     <TouchableOpacity
                         onPress={ onDelete }
                     >
-                        <Text 
-                            className='text-sm text-primary text-red-600 mr-12'
-                            style={{color: 'red', fontWeight: 'bold'}}
-                        >
+                        <Text className='text-base text-red font-bold'>
                             Eliminar
                         </Text>
                     </TouchableOpacity>

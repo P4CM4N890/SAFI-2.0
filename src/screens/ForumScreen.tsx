@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 
 import Modal from 'react-native-modal';
@@ -11,9 +11,21 @@ import { QuestionCard } from '../components/cards/QuestionCard';
 import { InputLabel } from '../components/inputs/InputLabel';
 import { Button } from '../components/buttons/Button';
 
+// import { ActiveComponentContext } from '../context/ActiveComponentContext';
+
 export const ForumScreen = () => {
 
     const [ modalVisible, setModalVisible ] = useState(false);
+
+    // const { changeTabBarVisibility } = useContext(ActiveComponentContext);
+
+    // useEffect(() => {
+    //     changeTabBarVisibility(false);
+
+    //     return () => {
+    //         changeTabBarVisibility(true);
+    //       };
+    // }, []);
 
     const openModal = () => {
       setModalVisible(true);
