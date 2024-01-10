@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, ScrollView, Dimensions } from 'react-native';
+import { View, ScrollView, Dimensions, Image } from 'react-native';
 
 import { MainGoalCard } from '../components/cards/MainGoalCard';
 import { LatestIncomeCard } from '../components/cards/LatestIncomeCard';
@@ -7,6 +7,7 @@ import { LatestIncomeCard } from '../components/cards/LatestIncomeCard';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { useIsFocused } from '@react-navigation/native';
 import { ActiveComponentContext } from '../context/ActiveComponentContext';
+import { Header } from '../components/headers/Header';
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
 
@@ -69,10 +70,10 @@ export const HomeScreen = () => {
     return (
         <View className='w-full h-full items-center p-5'>
             <ScrollView 
-                className='w-full h-full' 
+                className='w-full h-30' 
                 showsVerticalScrollIndicator={ false }
             >
-                {/* <Header title='' extraClass='text-sm'/> */}
+                <Header title='Bienvenido' extraClass='text-sm'/>
 
                 <View>
                     <Carousel
@@ -91,6 +92,12 @@ export const HomeScreen = () => {
                     
                 </View>
             </ScrollView>
+
+            <Image 
+                source={ require('../assets/img/grafica2.png') } 
+                className='w-full h-80'
+                resizeMode='contain'
+            /> 
 
             {/* <AddButton /> */}
         </View>
