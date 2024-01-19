@@ -6,14 +6,15 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { UserImageButton } from '../components/buttons/UserImageButton';
 import { SettingsOption } from '../components/buttons/SettingsOption';
 import { SettingsToggleOption } from '../components/buttons/SettingsToggleOption';
-import { AuthContext } from '../context/AuthContext';
-import { obtenerLogros } from '../api/getRequests';
 import { ActiveComponentContext } from '../context/ActiveComponentContext';
+import { useAppDispatch } from '../store/hooks';
+import { startLogout } from '../store/auth/thunks';
 
 interface Props extends StackScreenProps<any, any>{};
 
 export const SettingsScreen = ({ navigation }: Props) => {
 
+    const dispatch = useAppDispatch();
     const { changeActiveComponent } = useContext(ActiveComponentContext);
     const isFocused = useIsFocused();
 
@@ -21,21 +22,8 @@ export const SettingsScreen = ({ navigation }: Props) => {
         if(isFocused) changeActiveComponent('SettingsStackNavigator');
     }, [ isFocused ]);
 
-    const { logOut } = useContext( AuthContext );
-
     const onLogOut = async () => {
-        try{
-            logOut();
-        }
-        catch(err){
-            console.error(err);
-        }
-    };
-
-    const consultar = async () => {
-        const { data: logros } = await obtenerLogros();
-
-        console.log(logros);
+        dispatch( startLogout() );
     };
 
     return (
@@ -70,7 +58,6 @@ export const SettingsScreen = ({ navigation }: Props) => {
                         icon='business-outline' 
                         option='Acerca de Nosotros' 
                         extraClass='border-0'
-                        onPress={ consultar }
                     />
                 </View>
 

@@ -10,11 +10,12 @@ import { LoadingScreen } from '../screens/LoadingScreen';
 import { AuthContext } from '../context/AuthContext';
 
 import { BottomTabNavigator } from './BottomTabNavigator';
+import { useAppSelector } from '../store/hooks';
 
 const AuthStack = createStackNavigator();
 
 export const AuthStackNavigator = () => {
-    const { status } = useContext( AuthContext );
+    const { status } = useAppSelector(state => state.auth);
 
     if( status === 'checking' ) return <LoadingScreen />
 
@@ -35,7 +36,6 @@ export const AuthStackNavigator = () => {
                             <AuthStack.Screen name='ForgotPasswordScreen' options={{ title: 'Forgot Password' }} component={ ForgotPasswordScreen }/>
                             <AuthStack.Screen name='TokenVerificationScreen' options={{ title: 'Token Verification' }} component={ TokenVerificationScreen }/>
                             <AuthStack.Screen name='LoadingScreen' options={{ title: 'Loading' }} component={ LoadingScreen }/>
-                            <AuthStack.Screen name='BottomTabNavigator' options={{ title: 'BottomTabNavigator' }} component={ BottomTabNavigator }/>
                         </>
                     )
                 :

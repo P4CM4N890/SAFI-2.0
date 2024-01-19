@@ -7,6 +7,8 @@ import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { AuthStackNavigator } from './src/navigation/AuthStackNavigator';
 import { AuthProvider } from './src/context/AuthContext';
 import { ActiveComponentProvider } from './src/context/ActiveComponentContext';
+import { Provider } from 'react-redux';
+import { store } from './src/store';
 
 const AppState = ({ children }: any) => {
     return (
@@ -35,7 +37,9 @@ const App = () => {
             />
             <NavigationContainer theme={ theme }>
                 <AppState>
-                    <AuthStackNavigator />
+                    <Provider store={ store }>
+                        <AuthStackNavigator />
+                    </Provider>
                 </AppState>
             </NavigationContainer>
         </SafeAreaView>

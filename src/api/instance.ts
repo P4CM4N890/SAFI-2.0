@@ -8,7 +8,7 @@ export const apiInstance = axios.create({
 });
 
 export const checkToken = async () => {
-    const token = await AsyncStorage.getItem("session_token");
+    const token = await AsyncStorage.getItem("token");
 
     if (token) {
         return token;
