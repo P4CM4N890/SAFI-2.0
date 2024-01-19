@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView, LogBox, Keyboard } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useRoute } from '@react-navigation/native';
@@ -6,12 +6,9 @@ import { useRoute } from '@react-navigation/native';
 import PushNotification from 'react-native-push-notification';
 import RNFS from 'react-native-fs';
 
-import { InputLabel } from '../components/inputs/InputLabel';
-import { Button } from '../components/buttons/Button';
-import { DatetimePickerLabel } from '../components/pickers/DatetimePickerLabel';
-import { MessageModal } from '../components/modals/MessageModal';
-
+import { InputLabel, Button, DatetimePickerLabel, MessageModal} from '../components';
 import { useForm } from '../hooks/useForm';
+import { useUiStore } from '../hooks';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -32,6 +29,16 @@ export const AddNotificationScreen = ({ navigation }: Props) => {
     const [ modalVisible, setModalVisible ] = useState(false);
     const [ modalMessage, setModalMessage ] = useState('');
     const { nombre, fecha, annotations, onChange } = useForm(initialState);
+
+    const { changeBarVisibility } = useUiStore();
+
+    useEffect(() => {
+        changeBarVisibility(false);
+
+        return () => {
+            changeBarVisibility(true);
+        };
+    }, []);
 
     const onAddNotification = async () => {
         Keyboard.dismiss();

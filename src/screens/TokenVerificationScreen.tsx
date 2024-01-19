@@ -1,15 +1,8 @@
-import React from 'react';
 import { View, KeyboardAvoidingView, Text } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
-import { Logo } from '../assets/Logo';
-import { WaveTop } from '../assets/WaveTop';
-import { WaveBottom } from '../assets/WaveBottom';
-
-import { InputLabel } from '../components/inputs/InputLabel';
-import { Button } from '../components/buttons/Button';
-import { BackButton } from '../components/buttons/BackButton';
-import { TransparentButton } from '../components/buttons/TransparentButton';
+import { Logo, WaveTop, WaveBottom } from '../assets';
+import { InputLabel, Button, BackButton, TransparentButton } from '../components';
 
 interface Props extends StackScreenProps<any, any> {};
 

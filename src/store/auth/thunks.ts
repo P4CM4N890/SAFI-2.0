@@ -16,7 +16,6 @@ export const startLogin = (correo: string, contrasena: string) => {
         }
         catch(error){
             const err = error as Error;
-            console.log(err);
             
             if (err.message === "Invalid credentials"){
                 dispatch( logout({message: "Los datos ingresados no son correctos."}) );

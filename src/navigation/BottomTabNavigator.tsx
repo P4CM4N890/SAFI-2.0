@@ -12,17 +12,12 @@ import { AddGoalButton } from '../components/buttons/AddGoalButton';
 import { AddIncomeButton } from '../components/buttons/AddIncomeButton';
 import { TabBarButton } from '../components/buttons/TabBarButton';
 
-import { ActiveComponentContext } from '../context/ActiveComponentContext';
+import { useUiStore } from '../hooks';
 
 const Tab = createBottomTabNavigator();
 
 export const BottomTabNavigator = () => {
-
-    const { component, showTabBar } = useContext(ActiveComponentContext);
-
-    // useEffect(() => {
-    //     console.log(component);
-    // }, [ component ]);
+    const { activeComponent, isBottomTabShown } = useUiStore();
 
     return (
         <Tab.Navigator
@@ -38,7 +33,7 @@ export const BottomTabNavigator = () => {
                     height: 65,
                     borderTopColor: 'rgba(0, 0, 0, 0.1)',
                     borderTopWidth: 2,
-                    display: showTabBar ? 'flex' : 'none'
+                    display: isBottomTabShown ? 'flex' : 'none'
                 }
             }}
         >
@@ -77,7 +72,7 @@ export const BottomTabNavigator = () => {
             />
 
             {
-                (component === 'HomeScreen' || component === 'SettingsStackNavigator') && (
+                (activeComponent === 'HomeScreen' || activeComponent === 'SettingsStackNavigator') && (
                     <Tab.Screen 
                         name='AddButton' 
                         component={ AddButton }
@@ -91,7 +86,7 @@ export const BottomTabNavigator = () => {
             }
 
             {
-                component === 'GoalsStackNavigator' && (
+                activeComponent === 'GoalsStackNavigator' && (
                     <Tab.Screen 
                         name='AddGoalButton' 
                         component={ AddGoalButton }
@@ -105,7 +100,7 @@ export const BottomTabNavigator = () => {
             }
 
             {
-                component === 'IncomesStackNavigator' && (
+                activeComponent === 'IncomesStackNavigator' && (
                     <Tab.Screen 
                         name='AddIncomeButton' 
                         component={ AddIncomeButton }

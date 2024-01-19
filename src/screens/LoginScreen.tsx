@@ -1,16 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { View, KeyboardAvoidingView, Keyboard, Text } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
-import { Logo } from '../assets/Logo';
-import { WaveTop } from '../assets/WaveTop';
-import { WaveBottom } from '../assets/WaveBottom';
-
-import { Input } from '../components/inputs/Input';
-import { Button } from '../components/buttons/Button';
-import { MessageModal } from '../components/modals/MessageModal';
-import { TransparentButton } from '../components/buttons/TransparentButton';
-import { useForm } from '../hooks/useForm';
+import { Logo, WaveTop, WaveBottom } from '../assets';
+import { Input, Button, MessageModal, TransparentButton } from '../components';
+import { useForm } from '../hooks';
 import { createNotificationChannel } from '../utils/notificationFunctions';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startLogin } from '../store/auth/thunks';

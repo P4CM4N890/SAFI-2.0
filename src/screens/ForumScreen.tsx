@@ -1,24 +1,16 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import Modal from 'react-native-modal';
 
-import { AddQuestionButton } from '../components/buttons/AddQuestionButton';
-import { RankingButton } from '../components/buttons/RankingButton';
-import { HomeButton } from '../components/buttons/HomeButton';
-import { ProfileButton } from '../components/buttons/ProfileButton';
-import { QuestionCard } from '../components/cards/QuestionCard';
-import { InputLabel } from '../components/inputs/InputLabel';
-import { Button } from '../components/buttons/Button';
-import { useFocusEffect } from '@react-navigation/native';
-import { obtenerPreguntas, obtenerRespuestas } from '../api/getRequests';
+import { AddQuestionButton, RankingButton, HomeButton, ProfileButton, QuestionCard,
+InputLabel, Button } from '../components';
+import { obtenerPreguntas, obtenerRespuestas, crearPregunta } from '../api';
 import { PreguntaCreate, PreguntaResponse, RespuestaResponse } from '../interfaces/ApiInterfaces';
-import { format, isToday } from 'date-fns';
+import { format } from 'date-fns';
 import { useForm } from '../hooks/useForm';
-import { crearPregunta } from '../api/postRequests';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// import { ActiveComponentContext } from '../context/ActiveComponentContext';
 
 const initialState = {
     titulo: '',

@@ -1,16 +1,11 @@
-import React from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
-import { WaveTop } from '../assets/WaveTop';
-import { WaveBottom } from '../assets/WaveBottom';
+import { WaveTop, WaveBottom } from '../assets';
 
-import { Button } from '../components/buttons/Button';
-import { InputLabel } from '../components/inputs/InputLabel';
-import { BackButton } from '../components/buttons/BackButton';
-import { TransparentButton } from '../components/buttons/TransparentButton';
-import { DatePickerLabel } from '../components/pickers/DatePickerLabel';
-import { useForm } from '../hooks/useForm';
+import { Button, InputLabel, BackButton, 
+    TransparentButton, DatePickerLabel } from '../components';
+import { useForm } from '../hooks';
 
 interface Props extends StackScreenProps<any, any> {};
 

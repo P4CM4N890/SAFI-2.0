@@ -16,7 +16,6 @@ interface Props {
 export const DatetimePickerLabel = (props: Props) => {
     const { label, extraClass, maximumDate, minimumDate, 
         fechaInicial, onChange } = props;
-    console.log(fechaInicial);
     const [ date, setDate ] = useState(new Date(fechaInicial || new Date()));
     const [ formattedDate, setFormattedDate ] = useState(
         fechaInicial ? format(fechaInicial, "d'/'M'/'yyyy H':'m")

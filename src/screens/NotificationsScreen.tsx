@@ -1,20 +1,17 @@
-import React, { useState, useCallback, useEffect, useContext } from 'react';
+import { useState, useCallback, useEffect, useContext } from 'react';
 import { View, Text, ScrollView } from 'react-native';
-
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { Notificacion, NotificationCardProps } from '../types/notificationTypes';
 import { useFocusEffect } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
-import { BackButton } from '../components/buttons/BackButton';
-import { NotificationCard } from '../components/cards/NotificationCard';
-import { checkPermissions } from '../utils/notificationFunctions';
 
 import RNFS from 'react-native-fs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PushNotification from 'react-native-push-notification';
 
-import { ActiveComponentContext } from '../context/ActiveComponentContext';
+import { Notificacion, NotificationCardProps } from '../types/notificationTypes';
+import { BackButton, NotificationCard } from '../components';
+import { checkPermissions } from '../utils/notificationFunctions';
+import { useUiStore } from '../hooks';
 
 interface Props extends BottomTabScreenProps<any, any> {};
 
@@ -22,14 +19,14 @@ export const NotificationsScreen = ({ navigation }: Props) => {
     const [ notificaciones, setNotificaciones ] = useState<Notificacion[]>([]);
     const [ inicial, setInicial ] = useState(true);
 
-    const { changeTabBarVisibility } = useContext(ActiveComponentContext);
+    const { changeBarVisibility } = useUiStore();
 
     useEffect(() => {
-        changeTabBarVisibility(false);
+        changeBarVisibility(false);
 
         return () => {
-            changeTabBarVisibility(true);
-          };
+            changeBarVisibility(true);
+        };
     }, []);
 
     const toggleSwitch = (isEnabled: boolean, setIsEnabled: Function, notification: NotificationCardProps) => {

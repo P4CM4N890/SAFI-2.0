@@ -1,7 +1,4 @@
-import { useContext, useEffect } from "react";
-import { AuthContext } from "../context/AuthContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 
 export const LoadingScreen = () => {

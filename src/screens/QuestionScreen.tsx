@@ -1,18 +1,28 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
-import { ForumStackParams } from '../navigation/ForumStackNavigator';
-import { BackButton } from '../components/buttons/BackButton';
-import { AnswerCard } from '../components/cards/AnswerCard';
-
 import Icon from 'react-native-vector-icons/Ionicons';
+
+import { ForumStackParams } from '../navigation/ForumStackNavigator';
+import { BackButton, AnswerCard } from '../components';
+import { useUiStore } from '../hooks';
 
 interface Props extends StackScreenProps<ForumStackParams, 'QuestionScreen'>{};
 
 export const QuestionScreen = ({ navigation, route }: Props) => {
 
     const { questionId } = route.params;
+
+    const { changeBarVisibility } = useUiStore();
+
+    useEffect(() => {
+        changeBarVisibility(false);
+
+        return () => {
+            changeBarVisibility(true);
+        };
+    }, []);
 
     return (
         <ScrollView

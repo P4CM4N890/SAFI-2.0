@@ -7,7 +7,6 @@ import { ResetPasswordScreen } from '../screens/ResetPasswordScreen';
 import { TokenVerificationScreen } from '../screens/TokenVerificationScreen';
 import { ForgotPasswordScreen } from '../screens/ForgotPasswordScreen';
 import { LoadingScreen } from '../screens/LoadingScreen';
-import { AuthContext } from '../context/AuthContext';
 
 import { BottomTabNavigator } from './BottomTabNavigator';
 import { useAppSelector } from '../store/hooks';

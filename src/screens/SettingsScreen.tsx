@@ -1,22 +1,20 @@
-import React,{ useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 
-import { UserImageButton } from '../components/buttons/UserImageButton';
-import { SettingsOption } from '../components/buttons/SettingsOption';
-import { SettingsToggleOption } from '../components/buttons/SettingsToggleOption';
-import { ActiveComponentContext } from '../context/ActiveComponentContext';
+import { UserImageButton, SettingsOption, SettingsToggleOption } from '../components';
 import { useAppDispatch } from '../store/hooks';
 import { startLogout } from '../store/auth/thunks';
+import { useUiStore } from '../hooks';
 
 interface Props extends StackScreenProps<any, any>{};
 
 export const SettingsScreen = ({ navigation }: Props) => {
 
     const dispatch = useAppDispatch();
-    const { changeActiveComponent } = useContext(ActiveComponentContext);
     const isFocused = useIsFocused();
+    const { changeActiveComponent } = useUiStore();
 
     useEffect(() => {
         if(isFocused) changeActiveComponent('SettingsStackNavigator');

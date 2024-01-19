@@ -5,9 +5,10 @@ import { useIsFocused } from '@react-navigation/native';
 import { Header } from '../components/headers/Header';
 import { IncomeCard } from '../components/cards/IncomeCard';
 import { ActiveComponentContext } from '../context/ActiveComponentContext';
+import { useUiStore } from '../hooks';
 
 export const IncomesScreen = () => {
-    const { changeActiveComponent } = useContext(ActiveComponentContext);
+    const { changeActiveComponent } = useUiStore();
     const isFocused = useIsFocused();
 
     useEffect(() => {

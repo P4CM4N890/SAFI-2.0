@@ -1,16 +1,12 @@
-import React, {  useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { InputLabel } from '../components/inputs/InputLabel';
-import { Button } from '../components/buttons/Button';
-import { CategoryModal } from '../components/modals/CategoryModal';
-import { ColorModal } from '../components/modals/ColorModal';
-
+import { InputLabel, Button, CategoryModal, ColorModal } from '../components';
 import { categoryIcon, iconColor } from '../types/appTypes';
-import { ActiveComponentContext } from '../context/ActiveComponentContext';
+import { useUiStore } from '../hooks';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -22,13 +18,13 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
     const [ colorModalVisible, setColorModalVisible ] = useState(false);
     const [ selectedColor, setSelectedColor ] = useState<iconColor>('#A233D8');
 
-    const { changeTabBarVisibility } = useContext(ActiveComponentContext);
+    const { changeBarVisibility } = useUiStore();
 
     useEffect(() => {
-        changeTabBarVisibility(false);
+        changeBarVisibility(false);
 
         return () => {
-            changeTabBarVisibility(true);
+            changeBarVisibility(true);
           };
     }, []);
 
