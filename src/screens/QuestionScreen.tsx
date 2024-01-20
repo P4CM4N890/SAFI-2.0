@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
@@ -6,23 +5,19 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { ForumStackParams } from '../navigation/ForumStackNavigator';
 import { BackButton, AnswerCard } from '../components';
-import { useUiStore } from '../hooks';
+import { useAppSelector } from '../store/hooks';
+import { PreguntaResponse } from '../interfaces/ApiInterfaces';
+import { format } from 'date-fns';
 
 interface Props extends StackScreenProps<ForumStackParams, 'QuestionScreen'>{};
 
 export const QuestionScreen = ({ navigation, route }: Props) => {
-
     const { questionId } = route.params;
+    const { preguntas, respuestas } = useAppSelector( state => state.forum );
+    const { nombre } = useAppSelector( state => state.auth );
 
-    const { changeBarVisibility } = useUiStore();
-
-    useEffect(() => {
-        changeBarVisibility(false);
-
-        return () => {
-            changeBarVisibility(true);
-        };
-    }, []);
+    const preguntaActual = preguntas.find((pregunta) => pregunta.id === questionId) as PreguntaResponse;
+    const respuestasPreguntaActual = respuestas.filter((respuesta) => respuesta.id_pregunta === questionId);
 
     return (
         <ScrollView
@@ -37,32 +32,43 @@ export const QuestionScreen = ({ navigation, route }: Props) => {
                 />
     
                 <View className='mt-14 w-5/6'>
-                    <Text className='text-2xl text-primary font-bold tracking-wider'>¿Cómo invertir mis ahorros?</Text>
+                    <Text 
+                        className='text-2xl text-primary font-bold tracking-wider'
+                    >
+                        { preguntaActual.titulo }
+                    </Text>
                 
                     <View className='flex-row justify-between my-2'>
-                        <Text className='text-sm text-gray-600'>Usuario X</Text>
-                        <Text className='text-sm text-gray-600'>Fecha</Text>
+                        <Text className='text-sm text-black font-bold'>{ nombre }</Text>
+                        <Text 
+                            className='text-sm text-black font-bold'
+                        >
+                            { format(preguntaActual.fecha, 'dd/MM/yyyy hh:mm aaa') }
+                        </Text>
                     </View>
                 </View>
 
                 <View className='w-5/6 border-t-2 border-gray-800'/>
                 
                 <View className='w-5/6 mt-4'>
-                    <Text className='text-justify text-sm text-gray-800'>
-                        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eaque provident ipsum nulla beatae debitis aspernatur voluptatem officia id, est dignissimos ea reprehenderit suscipit, assumenda asperiores magni natus saepe a! Esse!
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel vitae beatae a dolor eum. In ad provident facilis quisquam adipisci corporis soluta, similique sequi tempore molestiae accusamus iusto facere aut!
+                    <Text className='text-justify text-lg text-black-800'>
+                        { preguntaActual.descripcion }
                     </Text>
                 </View>
 
                 <View className='w-5/6 mt-2'>
                     
-                    <AnswerCard/>
-                    <AnswerCard/>
-                    <AnswerCard/>
-                    <AnswerCard/>
-                    <AnswerCard/>
-                    <AnswerCard/>
-                    <AnswerCard/>
+                    {
+                        respuestasPreguntaActual.map((respuesta, index) => {
+                            return <AnswerCard
+                                key={ index }
+                                id={ respuesta.id }
+                                usuario={ 'Luis' }
+                                descripcion={ respuesta.cuerpo }
+                                fecha={ respuesta.fecha }
+                            />
+                        })
+                    }
 
                     <View className='h-14 flex-row items-center justify-between bg-white rounded-xl border-2 px-2 border-slate-200 mt-4'>
                         <TextInput 

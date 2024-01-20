@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props {
-    id: number;
+    id: string;
     title: string;
     numberOfAnswers: number;
     dateOrTime: string;

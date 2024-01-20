@@ -27,6 +27,10 @@ export const ForumScreen = ({ navigation }: Props) => {
     const { preguntas, respuestas, isSaving } = useAppSelector(state => state.forum);
     const { changeBarVisibility } = useUiStore();
     const { titulo, descripcion, onChange } = useForm(initialState);
+    
+    const preguntasSorted = [...preguntas].sort((a, b) => {
+        return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
+    })
 
     const openModal = () => {
       setModalVisible(true);
@@ -46,12 +50,6 @@ export const ForumScreen = ({ navigation }: Props) => {
         dispatch( startSavingQuestion({ pregunta: titulo, descripcion }) );
     };
 
-    useFocusEffect(
-        useCallback(() => {
-            dispatch( startLoadingQuestions() );
-        }, [])
-    );
-
     useEffect(() => {
         changeBarVisibility(false);
 
@@ -59,6 +57,12 @@ export const ForumScreen = ({ navigation }: Props) => {
             changeBarVisibility(true);
         };
     }, []);
+
+    // Al usar el useEffect, unicamente se dispara la primera vez que el componente se monta.
+    // Las nuevas preguntas las toma directamente del estado.
+    useEffect(() => {
+        dispatch( startLoadingQuestions() );
+    },[]);
 
     if (saving) return <LoadingScreen />
 
@@ -83,10 +87,11 @@ export const ForumScreen = ({ navigation }: Props) => {
 
                 <View className='mt-8 w-full'>
                     {
-                        preguntas.map((pregunta, index) => {
+                        preguntasSorted.map((pregunta, index) => {
                             return (
                                 <QuestionCard 
-                                    id={ index }
+                                    key={ index }
+                                    id={ pregunta.id }
                                     iconColor='#D8336A' 
                                     title={ pregunta.titulo }
                                     numberOfAnswers={ (respuestas.filter( res => res.id_pregunta === pregunta.id )).length }

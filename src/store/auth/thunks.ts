@@ -30,5 +30,7 @@ export const startLogin = (correo: string, contrasena: string) => {
 export const startLogout = () => {
     return async (dispatch: AppDispatch) => {
         dispatch( logout({message: null}) );
+
+        AsyncStorage.clear();
     }
 };

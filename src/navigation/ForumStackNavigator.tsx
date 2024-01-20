@@ -6,7 +6,7 @@ import { ForumScreen } from '../screens/ForumScreen';
 
 export type ForumStackParams = {
     ForumScreen: undefined;
-    QuestionScreen: { questionId: number };
+    QuestionScreen: { questionId: string };
 };
 
 const ForumStack = createStackNavigator<ForumStackParams>();
