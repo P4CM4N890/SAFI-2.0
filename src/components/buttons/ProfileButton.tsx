@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 export const ProfileButton = () => {
 
     return (
-        <View className='items-center absolute top-5 left-5'>
+        <View className='items-center fixed left-5'>
             <TouchableOpacity 
                 className='bg-primary w-12 h-12 justify-center items-center rounded-full z-10' 
                 activeOpacity={ 0.8 }

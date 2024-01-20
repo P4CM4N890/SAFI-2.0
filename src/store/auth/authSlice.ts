@@ -6,6 +6,9 @@ interface InitialStateInterface {
     email: string | null;
     token: string | null;
     status: 'checking' | 'authenticated' | 'not-authenticated';
+    ruta_imagen: string | null;
+    high_score: number | null;
+    experiencia: number | null;
     errorMessage: string | null;
 }
 
@@ -13,6 +16,9 @@ interface loginPayload {
     id: number;
     correo: string;
     session_token: string;
+    ruta_imagen: string;
+    high_score: number;
+    experiencia: number;
 }
 
 interface logoutPayload {
@@ -24,6 +30,9 @@ const initialState: InitialStateInterface = {
     email: null,
     token: null,
     status: 'not-authenticated',
+    ruta_imagen: null,
+    high_score: null,
+    experiencia: null,
     errorMessage: null,
 };
 
@@ -36,6 +45,9 @@ export const authSlice = createSlice({
             state.uuid = payload.id;
             state.email = payload.correo;
             state.token = payload.session_token;
+            state.ruta_imagen = payload.ruta_imagen;
+            state.high_score = payload.high_score;
+            state.experiencia = payload.experiencia;
             state.errorMessage = '';
         },
 
@@ -44,6 +56,9 @@ export const authSlice = createSlice({
             state.uuid = null;
             state.email = null;
             state.token = null;
+            state.ruta_imagen = null;
+            state.high_score = null;
+            state.experiencia = null;
             state.errorMessage = payload.message;
         },
 

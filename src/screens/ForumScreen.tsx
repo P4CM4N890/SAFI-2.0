@@ -1,28 +1,31 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 
 import Modal from 'react-native-modal';
 
-import { AddQuestionButton, RankingButton, HomeButton, ProfileButton, QuestionCard,
-InputLabel, Button } from '../components';
-import { obtenerPreguntas, obtenerRespuestas, crearPregunta } from '../api';
-import { PreguntaCreate, PreguntaResponse, RespuestaResponse } from '../interfaces/ApiInterfaces';
+import { AddQuestionButton, RankingButton, QuestionCard,
+InputLabel, Button, BackButton } from '../components';
 import { format } from 'date-fns';
-import { useForm } from '../hooks/useForm';
+import { useForm, useUiStore } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { startLoadingQuestions, startSavingQuestion } from '../store/forum/thunks';
+import { LoadingScreen } from './LoadingScreen';
 
+interface Props extends StackScreenProps<any, any> {};
 
 const initialState = {
     titulo: '',
     descripcion: '',
 }
 
-export const ForumScreen = () => {
-
+export const ForumScreen = ({ navigation }: Props) => {
     const [ modalVisible, setModalVisible ] = useState(false);
-    const [ preguntas, setPreguntas ] = useState<PreguntaResponse[]>([]);
-    const [ respuestas, setRespuestas ] = useState<RespuestaResponse[]>([]);
-    const [ newData, setNewData ] = useState(false);
+
+    const dispatch = useAppDispatch();
+    const { preguntas, respuestas, isSaving } = useAppSelector(state => state.forum);
+    const { changeBarVisibility } = useUiStore();
     const { titulo, descripcion, onChange } = useForm(initialState);
 
     const openModal = () => {
@@ -33,54 +36,46 @@ export const ForumScreen = () => {
       setModalVisible(false);
     };
 
-    const getPreguntas = async () => {
-        try{
-            const preguntas = ( await obtenerPreguntas() ).data;
-            const respuestas = ( await obtenerRespuestas() ).data;
-            
-            setPreguntas(preguntas);
-            setRespuestas(respuestas);
-        }
-        catch(error){
-            console.error(error);
-        }
-    };
+    const saving = useMemo( () => isSaving, [isSaving] );
 
     const onCreatePregunta = async () => {
-        // Retornar el ID del usuario en la peticion del login
+        setModalVisible(false);
+        onChange('', 'titulo');
+        onChange('', 'descripcion');
 
-        let pregunta: PreguntaCreate = {
-            titulo,
-            descripcion,
-            categoria: 'Pregunta',
-            fecha: new Date().toISOString(),
-            id_usuario: 1,
-            likes: 0,
-        };
-
-        try{
-            await crearPregunta(pregunta);
-
-            closeModal();
-            setNewData(true);
-        }
-        catch(error){
-            console.error(error);
-        }
+        dispatch( startSavingQuestion({ pregunta: titulo, descripcion }) );
     };
 
     useFocusEffect(
         useCallback(() => {
-            getPreguntas();
-            setNewData(!!newData);
-        }, [newData])
+            dispatch( startLoadingQuestions() );
+        }, [])
     );
+
+    useEffect(() => {
+        changeBarVisibility(false);
+
+        return () => {
+            changeBarVisibility(true);
+        };
+    }, []);
+
+    if (saving) return <LoadingScreen />
 
     return (
         <View className='w-full h-full items-center p-5'>
+            <View className='w-full items-center right-5'>    
+                <BackButton 
+                    iconColor='#fff' 
+                    iconSize={ 30 } 
+                    extraClass='bg-primary'
+                    onPress={ () => navigation.goBack() }
+                />
+            </View>
+
             <ScrollView 
                 showsVerticalScrollIndicator={ false }
-                className='w-full'
+                className='w-full h-64'
             >
                 <Text className='mt-20 text-xl font-bold text-black uppercase tracking-widest text-center'>
                     Foro de Preguntas
@@ -88,10 +83,10 @@ export const ForumScreen = () => {
 
                 <View className='mt-8 w-full'>
                     {
-                        preguntas.map((pregunta) => {
+                        preguntas.map((pregunta, index) => {
                             return (
                                 <QuestionCard 
-                                    id={ Math.floor((Math.random() * 100)) }
+                                    id={ index }
                                     iconColor='#D8336A' 
                                     title={ pregunta.titulo }
                                     numberOfAnswers={ (respuestas.filter( res => res.id_pregunta === pregunta.id )).length }
@@ -143,10 +138,11 @@ export const ForumScreen = () => {
 
             </ScrollView>
 
-            <ProfileButton />
-            <HomeButton />
-            <RankingButton />
-            <AddQuestionButton onPress={ openModal }/>
+            <View className='w-full items-center flex-row top-6'>    
+                <AddQuestionButton onPress={ openModal }/>
+                <RankingButton />
+            </View>
         </View>
+        
     );
 }

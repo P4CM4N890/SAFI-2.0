@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, ScrollView, Dimensions } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -34,15 +34,16 @@ const cards: Slide[] = [
 export const GoalsScreen = () => {
 
     const [ activeIndex, setActiveindex ] = useState(0);
-    // const { changeActiveComponent } = useContext(ActiveComponentContext);
-    const { changeActiveComponent } = useUiStore();
+    const { changeActiveComponent, changeBarVisibility } = useUiStore();
     
     const isFocused = useIsFocused();
 
     useEffect(() => {
         if(isFocused) {
             changeActiveComponent('GoalsStackNavigator');
+            changeBarVisibility(true);
         }
+
     }, [ isFocused ]);
 
     const renderItem = (item: any) => {
