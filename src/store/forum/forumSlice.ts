@@ -35,11 +35,24 @@ export const forumSlice = createSlice({
             state.isSaving = false;
             state.preguntas.push(payload);
         },
+        deleteQuestion(state, { payload }: PayloadAction<string>){
+            state.isSaving = false;
+            state.preguntas = state.preguntas.filter( preg => preg.id !== payload );
+        },
         savingData(state){
             state.isSaving = true;
+        },
+        createAnswer(state, { payload }: PayloadAction<RespuestaResponse>){
+            state.isSaving = false;
+            state.respuestas.push(payload);
+        },
+        deleteAnswer(state, { payload }: PayloadAction<string>){
+            state.isSaving = false;
+            state.respuestas = state.respuestas.filter( resp => resp.id !== payload );
         },
     },
 });
 
-export const { loadQuestions, savingData, createQuestion } = forumSlice.actions;
+export const { loadQuestions, savingData, 
+    createQuestion, createAnswer, deleteAnswer, deleteQuestion } = forumSlice.actions;
 

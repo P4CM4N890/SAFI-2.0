@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { format } from 'date-fns';
 import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
@@ -5,19 +7,51 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { ForumStackParams } from '../navigation/ForumStackNavigator';
 import { BackButton, AnswerCard } from '../components';
-import { useAppSelector } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { PreguntaResponse } from '../interfaces/ApiInterfaces';
-import { format } from 'date-fns';
+import { startLoadingUsers } from '../store/other/thunks';
+import { useForm } from '../hooks';
+import { startSavingAnswer } from '../store/forum/thunks';
 
 interface Props extends StackScreenProps<ForumStackParams, 'QuestionScreen'>{};
 
+const initialState = {
+    cuerpo: '',
+}
+
 export const QuestionScreen = ({ navigation, route }: Props) => {
     const { questionId } = route.params;
+
+    const dispatch = useAppDispatch();
     const { preguntas, respuestas } = useAppSelector( state => state.forum );
-    const { nombre } = useAppSelector( state => state.auth );
+    const { users } = useAppSelector( state => state.other );
+    const { nombre, uuid } = useAppSelector( state => state.auth );
+    const { cuerpo, onChange } = useForm(initialState);
 
     const preguntaActual = preguntas.find((pregunta) => pregunta.id === questionId) as PreguntaResponse;
     const respuestasPreguntaActual = respuestas.filter((respuesta) => respuesta.id_pregunta === questionId);
+
+    const respuestasOrdenadas = respuestasPreguntaActual.sort((a, b) => {
+        if(a.id_usuario === uuid && b.id_usuario !== uuid){
+            return -1;
+        }
+        else if (a.id_usuario !== uuid && b.id_usuario === uuid){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    });
+
+    const onCreateAnswer = () => {
+        dispatch( startSavingAnswer(cuerpo, preguntaActual.id) );
+
+        onChange('', 'cuerpo');
+    };
+
+    useEffect(() => {
+        dispatch( startLoadingUsers() );
+    }, []);
 
     return (
         <ScrollView
@@ -59,13 +93,17 @@ export const QuestionScreen = ({ navigation, route }: Props) => {
                 <View className='w-5/6 mt-2'>
                     
                     {
-                        respuestasPreguntaActual.map((respuesta, index) => {
+                        respuestasOrdenadas.map((respuesta, index) => {
+                            let usuario = users.find((u) => u.id_usuario === respuesta.id_usuario);
+                            let isYours = usuario?.id_usuario === uuid;
+
                             return <AnswerCard
                                 key={ index }
                                 id={ respuesta.id }
-                                usuario={ 'Luis' }
+                                usuario={ isYours ? 'Tú' : (usuario?.nombre || 'NotFound') }
                                 descripcion={ respuesta.cuerpo }
                                 fecha={ respuesta.fecha }
+                                isCurrentUserAnswer={ isYours }
                             />
                         })
                     }
@@ -73,11 +111,14 @@ export const QuestionScreen = ({ navigation, route }: Props) => {
                     <View className='h-14 flex-row items-center justify-between bg-white rounded-xl border-2 px-2 border-slate-200 mt-4'>
                         <TextInput 
                             className='w-5/6 items-center h-full text-sm'
-                            placeholder='Escribe una respuesta'
+                            placeholder='Escribe una respuesta...'
+                            value={ cuerpo }
+                            onChangeText={ (value) => onChange(value, 'cuerpo') }
                         />
 
                         <TouchableOpacity
                             activeOpacity={ 0.8 }
+                            onPress={ onCreateAnswer }
                         >
                             <Icon 
                                 name='send'
@@ -86,9 +127,7 @@ export const QuestionScreen = ({ navigation, route }: Props) => {
                             />
                        </TouchableOpacity>
                     </View>
-
                 </View>
-
             </View>
         </ScrollView>
     );

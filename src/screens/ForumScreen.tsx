@@ -8,7 +8,7 @@ import Modal from 'react-native-modal';
 import { AddQuestionButton, RankingButton, QuestionCard,
 InputLabel, Button, BackButton } from '../components';
 import { format } from 'date-fns';
-import { useForm, useUiStore } from '../hooks';
+import { useForm, useRandomColor, useUiStore } from '../hooks';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startLoadingQuestions, startSavingQuestion } from '../store/forum/thunks';
 import { LoadingScreen } from './LoadingScreen';
@@ -27,7 +27,8 @@ export const ForumScreen = ({ navigation }: Props) => {
     const { preguntas, respuestas, isSaving } = useAppSelector(state => state.forum);
     const { changeBarVisibility } = useUiStore();
     const { titulo, descripcion, onChange } = useForm(initialState);
-    
+    const { getNewColor } = useRandomColor();
+
     const preguntasSorted = [...preguntas].sort((a, b) => {
         return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
     })
@@ -92,7 +93,7 @@ export const ForumScreen = ({ navigation }: Props) => {
                                 <QuestionCard 
                                     key={ index }
                                     id={ pregunta.id }
-                                    iconColor='#D8336A' 
+                                    iconColor={ getNewColor() } 
                                     title={ pregunta.titulo }
                                     numberOfAnswers={ (respuestas.filter( res => res.id_pregunta === pregunta.id )).length }
                                     dateOrTime={ format(pregunta.fecha, 'dd/MM/yyyy') }

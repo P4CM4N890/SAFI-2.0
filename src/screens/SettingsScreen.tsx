@@ -47,7 +47,7 @@ export const SettingsScreen = ({ navigation }: Props) => {
                     
                     <SettingsOption 
                         icon='help-circle-outline' 
-                        option='Foro de preguntas' 
+                        option='Foro de Preguntas' 
                         onPress={ () => navigation.navigate('ForumStackNavigator') } 
                         extraClass='border-0'
                     />
