@@ -40,6 +40,7 @@ export const startSavingQuestion = ({ pregunta, descripcion }: { pregunta: strin
             id_usuario: uuid || 0,
             fecha: new Date().toISOString(),
             likes: 0,
+            id_usuario_liked: [],
         }
 
         try{
@@ -85,6 +86,7 @@ export const startSavingAnswer = (descripcion: string, id_pregunta: string) => {
             id_usuario: uuid || 0,
             fecha: new Date().toISOString(),
             likes: 0,
+            id_usuario_liked: [],
         }
 
         try{

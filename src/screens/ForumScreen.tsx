@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import { useEffect, useMemo, useState } from 'react';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import Modal from 'react-native-modal';
@@ -86,6 +85,17 @@ export const ForumScreen = ({ navigation }: Props) => {
                     Foro de Preguntas
                 </Text>
 
+                <TouchableOpacity
+                    onPress={ () => navigation.navigate('YourQuestionsScreen') }
+                >
+                    <Text 
+                        className='mt-5 text-m font-semibold underline text-gray-800 
+                        uppercase text-center'
+                    >
+                        Ver tus preguntas publicadas
+                    </Text>
+                </TouchableOpacity>
+
                 <View className='mt-8 w-full'>
                     {
                         preguntasSorted.map((pregunta, index) => {
@@ -149,6 +159,5 @@ export const ForumScreen = ({ navigation }: Props) => {
                 <RankingButton />
             </View>
         </View>
-        
     );
 }

@@ -79,6 +79,7 @@ export interface PreguntaCreate {
     fecha: string
     categoria: string
     likes: number
+    id_usuario_liked: number[]
 }
 
 export interface RespuestaCreate {
@@ -87,6 +88,7 @@ export interface RespuestaCreate {
     cuerpo: string
     fecha: string
     likes: number
+    id_usuario_liked: number[]
 }
 
 export interface MetaFijadaCreate {
@@ -188,6 +190,7 @@ export interface PreguntaResponse {
     fecha: string
     categoria: string
     likes: number
+    id_usuario_liked: number[]
 }
 
 export interface RespuestaResponse {
@@ -197,6 +200,7 @@ export interface RespuestaResponse {
     cuerpo: string
     fecha: string
     likes: number
+    id_usuario_liked: number[]
 }
 
 export interface MetaFijadaResponse {
@@ -281,11 +285,13 @@ export interface PreguntaEdit {
     titulo?: string
     descripcion?: string
     likes?: string
+    id_usuario_liked?: number[]
 }
 
 export interface RespuestaEdit {
     cuerpo?: string
     likes?: string
+    id_usuario_liked?: number[]
 }
 
 export interface MetaFijadaEdit {

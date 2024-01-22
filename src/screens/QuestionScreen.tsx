@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { format } from 'date-fns';
 import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -12,6 +12,7 @@ import { PreguntaResponse } from '../interfaces/ApiInterfaces';
 import { startLoadingUsers } from '../store/other/thunks';
 import { useForm } from '../hooks';
 import { startSavingAnswer } from '../store/forum/thunks';
+import { LoadingScreen } from './LoadingScreen';
 
 interface Props extends StackScreenProps<ForumStackParams, 'QuestionScreen'>{};
 
@@ -23,10 +24,11 @@ export const QuestionScreen = ({ navigation, route }: Props) => {
     const { questionId } = route.params;
 
     const dispatch = useAppDispatch();
-    const { preguntas, respuestas } = useAppSelector( state => state.forum );
+    const { preguntas, respuestas, isSaving } = useAppSelector( state => state.forum );
     const { users } = useAppSelector( state => state.other );
     const { nombre, uuid } = useAppSelector( state => state.auth );
     const { cuerpo, onChange } = useForm(initialState);
+    const saving = useMemo( () => isSaving, [isSaving] );
 
     const preguntaActual = preguntas.find((pregunta) => pregunta.id === questionId) as PreguntaResponse;
     const respuestasPreguntaActual = respuestas.filter((respuesta) => respuesta.id_pregunta === questionId);
@@ -52,6 +54,8 @@ export const QuestionScreen = ({ navigation, route }: Props) => {
     useEffect(() => {
         dispatch( startLoadingUsers() );
     }, []);
+
+    if (saving) return <LoadingScreen />
 
     return (
         <ScrollView
