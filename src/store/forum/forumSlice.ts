@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { PreguntaResponse, 
-    RespuestaResponse } from '../../interfaces/ApiInterfaces';
+import { PreguntaResponse, RespuestaResponse } from '../../interfaces/ApiInterfaces';
 
 interface InitialStateInterface {
     preguntas: PreguntaResponse[];

@@ -18,7 +18,8 @@ const initialState = {
 }
 
 export const SignUpScreen = ({ navigation }: Props) => {
-    const { nombre, correo, fecha_de_nac, contrasena, confirmar_contrasena, onChange } = useForm( initialState ); 
+    const { nombre, correo, fecha_de_nac, contrasena, 
+        confirmar_contrasena, onChange } = useForm( initialState ); 
 
     const onSignUp = async () => {
         console.log(fecha_de_nac);
@@ -61,7 +62,6 @@ export const SignUpScreen = ({ navigation }: Props) => {
                     <DatePickerLabel 
                         label='Fecha de nacimiento' 
                         extraClass='mt-6'
-                        value={ fecha_de_nac }
                         onChange={ (value) => onChange(value, 'fecha_de_nac') }
                     />
                     <InputLabel 
