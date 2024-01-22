@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { PreguntaResponse } from '../interfaces/ApiInterfaces';
 import { startLoadingUsers } from '../store/other/thunks';
 import { useForm } from '../hooks';
-import { startSavingAnswer } from '../store/forum/thunks';
+import { startAddingLikeToQuestion, startSavingAnswer } from '../store/forum/thunks';
 import { LoadingScreen } from './LoadingScreen';
 
 interface Props extends StackScreenProps<ForumStackParams, 'QuestionScreen'>{};
@@ -29,10 +29,12 @@ export const QuestionScreen = ({ navigation, route }: Props) => {
     const { nombre, uuid } = useAppSelector( state => state.auth );
     const { cuerpo, onChange } = useForm(initialState);
     const saving = useMemo( () => isSaving, [isSaving] );
-
+    
     const preguntaActual = preguntas.find((pregunta) => pregunta.id === questionId) as PreguntaResponse;
     const respuestasPreguntaActual = respuestas.filter((respuesta) => respuesta.id_pregunta === questionId);
-
+    
+    const liked = useMemo( () => preguntaActual.id_usuario_liked.includes(uuid || 0), [preguntaActual.id_usuario_liked]);
+    
     const respuestasOrdenadas = respuestasPreguntaActual.sort((a, b) => {
         if(a.id_usuario === uuid && b.id_usuario !== uuid){
             return -1;
@@ -49,6 +51,10 @@ export const QuestionScreen = ({ navigation, route }: Props) => {
         dispatch( startSavingAnswer(cuerpo, preguntaActual.id) );
 
         onChange('', 'cuerpo');
+    };
+
+    const onLikeQuestion = () => {
+        dispatch( startAddingLikeToQuestion(questionId) );
     };
 
     useEffect(() => {
@@ -83,6 +89,22 @@ export const QuestionScreen = ({ navigation, route }: Props) => {
                         >
                             { format(preguntaActual.fecha, 'dd/MM/yyyy hh:mm aaa') }
                         </Text>
+                    </View>
+                    <View className='flex-row justify-between my-2'>
+                        <Text 
+                            className='text-sm text-black font-bold'
+                        >
+                            { preguntaActual.likes } Me Gusta
+                        </Text>
+                        <TouchableOpacity 
+                            className={`${liked ? 'bg-gray' : 'bg-like-blue'} 
+                            w-8 h-8 justify-center items-center rounded-full z-10`} 
+                            activeOpacity={ 0.8 }
+                            onPress={ onLikeQuestion }
+                            disabled={ liked }
+                        >
+                            <Icon name={ liked ? 'heart' : 'heart-outline'} size={ 15 } color='#FFF'/>
+                        </TouchableOpacity>
                     </View>
                 </View>
 

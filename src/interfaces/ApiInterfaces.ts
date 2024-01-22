@@ -284,13 +284,13 @@ export interface RecordatorioDePagoEdit {
 export interface PreguntaEdit {
     titulo?: string
     descripcion?: string
-    likes?: string
+    likes?: number
     id_usuario_liked?: number[]
 }
 
 export interface RespuestaEdit {
     cuerpo?: string
-    likes?: string
+    likes?: number
     id_usuario_liked?: number[]
 }
 

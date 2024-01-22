@@ -1,9 +1,9 @@
-import { crearPregunta, crearRespuesta, eliminarPregunta, 
+import { actualizarPregunta, crearPregunta, crearRespuesta, eliminarPregunta, 
     eliminarRespuesta, obtenerPreguntas, obtenerRespuestas } from "../../api";
-import { PreguntaCreate, PreguntaResponse, 
+import { PreguntaCreate, PreguntaEdit, PreguntaResponse, 
     RespuestaCreate, RespuestaResponse } from "../../interfaces/ApiInterfaces";
 import { AppDispatch, RootState } from "../store";
-import { createAnswer, createQuestion, deleteAnswer, 
+import { addLikeToQuestion, createAnswer, createQuestion, deleteAnswer, 
     deleteQuestion, loadQuestions, savingData } from "./forumSlice";
 
 export const startLoadingQuestions = () => {
@@ -113,6 +113,30 @@ export const startDeletingAnswer = (id: string) => {
             await eliminarRespuesta(id);
             
             dispatch( deleteAnswer(id) );
+        }
+        catch(error){
+            console.error(error);
+        }
+    };
+};
+
+export const startAddingLikeToQuestion = (id: string) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
+        dispatch( savingData() );
+
+        const { uuid } = getState().auth;
+        const { preguntas } = getState().forum;
+        const indexPreguntaActual = preguntas.findIndex((preg) => preg.id === id); 
+        
+        let newPregunta: PreguntaEdit = {
+            likes: preguntas[indexPreguntaActual].likes + 1,
+            id_usuario_liked: [...preguntas[indexPreguntaActual].id_usuario_liked, uuid as number],
+        }
+
+        try{
+            await actualizarPregunta(id, newPregunta);
+            
+            dispatch( addLikeToQuestion({ targetIndex: indexPreguntaActual, userId: uuid as number }) );
         }
         catch(error){
             console.error(error);

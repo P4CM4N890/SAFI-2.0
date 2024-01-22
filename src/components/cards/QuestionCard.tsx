@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { startDeletingQuestion } from '../../store/forum/thunks';
 import { LoadingScreen } from '../../screens/LoadingScreen';
+import { format } from 'date-fns';
 
 interface Props {
     id: string;
@@ -14,17 +15,18 @@ interface Props {
     numberOfAnswers: number;
     dateOrTime: string;
     iconColor: string;
+    likes: number;
     extraClass?: string;
     allowDelete?: boolean
 }
 
-export const QuestionCard = ({ id, iconColor, title, numberOfAnswers, 
+export const QuestionCard = ({ id, iconColor, title, likes, numberOfAnswers, 
     dateOrTime, extraClass, allowDelete }: Props) => {
     
     const dispatch = useAppDispatch();
     const { isSaving } = useAppSelector(state => state.forum);
     const navigation = useNavigation<any>();
-
+    
     const newTitle = useMemo( () => {
         return title.length > 25 
         ? 
@@ -62,8 +64,12 @@ export const QuestionCard = ({ id, iconColor, title, numberOfAnswers,
                     </Text>
                     
                     <View className='flex-row w-5/6 justify-between'>
-                        <Text className='text-right text-sm'>{ numberOfAnswers } respuestas</Text>
-                        <Text className='text-right text-sm'>{ dateOrTime }</Text>
+                        <Text className='text-right text-sm'>{ likes } Me Gusta</Text>
+                        <Text className='text-right text-sm'>{ numberOfAnswers } { numberOfAnswers === 1 ? 'Respuesta' : 'Respuestas'}</Text>
+                    </View>
+                    
+                    <View className='flex-row w-5/6 justify-between'>
+                        <Text className='text-right text-sm'>{ format(dateOrTime, 'dd/MM/yyyy hh:mm aaa') }</Text>
                     </View>
                 </View>
             </TouchableOpacity>

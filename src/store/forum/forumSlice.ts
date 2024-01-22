@@ -15,6 +15,11 @@ interface InitialLoad {
     respuestas: RespuestaResponse[],
 }
 
+interface AddLike {
+    targetIndex: number;
+    userId: number;
+}
+
 const initialState: InitialStateInterface = {
     preguntas: [],
     respuestas: [],
@@ -50,9 +55,20 @@ export const forumSlice = createSlice({
             state.isSaving = false;
             state.respuestas = state.respuestas.filter( resp => resp.id !== payload );
         },
+        addLikeToQuestion(state, { payload }: PayloadAction<AddLike>){
+            state.isSaving = false;
+            state.preguntas[payload.targetIndex].likes += 1;
+            state.preguntas[payload.targetIndex].id_usuario_liked.push(payload.userId);
+        },
+        addLikeToAnswer(state, { payload }: PayloadAction<AddLike>){
+            state.isSaving = false;
+            state.respuestas[payload.targetIndex].likes += 1;
+            state.respuestas[payload.targetIndex].id_usuario_liked.push(payload.userId);
+        },
     },
 });
 
 export const { loadQuestions, savingData, 
-    createQuestion, createAnswer, deleteAnswer, deleteQuestion } = forumSlice.actions;
+    createQuestion, createAnswer, deleteAnswer, 
+    deleteQuestion, addLikeToQuestion, addLikeToAnswer } = forumSlice.actions;
 

@@ -4,9 +4,8 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { format } from 'date-fns';
 
 import { BackButton, QuestionCard } from '../components';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppSelector } from '../store/hooks';
 import { LoadingScreen } from './LoadingScreen';
-import { startDeletingQuestion } from '../store/forum/thunks';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -43,20 +42,41 @@ export const YourQuestionsScreen = ({ navigation }: Props) => {
 
                 <View className='mt-8 w-full'>
                     {
-                        preguntasFiltradas.map((pregunta, index) => {
-                            return (
-                                <QuestionCard 
-                                    key={ index }
-                                    id={ pregunta.id }
-                                    iconColor={ '#D83333' } 
-                                    title={ pregunta.titulo }
-                                    numberOfAnswers={ (respuestas.filter( res => res.id_pregunta === pregunta.id )).length }
-                                    dateOrTime={ format(pregunta.fecha, 'dd/MM/yyyy') }
-                                    extraClass='mt-2'
-                                    allowDelete={ true }
-                                />
-                            )
-                        })
+                        preguntasFiltradas.length !== 0 ?
+
+                            preguntasFiltradas.map((pregunta, index) => {
+                                return (
+                                    <QuestionCard 
+                                        key={ index }
+                                        id={ pregunta.id }
+                                        iconColor={ '#D83333' } 
+                                        title={ pregunta.titulo }
+                                        likes={ pregunta.likes }
+                                        numberOfAnswers={ (respuestas.filter( res => res.id_pregunta === pregunta.id )).length }
+                                        dateOrTime={ pregunta.fecha }
+                                        extraClass='mt-2'
+                                        allowDelete={ true }
+                                    />
+                                )
+                            })
+                        :
+                            <View
+                                className='mt-48 w-full'
+                            >
+                                <Text
+                                    className='text-xl font-bold text-gray-800 uppercase 
+                                    tracking-wider text-center'
+                                >
+                                    No has hecho ninguna pregunta.
+                                </Text>
+                                
+                                <Text
+                                    className='text-l font-semibold text-gray-800 uppercase 
+                                    tracking-wide text-center mt-10'
+                                >
+                                    Te invitamos a crear alguna en la pantalla anterior.
+                                </Text>
+                            </View>
                     } 
                 </View>
             </ScrollView>

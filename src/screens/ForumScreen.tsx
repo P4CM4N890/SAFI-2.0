@@ -6,7 +6,6 @@ import Modal from 'react-native-modal';
 
 import { AddQuestionButton, RankingButton, QuestionCard,
 InputLabel, Button, BackButton } from '../components';
-import { format } from 'date-fns';
 import { useForm, useRandomColor, useUiStore } from '../hooks';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startLoadingQuestions, startSavingQuestion } from '../store/forum/thunks';
@@ -106,7 +105,8 @@ export const ForumScreen = ({ navigation }: Props) => {
                                     iconColor={ getNewColor() } 
                                     title={ pregunta.titulo }
                                     numberOfAnswers={ (respuestas.filter( res => res.id_pregunta === pregunta.id )).length }
-                                    dateOrTime={ format(pregunta.fecha, 'dd/MM/yyyy') }
+                                    likes={ pregunta.likes }
+                                    dateOrTime={ pregunta.fecha }
                                     extraClass='mt-2'
                                 />
                             )
