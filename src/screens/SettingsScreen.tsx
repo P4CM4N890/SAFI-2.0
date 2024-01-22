@@ -4,7 +4,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { UserImageButton, SettingsOption, SettingsToggleOption } from '../components';
-import { useAppDispatch } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startLogout } from '../store/auth/thunks';
 import { useUiStore } from '../hooks';
 
@@ -15,6 +15,7 @@ export const SettingsScreen = ({ navigation }: Props) => {
     const dispatch = useAppDispatch();
     const isFocused = useIsFocused();
     const { changeActiveComponent } = useUiStore();
+    const { nombre } = useAppSelector( state => state.auth );
 
     useEffect(() => {
         if(isFocused) changeActiveComponent('SettingsStackNavigator');
@@ -28,14 +29,18 @@ export const SettingsScreen = ({ navigation }: Props) => {
         <ScrollView showsVerticalScrollIndicator={ false }>
             <View className='w-full h-full items-center p-5'>
                 <UserImageButton size={ 160 } />
-                <Text className='text-black text-2xl text-center font-bold uppercase'>Francisco O.</Text>
+                <Text 
+                    className='text-black text-2xl text-center font-bold uppercase'
+                >
+                    { nombre }
+                </Text>
             
                 <SettingsOption icon='person-outline' option='Mi Perfil' extraClass='mt-8'/>
                 
-                <View className='w-full mt-5 rounded-xl border-slate-200 border-2'>
+                {/* <View className='w-full mt-5 rounded-xl border-slate-200 border-2'>
                     <SettingsToggleOption icon='notifications-outline' option='Notificaciones' extraClass='border-0'/>
                     <SettingsToggleOption icon='chatbox-ellipses-outline' option='Consejos' extraClass='border-0'/>
-                </View>
+                </View> */}
 
                 <View className='w-full mt-5 rounded-xl border-slate-200 border-2'>
                     <SettingsOption 

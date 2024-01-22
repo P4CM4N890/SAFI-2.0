@@ -33,7 +33,7 @@ export const QuestionScreen = ({ navigation, route }: Props) => {
     const preguntaActual = preguntas.find((pregunta) => pregunta.id === questionId) as PreguntaResponse;
     const respuestasPreguntaActual = respuestas.filter((respuesta) => respuesta.id_pregunta === questionId);
     
-    const liked = useMemo( () => preguntaActual.id_usuario_liked.includes(uuid || 0), [preguntaActual.id_usuario_liked]);
+    const liked = useMemo( () => preguntaActual.id_usuario_liked.includes(uuid as number), [preguntaActual.id_usuario_liked]);
     
     const respuestasOrdenadas = respuestasPreguntaActual.sort((a, b) => {
         if(a.id_usuario === uuid && b.id_usuario !== uuid){

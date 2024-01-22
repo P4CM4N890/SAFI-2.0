@@ -1,9 +1,9 @@
-import { actualizarPregunta, crearPregunta, crearRespuesta, eliminarPregunta, 
+import { actualizarPregunta, actualizarRespuesta, crearPregunta, crearRespuesta, eliminarPregunta, 
     eliminarRespuesta, obtenerPreguntas, obtenerRespuestas } from "../../api";
 import { PreguntaCreate, PreguntaEdit, PreguntaResponse, 
-    RespuestaCreate, RespuestaResponse } from "../../interfaces/ApiInterfaces";
+    RespuestaCreate, RespuestaEdit, RespuestaResponse } from "../../interfaces/ApiInterfaces";
 import { AppDispatch, RootState } from "../store";
-import { addLikeToQuestion, createAnswer, createQuestion, deleteAnswer, 
+import { addLikeToAnswer, addLikeToQuestion, createAnswer, createQuestion, deleteAnswer, 
     deleteQuestion, loadQuestions, savingData } from "./forumSlice";
 
 export const startLoadingQuestions = () => {
@@ -137,6 +137,30 @@ export const startAddingLikeToQuestion = (id: string) => {
             await actualizarPregunta(id, newPregunta);
             
             dispatch( addLikeToQuestion({ targetIndex: indexPreguntaActual, userId: uuid as number }) );
+        }
+        catch(error){
+            console.error(error);
+        }
+    };
+};
+
+export const startAddingLikeToAnswer = (id: string) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
+        dispatch( savingData() );
+        
+        const { uuid } = getState().auth;
+        const { respuestas } = getState().forum;
+        const indexRespuestaActual = respuestas.findIndex((res) => res.id === id);
+
+        let newRespuesta: RespuestaEdit = {
+            likes: respuestas[indexRespuestaActual].likes + 1,
+            id_usuario_liked: [...respuestas[indexRespuestaActual].id_usuario_liked, uuid as number],
+        }
+
+        try{
+            await actualizarRespuesta(id, newRespuesta);
+            
+            dispatch( addLikeToAnswer({ targetIndex: indexRespuestaActual, userId: uuid as number }) );
         }
         catch(error){
             console.error(error);
