@@ -21,6 +21,7 @@ module.exports = {
         'red': '#D8336A',
         'white': '#FCFCFC',
         'yellow': '#FFE500',
+        'like-blue': '#2466d1',
       }
     },
   },

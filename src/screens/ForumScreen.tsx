@@ -1,31 +1,35 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 
 import Modal from 'react-native-modal';
 
-import { AddQuestionButton } from '../components/buttons/AddQuestionButton';
-import { RankingButton } from '../components/buttons/RankingButton';
-import { HomeButton } from '../components/buttons/HomeButton';
-import { ProfileButton } from '../components/buttons/ProfileButton';
-import { QuestionCard } from '../components/cards/QuestionCard';
-import { InputLabel } from '../components/inputs/InputLabel';
-import { Button } from '../components/buttons/Button';
+import { AddQuestionButton, RankingButton, QuestionCard,
+InputLabel, Button, BackButton } from '../components';
+import { useForm, useRandomColor, useUiStore } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { startLoadingQuestions, startSavingQuestion } from '../store/forum/thunks';
+import { LoadingScreen } from './LoadingScreen';
 
-// import { ActiveComponentContext } from '../context/ActiveComponentContext';
+interface Props extends StackScreenProps<any, any> {};
 
-export const ForumScreen = () => {
+const initialState = {
+    titulo: '',
+    descripcion: '',
+}
 
+export const ForumScreen = ({ navigation }: Props) => {
     const [ modalVisible, setModalVisible ] = useState(false);
 
-    // const { changeTabBarVisibility } = useContext(ActiveComponentContext);
+    const dispatch = useAppDispatch();
+    const { preguntas, respuestas, isSaving } = useAppSelector(state => state.forum);
+    const { changeBarVisibility } = useUiStore();
+    const { titulo, descripcion, onChange } = useForm(initialState);
+    const { getNewColor } = useRandomColor();
 
-    // useEffect(() => {
-    //     changeTabBarVisibility(false);
-
-    //     return () => {
-    //         changeTabBarVisibility(true);
-    //       };
-    // }, []);
+    const preguntasSorted = [...preguntas].sort((a, b) => {
+        return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
+    })
 
     const openModal = () => {
       setModalVisible(true);
@@ -35,33 +39,79 @@ export const ForumScreen = () => {
       setModalVisible(false);
     };
 
+    const saving = useMemo( () => isSaving, [isSaving] );
+
+    const onCreatePregunta = async () => {
+        setModalVisible(false);
+        onChange('', 'titulo');
+        onChange('', 'descripcion');
+
+        dispatch( startSavingQuestion({ pregunta: titulo, descripcion }) );
+    };
+
+    useEffect(() => {
+        changeBarVisibility(false);
+
+        return () => {
+            changeBarVisibility(true);
+        };
+    }, []);
+
+    // Al usar el useEffect, unicamente se dispara la primera vez que el componente se monta.
+    // Las nuevas preguntas las toma directamente del estado.
+    useEffect(() => {
+        dispatch( startLoadingQuestions() );
+    },[]);
+
+    if (saving) return <LoadingScreen />
+
     return (
         <View className='w-full h-full items-center p-5'>
+            <View className='w-full items-center right-5'>    
+                <BackButton 
+                    iconColor='#fff' 
+                    iconSize={ 30 } 
+                    extraClass='bg-primary'
+                    onPress={ () => navigation.goBack() }
+                />
+            </View>
+
             <ScrollView 
                 showsVerticalScrollIndicator={ false }
-                className='w-full'
+                className='w-full h-64'
             >
                 <Text className='mt-20 text-xl font-bold text-black uppercase tracking-widest text-center'>
                     Foro de Preguntas
                 </Text>
 
-                <View className='mt-8 w-full'>
-                    <QuestionCard 
-                        id={ 1 }
-                        iconColor='#D8336A' 
-                        title='¿Cómo usar la app?' 
-                        numberOfAnswers={ 2 }
-                        dateOrTime='12:00 p.m.'
-                        extraClass='mt-2'
-                    />
-                    <QuestionCard 
-                        id={ 2 }
-                        iconColor='#75E2F8' 
-                        title='¿Cómo invertir mis ahorros?' 
-                        numberOfAnswers={ 100 }
-                        dateOrTime='12/11/2023'
-                    />
+                <TouchableOpacity
+                    onPress={ () => navigation.navigate('YourQuestionsScreen') }
+                >
+                    <Text 
+                        className='mt-5 text-m font-semibold underline text-gray-800 
+                        uppercase text-center'
+                    >
+                        Ver tus preguntas publicadas
+                    </Text>
+                </TouchableOpacity>
 
+                <View className='mt-8 w-full'>
+                    {
+                        preguntasSorted.map((pregunta, index) => {
+                            return (
+                                <QuestionCard 
+                                    key={ index }
+                                    id={ pregunta.id }
+                                    iconColor={ getNewColor() } 
+                                    title={ pregunta.titulo }
+                                    numberOfAnswers={ (respuestas.filter( res => res.id_pregunta === pregunta.id )).length }
+                                    likes={ pregunta.likes }
+                                    dateOrTime={ pregunta.fecha }
+                                    extraClass='mt-2'
+                                />
+                            )
+                        })
+                    } 
                 </View>
 
                 <Modal 
@@ -75,18 +125,22 @@ export const ForumScreen = () => {
                             type='text'
                             label='Título'
                             extraClass='mt-7'
+                            value={ titulo }
+                            onChange={ (value) => onChange(value, 'titulo') }
                         />
 
                         <InputLabel 
                             type='text'
                             label='Descripción'
                             extraClass='mt-5'
+                            value={ descripcion }
+                            onChange={ (value) => onChange(value, 'descripcion') }
                         />
 
                         <View className='w-5/6 mt-16 flex-row justify-between'>
                             <Button 
                                 label='Publicar' 
-                                onPress={ () => {} }
+                                onPress={ onCreatePregunta }
                             />
                             <Button 
                                 label='Cancelar' 
@@ -100,10 +154,10 @@ export const ForumScreen = () => {
 
             </ScrollView>
 
-            <ProfileButton />
-            <HomeButton />
-            <RankingButton />
-            <AddQuestionButton onPress={ openModal }/>
+            <View className='w-full items-center flex-row top-6'>    
+                <AddQuestionButton onPress={ openModal }/>
+                <RankingButton />
+            </View>
         </View>
     );
 }

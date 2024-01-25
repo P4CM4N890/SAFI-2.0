@@ -3,20 +3,10 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { Provider } from 'react-redux';
 
 import { AuthStackNavigator } from './src/navigation/AuthStackNavigator';
-import { AuthProvider } from './src/context/AuthContext';
-import { ActiveComponentProvider } from './src/context/ActiveComponentContext';
-
-const AppState = ({ children }: any) => {
-    return (
-        <AuthProvider>
-            <ActiveComponentProvider>
-                { children }
-            </ActiveComponentProvider>
-        </AuthProvider>
-    )
-};
+import { store } from './src/store';
 
 const theme = {
     ...DefaultTheme,
@@ -34,9 +24,9 @@ const App = () => {
                 hidden
             />
             <NavigationContainer theme={ theme }>
-                <AppState>
+                <Provider store={ store }>
                     <AuthStackNavigator />
-                </AppState>
+                </Provider>
             </NavigationContainer>
         </SafeAreaView>
     );

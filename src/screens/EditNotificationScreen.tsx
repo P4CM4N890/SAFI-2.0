@@ -1,16 +1,13 @@
-import { useState }from 'react';
+import { useEffect, useState }from 'react';
 import { View, ScrollView, Text, TouchableOpacity, LogBox } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
+
 import PushNotification from 'react-native-push-notification';
 import ToggleSwitch from 'toggle-switch-react-native';
 
-import { useForm } from '../hooks/useForm';
-
-import { Button } from '../components/buttons/Button';
-import { InputLabel } from '../components/inputs/InputLabel';
+import { Button, InputLabel, DatetimePickerLabel, MessageModal } from '../components';
 import { NotificationsStackParams } from '../navigation/NotificationsStackNavigator';
-import { DatetimePickerLabel } from '../components/pickers/DatetimePickerLabel';
-import { MessageModal } from '../components/modals/MessageModal';
+import { useUiStore, useForm } from '../hooks';
 
 interface Props extends StackScreenProps<NotificationsStackParams, 'EditNotificationScreen'>{};
 
@@ -68,6 +65,16 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
         PushNotification.cancelLocalNotification(id);
         navigation.goBack();
     };
+
+    const { changeBarVisibility } = useUiStore();
+
+    useEffect(() => {
+        changeBarVisibility(false);
+
+        return () => {
+            changeBarVisibility(true);
+        };
+    }, []);
 
     return (
         <ScrollView>

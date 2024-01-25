@@ -1,19 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { InputLabel } from '../components/inputs/InputLabel';
-import { Button } from '../components/buttons/Button';
-import { DatePickerLabel } from '../components/pickers/DatePickerLabel';
-import { CustomSwitch } from '../components/buttons/CustomSwitch';
-import { CategoryModal } from '../components/modals/CategoryModal';
-import { ColorModal } from '../components/modals/ColorModal';
-import { PriorityModal } from '../components/modals/PriorityModal';
+import { InputLabel, Button, DatePickerLabel, CustomSwitch, CategoryModal,
+ColorModal, PriorityModal } from '../components';
 
 import { categoryIcon, iconColor, priority, priorityColor } from '../types/appTypes';
-import { ActiveComponentContext } from '../context/ActiveComponentContext';
+import { useUiStore } from '../hooks';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -29,14 +24,10 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     const [ selectedPriority, setSelectedPriority ] = useState<priority>('Baja');
     const [ selectedPriorityColor, setSelectedPriorityColor ] = useState<priorityColor>('#60D833');
 
-    const { changeTabBarVisibility } = useContext(ActiveComponentContext);
+    const { changeBarVisibility } = useUiStore();
 
     useEffect(() => {
-        changeTabBarVisibility(false);
-
-        return () => {
-            changeTabBarVisibility(true);
-          };
+        changeBarVisibility(false);
     }, []);
 
     const openCategoryModal = () => {

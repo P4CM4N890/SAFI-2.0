@@ -9,7 +9,7 @@ export const HomeButton = () => {
     const navigation = useNavigation<any>();
 
     return (
-        <View className='items-center absolute top-5 right-4'>
+        <View className='items-center fixed right-4'>
             <TouchableOpacity 
                 className='bg-white z-10' 
                 activeOpacity={ 0.8 }
