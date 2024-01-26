@@ -1,6 +1,6 @@
 import React, { useState }  from 'react'
 import { TouchableOpacity, Text } from 'react-native';
-import { add, sub } from 'date-fns';
+import { add, format, sub } from 'date-fns';
 
 import DatePicker from 'react-native-date-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -52,8 +52,8 @@ export const DatePickerLabel = ({ label, extraClass,
                 onConfirm={(date) => {
                     setOpen(false);
                     setDate(date);
-                    setFormattedDate(date.toLocaleDateString('es-MX'));
-                    onChange((sub(date, { days: 1 })).toISOString().split('T')[0]);
+                    setFormattedDate(format(date, "dd'/'MM'/'yyyy"));
+                    onChange(date.toISOString());
                 }}
                 onCancel={() => {
                     setOpen(false);

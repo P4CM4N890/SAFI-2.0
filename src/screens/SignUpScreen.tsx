@@ -1,16 +1,18 @@
 import { useState } from 'react';
-import { View, KeyboardAvoidingView, Text, ScrollView, Image, ImageSourcePropType, Touchable, TouchableOpacity } from 'react-native';
+import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { WaveTop, WaveBottom } from '../assets';
 import { Button, InputLabel, BackButton, 
     TransparentButton, DatePickerLabel, ImageModal, FotoPerfil } from '../components';
 import { useForm } from '../hooks';
-import { useAppDispatch } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startSignUp } from '../store/auth/thunks';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import { getImageSource } from '../utils/getImageSource';
+import { isValidEmail } from '../utils';
+import { ErrorMessage } from '../components/other/ErrorMessage';
 
 
 interface Props extends StackScreenProps<any, any> {};
@@ -25,6 +27,9 @@ const initialState = {
 
 export const SignUpScreen = ({ navigation }: Props) => {
     const dispatch = useAppDispatch();
+    const { errorMessage } = useAppSelector( state => state.auth );
+
+    const [ error, setError ] = useState("");
 
     const [ imageModalVisible, setImageModalVisible ] = useState(false);
     const [ selectedImage, setSelectedImage ] = useState("");
@@ -34,16 +39,43 @@ export const SignUpScreen = ({ navigation }: Props) => {
     } = useForm( initialState );
 
     const onSignUp = async () => {
-        console.log("Signup");
-        // dispatch( startSignUp( {
-        //     correo,
-        //     contrasena,
-        //     fecha_de_nac,
-        //     nombre,
-        //     experiencia: 0,
-        //     high_score: 0,
-        //     ruta_imagen: '',
-        // } ) );
+        if (!nombre || !contrasena || !fecha_de_nac || !correo) { 
+            setError("Debes rellenar todos los campos.");
+            return;
+        }
+        else if(nombre.length <= 2){
+            setError("El nombre debe ser mayor a dos caracteres.");
+            return;
+        }
+        else if (!isValidEmail(correo)) {
+            setError("El correo es invalido.");
+            return;
+        }
+        else if(contrasena.length <= 2){
+            setError("La contraseña debe ser mayor a dos caracteres.");
+            return;
+        }
+        else if(contrasena !== confirmar_contrasena){
+            setError("Las contraseñas no coinciden.");
+            return;
+        }
+        
+        dispatch( startSignUp( {
+            correo,
+            contrasena,
+            nombre,
+            fecha_de_nac: fecha_de_nac.split('T')[0],
+            experiencia: 0,
+            high_score: 0,
+            ruta_imagen: selectedImage,
+        } ) );
+
+        if(errorMessage){
+            setError(errorMessage);
+            return;
+        }
+
+        navigation.navigate("LoginScreen");
     };
 
     const openImageModal = () => {
@@ -52,6 +84,10 @@ export const SignUpScreen = ({ navigation }: Props) => {
     
     const closeImageModal = () => {
         setImageModalVisible(false);
+    };
+
+    const isErrorOfField = (field: string) => {
+        return error.includes(field);
     };
 
     const selectProfilePicture = (imageRoute: string) => {
@@ -112,6 +148,12 @@ export const SignUpScreen = ({ navigation }: Props) => {
                         value={ nombre }
                         onChange={ (value) => onChange(value, 'nombre') }
                     />
+
+                    <ErrorMessage 
+                        message={ error }
+                        showMessage={ !!error && isErrorOfField('nombre')}
+                    />
+
                     <InputLabel 
                         label='Correo electrónico' 
                         placeholder='ejemplo@dominio.com' 
@@ -120,11 +162,19 @@ export const SignUpScreen = ({ navigation }: Props) => {
                         value={ correo }
                         onChange={ (value) => onChange(value, 'correo') }
                     />
+
+                    <ErrorMessage 
+                        message={ error }
+                        showMessage={ !!error && isErrorOfField('correo')}
+                    />
+
                     <DatePickerLabel 
                         label='Fecha de nacimiento' 
                         extraClass='mt-6'
                         onChange={ (value) => onChange(value, 'fecha_de_nac') }
+                        maximumDate={ new Date() }
                     />
+
                     <InputLabel 
                         label='Contraseña' 
                         placeholder='****' 
@@ -134,6 +184,12 @@ export const SignUpScreen = ({ navigation }: Props) => {
                         value={ contrasena }
                         onChange={ (value) => onChange(value, 'contrasena') }
                     />
+
+                    <ErrorMessage 
+                        message={ error }
+                        showMessage={ !!error && isErrorOfField('contraseña')}
+                    />
+
                     <InputLabel 
                         label='Confirmar contraseña' 
                         placeholder='****' 
@@ -142,6 +198,16 @@ export const SignUpScreen = ({ navigation }: Props) => {
                         extraClass='mt-6'
                         value={ confirmar_contrasena }
                         onChange={ (value) => onChange(value, 'confirmar_contrasena') }
+                    />
+
+                    <ErrorMessage 
+                        message={ error }
+                        showMessage={ !!error && isErrorOfField('coinciden')}
+                    />
+                    
+                    <ErrorMessage 
+                        message={ error }
+                        showMessage={ !!error && isErrorOfField('campos')}
                     />
 
                     <Button 

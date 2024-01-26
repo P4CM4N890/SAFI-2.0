@@ -1,6 +1,8 @@
 import { TouchableOpacity, View } from 'react-native';
-import { FotoPerfil } from '..';
+
 import Modal from 'react-native-modal';
+
+import { FotoPerfil } from '..';
 import { getImageSource } from '../../utils/getImageSource';
 
 interface Props {

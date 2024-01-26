@@ -67,10 +67,15 @@ export const authSlice = createSlice({
             state.errorMessage = payload.message;
         },
 
+        signUp(state){
+            state.status = 'not-authenticated';
+            state.errorMessage = '';
+        },
+
         checkingCredentials(state){ 
             state.status = 'checking';
         },
     },
 });
 
-export const { loginR, logout, checkingCredentials } = authSlice.actions;
+export const { loginR, logout, checkingCredentials, signUp } = authSlice.actions;
