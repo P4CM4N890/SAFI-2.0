@@ -1,7 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { login } from "../../api";
+import { crearUsuario, login } from "../../api";
 import { AppDispatch } from "../store";
 import { checkingCredentials, loginR, logout } from "./authSlice";
+import { UsuarioCreate } from "../../interfaces/ApiInterfaces";
 
 export const startLogin = (correo: string, contrasena: string) => {
     return async (dispatch: AppDispatch) => {
@@ -25,6 +26,25 @@ export const startLogin = (correo: string, contrasena: string) => {
             }
         }
     }
+};
+
+export const startSignUp = (usuario: UsuarioCreate) => {
+    return async (dispatch: AppDispatch) => {
+        dispatch( checkingCredentials() );
+        
+        try{
+            let { data } = await crearUsuario(usuario);
+
+            console.log(data);
+
+            
+        }
+        catch(err){
+            let error = err as Error;
+
+            dispatch( logout({ message: error.message }) );
+        }
+    };
 };
 
 export const startLogout = () => {

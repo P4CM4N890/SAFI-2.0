@@ -1,11 +1,17 @@
-import { View, KeyboardAvoidingView, Text, ScrollView } from 'react-native';
+import { useState } from 'react';
+import { View, KeyboardAvoidingView, Text, ScrollView, Image, ImageSourcePropType, Touchable, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { WaveTop, WaveBottom } from '../assets';
-
 import { Button, InputLabel, BackButton, 
-    TransparentButton, DatePickerLabel } from '../components';
+    TransparentButton, DatePickerLabel, ImageModal, FotoPerfil } from '../components';
 import { useForm } from '../hooks';
+import { useAppDispatch } from '../store/hooks';
+import { startSignUp } from '../store/auth/thunks';
+
+import Icon from 'react-native-vector-icons/Ionicons';
+import { getImageSource } from '../utils/getImageSource';
+
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -18,12 +24,40 @@ const initialState = {
 }
 
 export const SignUpScreen = ({ navigation }: Props) => {
+    const dispatch = useAppDispatch();
+
+    const [ imageModalVisible, setImageModalVisible ] = useState(false);
+    const [ selectedImage, setSelectedImage ] = useState("");
+
     const { nombre, correo, fecha_de_nac, contrasena, 
-        confirmar_contrasena, onChange } = useForm( initialState ); 
+        confirmar_contrasena, onChange 
+    } = useForm( initialState );
 
     const onSignUp = async () => {
-        console.log(fecha_de_nac);
+        console.log("Signup");
+        // dispatch( startSignUp( {
+        //     correo,
+        //     contrasena,
+        //     fecha_de_nac,
+        //     nombre,
+        //     experiencia: 0,
+        //     high_score: 0,
+        //     ruta_imagen: '',
+        // } ) );
     };
+
+    const openImageModal = () => {
+        setImageModalVisible(true);
+    };
+    
+    const closeImageModal = () => {
+        setImageModalVisible(false);
+    };
+
+    const selectProfilePicture = (imageRoute: string) => {
+        setSelectedImage(imageRoute);
+        closeImageModal();
+    }
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>
@@ -41,13 +75,40 @@ export const SignUpScreen = ({ navigation }: Props) => {
                         onPress={ () => navigation.goBack() }
                     />
 
-                    <Text className='text-3xl font-bold text-primary uppercase tracking-tight mt-10'>Crear Cuenta</Text>
+                    <Text 
+                        className='text-3xl font-bold text-primary uppercase 
+                        tracking-tight mt-10'
+                    >
+                        Crear Cuenta
+                    </Text>
+
+                    <Text 
+                        className='mt-12 w-5/6 mb-1 font-semibold text-base text-primary'
+                    >
+                       Foto de Perfil
+                    </Text>
+
+
+                    <TouchableOpacity onPress={ openImageModal }>
+                        { selectedImage !== ""
+                            ?
+                                <FotoPerfil image={ getImageSource(selectedImage) } size={ 'small' } />
+                            :
+                                <View
+                                    className='w-full flex flex-row items-center bg-primary
+                                    rounded-full border-primary border-2 p-2'
+                                >
+                                    <Icon name={ 'person-outline' } size={ 32 } color='#fff'/>
+                                </View>
+
+                        }
+                    </TouchableOpacity>
 
                     <InputLabel 
                         label='Nombre de usuario'
                         placeholder='Tu nombre'
                         type='text'
-                        extraClass='mt-12'
+                        extraClass='mt-6'
                         value={ nombre }
                         onChange={ (value) => onChange(value, 'nombre') }
                     />
@@ -96,6 +157,11 @@ export const SignUpScreen = ({ navigation }: Props) => {
                         onPress={ () => navigation.navigate('LoginScreen') }
                     />
                 </View>
+
+                <ImageModal 
+                    isModalVisible={ imageModalVisible }
+                    selectImage={ selectProfilePicture }
+                />
 
                 <WaveBottom/>
             </ScrollView>
