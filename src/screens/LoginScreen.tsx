@@ -91,7 +91,7 @@ export const LoginScreen = ({ navigation }: Props) => {
 
                 <View style={{ display: !!errorMessage ? undefined : 'none' }} >
                     <Text className="text-l text-red font-bold pt-4">
-                        { errorMessage }
+                        { errorMessage === "El correo ya esta en uso" ? "" : errorMessage }
                     </Text>
                 </View>
 

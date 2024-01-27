@@ -9,6 +9,7 @@ import RNFS from 'react-native-fs';
 import { InputLabel, Button, DatetimePickerLabel, MessageModal} from '../components';
 import { useForm } from '../hooks/useForm';
 import { useUiStore } from '../hooks';
+import { useAppSelector } from '../store/hooks';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -22,6 +23,8 @@ export const AddNotificationScreen = ({ navigation }: Props) => {
     LogBox.ignoreLogs([
         'Non-serializable values were found in the navigation state',
     ]);
+
+    const { uuid } = useAppSelector( state => state.auth );
 
     const route = useRoute();
     const { notificaciones, setNotificaciones }: any = route.params;
@@ -56,7 +59,7 @@ export const AddNotificationScreen = ({ navigation }: Props) => {
             return;
         }
 
-        const path = RNFS.DocumentDirectoryPath + '/notificaciones.json';
+        const path = RNFS.DocumentDirectoryPath + `/notificaciones${uuid}.json`;
         const pathId = RNFS.DocumentDirectoryPath + '/lastId.json';
 
         const idContent = await RNFS.readFile(pathId, 'utf8');

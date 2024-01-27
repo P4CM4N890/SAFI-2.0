@@ -12,10 +12,13 @@ import { Notificacion, NotificationCardProps } from '../types/notificationTypes'
 import { BackButton, NotificationCard } from '../components';
 import { checkPermissions } from '../utils/notificationFunctions';
 import { useUiStore } from '../hooks';
+import { useAppSelector } from '../store/hooks';
 
 interface Props extends BottomTabScreenProps<any, any> {};
 
 export const NotificationsScreen = ({ navigation }: Props) => {
+    const { uuid } = useAppSelector( state => state.auth );
+
     const [ notificaciones, setNotificaciones ] = useState<Notificacion[]>([]);
     const [ inicial, setInicial ] = useState(true);
 
@@ -30,7 +33,7 @@ export const NotificationsScreen = ({ navigation }: Props) => {
     }, []);
 
     const toggleSwitch = (isEnabled: boolean, setIsEnabled: Function, notification: NotificationCardProps) => {
-        const path = RNFS.DocumentDirectoryPath + '/notificaciones.json';
+        const path = RNFS.DocumentDirectoryPath + `/notificaciones${uuid}.json`;
         
         if(isEnabled) {
             PushNotification.cancelLocalNotification(notification.id);
@@ -67,8 +70,8 @@ export const NotificationsScreen = ({ navigation }: Props) => {
     };
 
     const checkFiles = async () => {
-        const path = RNFS.DocumentDirectoryPath + '/notificaciones.json';
-        const pathId = RNFS.DocumentDirectoryPath + '/lastId.json';
+        const path = RNFS.DocumentDirectoryPath + `/notificaciones${uuid}.json`;
+        const pathId = RNFS.DocumentDirectoryPath + `/lastId${uuid}.json`;
 
         // Verificamos si existe el archivo lastId, y si no lo creamos.
         if (!await RNFS.exists(pathId)) {
@@ -106,7 +109,7 @@ export const NotificationsScreen = ({ navigation }: Props) => {
     };
 
     const deleteNotification = async (id: string) => {
-        const path = RNFS.DocumentDirectoryPath + '/notificaciones.json';
+        const path = RNFS.DocumentDirectoryPath + `/notificaciones${uuid}.json`;
         
         const nuevoContenido = notificaciones.filter((notification: Notificacion) => notification.id !== id);
         
@@ -122,7 +125,7 @@ export const NotificationsScreen = ({ navigation }: Props) => {
     };
 
     const updateNotification = async (notification: any) => {
-        const path = RNFS.DocumentDirectoryPath + '/notificaciones.json';
+        const path = RNFS.DocumentDirectoryPath + `/notificaciones${uuid}.json`;
         
         // La notificacion estaba desactivada y ahora esta activa.
         if ((!notification.prevActive && notification.isActive)) {

@@ -2,18 +2,16 @@ import { useState } from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
+import Icon from 'react-native-vector-icons/Ionicons';
+
 import { WaveTop, WaveBottom } from '../assets';
-import { Button, InputLabel, BackButton, 
+import { Button, InputLabel, BackButton, ErrorMessage,
     TransparentButton, DatePickerLabel, ImageModal, FotoPerfil } from '../components';
 import { useForm } from '../hooks';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startSignUp } from '../store/auth/thunks';
-
-import Icon from 'react-native-vector-icons/Ionicons';
-import { getImageSource } from '../utils/getImageSource';
-import { isValidEmail } from '../utils';
-import { ErrorMessage } from '../components/other/ErrorMessage';
-
+import { isValidEmail, getImageSource } from '../utils';
+import { LoadingScreen } from './LoadingScreen';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -27,17 +25,17 @@ const initialState = {
 
 export const SignUpScreen = ({ navigation }: Props) => {
     const dispatch = useAppDispatch();
-    const { errorMessage } = useAppSelector( state => state.auth );
-
-    const [ error, setError ] = useState("");
-
+    const { errorMessage, status } = useAppSelector( state => state.auth );
+    
+    const [ error, setError ] = useState(errorMessage || "");
+    
     const [ imageModalVisible, setImageModalVisible ] = useState(false);
     const [ selectedImage, setSelectedImage ] = useState("");
-
+    
     const { nombre, correo, fecha_de_nac, contrasena, 
         confirmar_contrasena, onChange 
     } = useForm( initialState );
-
+    
     const onSignUp = async () => {
         if (!nombre || !contrasena || !fecha_de_nac || !correo) { 
             setError("Debes rellenar todos los campos.");
@@ -69,15 +67,8 @@ export const SignUpScreen = ({ navigation }: Props) => {
             high_score: 0,
             ruta_imagen: selectedImage,
         } ) );
-
-        if(errorMessage){
-            setError(errorMessage);
-            return;
-        }
-
-        navigation.navigate("LoginScreen");
     };
-
+    
     const openImageModal = () => {
         setImageModalVisible(true);
     };
@@ -85,15 +76,17 @@ export const SignUpScreen = ({ navigation }: Props) => {
     const closeImageModal = () => {
         setImageModalVisible(false);
     };
-
+    
     const isErrorOfField = (field: string) => {
         return error.includes(field);
     };
-
+    
     const selectProfilePicture = (imageRoute: string) => {
         setSelectedImage(imageRoute);
         closeImageModal();
     }
+    
+    if( status === 'checking' ) return <LoadingScreen />
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>

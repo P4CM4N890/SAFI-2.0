@@ -36,11 +36,15 @@ export const startSignUp = (usuario: UsuarioCreate) => {
             await crearUsuario(usuario);
 
             dispatch( signUp() );
+            
+            const { data } = await login(usuario.correo, usuario.contrasena);
+
+            AsyncStorage.setItem("token", data.session_token);
+
+            dispatch( loginR(data) );
         }
         catch(err){
             let error = err as Error;
-
-            console.error(err);
 
             dispatch( logout({ message: error.message }) );
         }
