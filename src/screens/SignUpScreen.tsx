@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startSignUp } from '../store/auth/thunks';
 import { isValidEmail, getImageSource } from '../utils';
 import { LoadingScreen } from './LoadingScreen';
+import { startLoadingEmails } from '../store/other/thunks';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -25,7 +26,8 @@ const initialState = {
 
 export const SignUpScreen = ({ navigation }: Props) => {
     const dispatch = useAppDispatch();
-    const { errorMessage, status } = useAppSelector( state => state.auth );
+    const { errorMessage } = useAppSelector( state => state.auth );
+    const { emails } = useAppSelector( state => state.other );
     
     const [ error, setError ] = useState(errorMessage || "");
     
@@ -35,7 +37,7 @@ export const SignUpScreen = ({ navigation }: Props) => {
     const { nombre, correo, fecha_de_nac, contrasena, 
         confirmar_contrasena, onChange 
     } = useForm( initialState );
-    
+
     const onSignUp = async () => {
         if (!nombre || !contrasena || !fecha_de_nac || !correo) { 
             setError("Debes rellenar todos los campos.");
@@ -47,6 +49,10 @@ export const SignUpScreen = ({ navigation }: Props) => {
         }
         else if (!isValidEmail(correo)) {
             setError("El correo es invalido.");
+            return;
+        }
+        else if (emails.includes(correo)){
+            setError("El correo ya esta en uso.");
             return;
         }
         else if(contrasena.length <= 2){
@@ -85,8 +91,10 @@ export const SignUpScreen = ({ navigation }: Props) => {
         setSelectedImage(imageRoute);
         closeImageModal();
     }
-    
-    if( status === 'checking' ) return <LoadingScreen />
+
+    useEffect(() => {
+        dispatch( startLoadingEmails() );
+    }, [])
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>
@@ -152,6 +160,7 @@ export const SignUpScreen = ({ navigation }: Props) => {
                         placeholder='ejemplo@dominio.com' 
                         type='email'
                         extraClass='mt-6'
+                        autoCapitalize='none'
                         value={ correo }
                         onChange={ (value) => onChange(value, 'correo') }
                     />

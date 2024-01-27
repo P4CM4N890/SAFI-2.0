@@ -68,7 +68,7 @@ export const authSlice = createSlice({
         },
 
         signUp(state){
-            state.status = 'not-authenticated';
+            state.status = 'checking';
             state.errorMessage = '';
         },
 
