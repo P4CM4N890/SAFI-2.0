@@ -653,3 +653,22 @@ export const obtenerLogrosObtenidosUsuario = async (id_usuario: number): Promise
         throw new Error(errors.response?.data?.detail);
     };
 }
+
+export const obtenerCorreos = async () => {
+    let url = `/usuarios/correos`;
+
+    try {
+        const { data } = await apiInstance.get<string[]>(url);
+        
+        return data;
+    }
+    catch(err) {
+        const errors = err as Error | AxiosError;
+
+        if(!axios.isAxiosError(errors)){
+            throw new Error(errors.message);
+        }
+
+        throw new Error(errors.response?.data?.detail);
+    };
+};

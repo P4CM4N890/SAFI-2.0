@@ -6,6 +6,7 @@ import { NotificationCardProps } from '../../types/notificationTypes';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import ToggleSwitch from 'toggle-switch-react-native';
+import { format } from 'date-fns';
 
 export const NotificationCard = (props: NotificationCardProps) => {
 
@@ -52,7 +53,8 @@ export const NotificationCard = (props: NotificationCardProps) => {
                         { title }
                     </Text>
                     <Text className='text-black text-xs tracking-tight w-4/5'>
-                        Recordatorio para el día { new Date(datetime).toLocaleDateString() } a las { new Date(datetime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
+                        Recordatorio para el día
+                        { format(datetime, " dd/MM/yyyy 'a las' hh:mm aaa") }
                     </Text>
                 </View>
             </View>

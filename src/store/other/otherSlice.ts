@@ -4,10 +4,12 @@ import { UsuarioResponse } from '../../interfaces/ApiInterfaces';
 
 interface InitialStateInterface {
     users: UsuarioResponse[];
+    emails: string[];
 }
 
 const initialState: InitialStateInterface = {
     users: [],
+    emails: [],
 };
 
 export const otherSlice = createSlice({
@@ -17,7 +19,10 @@ export const otherSlice = createSlice({
         loadUsers(state, { payload }: PayloadAction<UsuarioResponse[]>){ 
             state.users = payload;
         },
+        loadEmails(state, { payload }: PayloadAction<string[]>){
+            state.emails = payload;
+        },
     },
 });
 
-export const { loadUsers } = otherSlice.actions;
+export const { loadUsers, loadEmails } = otherSlice.actions;

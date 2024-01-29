@@ -8,15 +8,18 @@ import ToggleSwitch from 'toggle-switch-react-native';
 import { Button, InputLabel, DatetimePickerLabel, MessageModal } from '../components';
 import { NotificationsStackParams } from '../navigation/NotificationsStackNavigator';
 import { useUiStore, useForm } from '../hooks';
+import { useAppSelector } from '../store/hooks';
 
 interface Props extends StackScreenProps<NotificationsStackParams, 'EditNotificationScreen'>{};
 
 export const EditNotificationScreen = ({ navigation, route }: Props) => {
     
     LogBox.ignoreLogs([
-        'Non-serializable values were found in the navigation state',
+        'Non-serializable values were found in the navigation state. Check:',
     ]);
     
+    const { uuid } = useAppSelector( state => state.auth );
+
     const { 
         id, 
         title: nombre, 
@@ -33,7 +36,8 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
         annotations,
     };
 
-    const { nombre: newNombre, fecha: newFecha, annotations: newAnnotations, onChange } = useForm(initialState);
+    const { nombre: newNombre, fecha: newFecha, 
+        annotations: newAnnotations, onChange } = useForm(initialState);
 
     const [ isEnabled, setIsEnabled ] = useState(isActive);
     const [ modalVisible, setModalVisible ] = useState(false);
@@ -68,13 +72,13 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
 
     const { changeBarVisibility } = useUiStore();
 
-    useEffect(() => {
-        changeBarVisibility(false);
+    // useEffect(() => {
+    //     changeBarVisibility(false);
 
-        return () => {
-            changeBarVisibility(true);
-        };
-    }, []);
+    //     return () => {
+    //         changeBarVisibility(true);
+    //     };
+    // }, []);
 
     return (
         <ScrollView>

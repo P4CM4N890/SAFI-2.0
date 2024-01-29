@@ -36,7 +36,7 @@ export const login = async (correo: string, password: string):
     }
 };
 
-export const generarTokenRecuperacion = async (id_usuario: number): Promise<AxiosResponse> => {
+export const generarTokenRecuperacion = async (correo: string): Promise<AxiosResponse> => {
     let config = {
         headers: {
             'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ export const generarTokenRecuperacion = async (id_usuario: number): Promise<Axio
     let url = "/token/generar_token/";
 
     let body = {
-        id_usuario
+        correo
     };
 
     try {
@@ -79,7 +79,7 @@ export const validarTokenRecuperacion = async (token: ValidarToken): Promise<Axi
     };
 
     try {
-        const response = await apiInstance.post(url, body, config);
+        const response = await apiInstance.post<{ status: string }>(url, body, config);
 
         return response;
     }

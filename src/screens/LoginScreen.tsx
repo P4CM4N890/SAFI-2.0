@@ -8,6 +8,7 @@ import { useForm } from '../hooks';
 import { createNotificationChannel } from '../utils/notificationFunctions';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startLogin } from '../store/auth/thunks';
+import { isValidEmail } from '../utils';
 
 interface Props extends StackScreenProps<any, any>{};
 
@@ -24,16 +25,10 @@ export const LoginScreen = ({ navigation }: Props) => {
     const [ error, setError ] = useState<string>('');
     const [ modalVisible, setModalVisible ] = useState(false);
 
-    const isValidEmail = () : Boolean => {
-        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-        return regex.test(correo);
-    };
-
     const onLogin = async () => {
         Keyboard.dismiss();
 
-        if (!isValidEmail()) {
+        if (!isValidEmail(correo)) {
             setError("Correo invalido.");
             setModalVisible(true);
             return;
@@ -96,7 +91,7 @@ export const LoginScreen = ({ navigation }: Props) => {
 
                 <View style={{ display: !!errorMessage ? undefined : 'none' }} >
                     <Text className="text-l text-red font-bold pt-4">
-                        { errorMessage }
+                        { errorMessage === "El correo ya esta en uso" ? "" : errorMessage }
                     </Text>
                 </View>
 
