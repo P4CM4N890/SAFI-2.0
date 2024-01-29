@@ -1,12 +1,33 @@
+import { useState } from 'react';
 import { View, KeyboardAvoidingView, Text } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { Logo, WaveTop, WaveBottom } from '../assets';
-import { InputLabel, Button, BackButton, TransparentButton } from '../components';
+import { InputLabel, Button, BackButton, TransparentButton, ErrorMessage } from '../components';
+import { useForm } from '../hooks';
+import { useAppSelector } from '../store/hooks';
 
 interface Props extends StackScreenProps<any, any> {};
 
+const initialState = {
+    token: '',
+};
+
 export const TokenVerificationScreen = ({ navigation }: Props) => {
+    const { recoverToken } = useAppSelector( state => state.auth );
+    const [ error, setError ] = useState('');
+
+    const { token, onChange } = useForm(initialState);
+
+    const onSubmitToken = () => {
+        if (token !== recoverToken?.token){
+            setError("El token no es valido.");
+            return;
+        }
+
+        navigation.navigate("ResetPasswordScreen");
+    };
+
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <WaveTop/>
@@ -34,6 +55,9 @@ export const TokenVerificationScreen = ({ navigation }: Props) => {
                     placeholder='' 
                     type='text'
                     extraClass='mt-14'
+                    autoCapitalize='none'
+                    value={ token }
+                    onChange={ (value) => onChange(value, 'token') }
                 />
 
                 <TransparentButton
@@ -42,10 +66,15 @@ export const TokenVerificationScreen = ({ navigation }: Props) => {
                     extraClass='mt-1'
                 />
 
+                <ErrorMessage
+                    message={ error }
+                    showMessage={ !!error }
+                />
+
                 <Button 
                     label='Verificar' 
                     extraClass='mt-10'
-                    onPress={ () => navigation.navigate('ResetPasswordScreen') }
+                    onPress={ onSubmitToken }
                 />
             </View>
 

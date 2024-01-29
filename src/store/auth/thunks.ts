@@ -1,8 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { crearUsuario, login } from "../../api";
+import { actualizarPassword, crearUsuario, generarTokenRecuperacion, login } from "../../api";
 import { AppDispatch } from "../store";
-import { checkingCredentials, loginR, logout, signUp } from "./authSlice";
-import { UsuarioCreate } from "../../interfaces/ApiInterfaces";
+import { changePassword, checkingCredentials, loginR, logout, setToken, signUp } from "./authSlice";
+import { CambiarContrasena, UsuarioCreate } from "../../interfaces/ApiInterfaces";
 
 export const startLogin = (correo: string, contrasena: string) => {
     return async (dispatch: AppDispatch) => {
@@ -57,4 +57,34 @@ export const startLogout = () => {
 
         AsyncStorage.clear();
     }
+};
+
+export const startSendingToken = (correo: string) => {
+    return async (dispatch: AppDispatch) => {
+        try{
+            const { token } = (await generarTokenRecuperacion(correo)).data;
+
+            dispatch( setToken({correo, token}) );
+        }
+        catch(err){
+            let error = err as Error;
+
+            dispatch( logout({ message: error.message }) );
+        }
+    };
+};
+
+export const startChangingPassword = (datos: CambiarContrasena) => {
+    return async (dispatch: AppDispatch) => {
+        try{
+            await actualizarPassword(datos);
+
+            dispatch( changePassword() );
+        }
+        catch(err){
+            let error = err as Error;
+
+            dispatch( logout({ message: error.message }) );
+        }
+    };
 };

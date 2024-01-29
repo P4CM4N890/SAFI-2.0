@@ -11,6 +11,7 @@ interface InitialStateInterface {
     high_score: number | null;
     experiencia: number | null;
     errorMessage: string | null;
+    recoverToken: { correo: string, token: string } | null;
 }
 
 interface loginPayload {
@@ -27,6 +28,11 @@ interface logoutPayload {
     message: string | null;
 }
 
+interface recoveryTokenPayload {
+    correo: string;
+    token: string;
+}
+
 const initialState: InitialStateInterface = {
     uuid: null,
     email: null,
@@ -37,6 +43,7 @@ const initialState: InitialStateInterface = {
     high_score: null,
     experiencia: null,
     errorMessage: null,
+    recoverToken: null,
 };
 
 export const authSlice = createSlice({
@@ -75,7 +82,16 @@ export const authSlice = createSlice({
         checkingCredentials(state){ 
             state.status = 'checking';
         },
+
+        setToken(state, { payload }: PayloadAction<recoveryTokenPayload>){
+            state.recoverToken = { correo: payload.correo, token: payload.token };
+        },
+
+        changePassword(state){
+            state.recoverToken = null;
+        }
     },
 });
 
-export const { loginR, logout, checkingCredentials, signUp } = authSlice.actions;
+export const { loginR, logout, checkingCredentials, 
+    signUp, setToken, changePassword } = authSlice.actions;

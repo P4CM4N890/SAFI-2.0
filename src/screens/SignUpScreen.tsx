@@ -94,7 +94,7 @@ export const SignUpScreen = ({ navigation }: Props) => {
 
     useEffect(() => {
         dispatch( startLoadingEmails() );
-    }, [])
+    }, []);
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>

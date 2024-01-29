@@ -1,12 +1,42 @@
+import { useEffect, useState } from 'react';
 import { View, KeyboardAvoidingView, Text } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { Logo, WaveTop, WaveBottom } from '../assets';
-import { InputLabel, Button, BackButton } from '../components';
+import { InputLabel, Button, BackButton, ErrorMessage } from '../components';
+import { useForm } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { startLoadingEmails } from '../store/other/thunks';
+import { startSendingToken } from '../store/auth/thunks';
 
 interface Props extends StackScreenProps<any, any> {};
 
+const initialState = {
+    email: '',
+};
+
 export const ForgotPasswordScreen = ({ navigation }: Props) => {
+    const dispatch = useAppDispatch();
+    const { emails } = useAppSelector( state => state.other );
+    const [ error, setError ] = useState('');
+    
+    const { email, onChange } = useForm(initialState);
+
+    useEffect(() => {
+        dispatch( startLoadingEmails() );
+    }, []);
+
+    const onRequestToken = async () => {
+        if(!emails.includes(email)) {
+            setError("El correo no esta asociado a ninguna cuenta.");
+            return;
+        }
+
+        dispatch( startSendingToken(email) );
+
+        navigation.navigate("TokenVerificationScreen");
+    };
+
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <WaveTop/>
@@ -35,15 +65,23 @@ export const ForgotPasswordScreen = ({ navigation }: Props) => {
                 
                 <InputLabel
                     label='Correo electrónico' 
-                    placeholder='' 
+                    placeholder='ejemplo@dominio.com'
                     type='email'
+                    autoCapitalize='none'
                     extraClass='mt-14'
+                    value={ email }
+                    onChange={ (value) => onChange(value, 'email') }
+                />
+
+                <ErrorMessage
+                    message={ error }
+                    showMessage={ !!error }
                 />
 
                 <Button 
                     label='Enviar' 
                     extraClass='mt-10'
-                    onPress={ () => navigation.navigate('TokenVerificationScreen') }
+                    onPress={ onRequestToken }
                 />
             </View>
 

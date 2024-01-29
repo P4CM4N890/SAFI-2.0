@@ -20,8 +20,13 @@ export interface InicioSesion {
     contrasena: string
 }
 
+export interface CambiarContrasena {
+    correo: string
+    password: string
+}
+
 export interface ValidarToken {
-    id_usuario: number
+    correo: string
     token: string
 }
 
