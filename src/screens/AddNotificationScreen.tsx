@@ -35,14 +35,6 @@ export const AddNotificationScreen = ({ navigation }: Props) => {
 
     const { changeBarVisibility } = useUiStore();
 
-    useEffect(() => {
-        changeBarVisibility(false);
-
-        return () => {
-            changeBarVisibility(true);
-        };
-    }, []);
-
     const onAddNotification = async () => {
         Keyboard.dismiss();
 
