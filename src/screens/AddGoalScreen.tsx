@@ -4,27 +4,31 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useForm, useUiStore } from '../hooks';
+import { addGoal } from '../store/goals/thunks';
+
 import { InputLabel, Button, DatePickerLabel, CustomSwitch, CategoryModal,
 ColorModal, PriorityModal } from '../components';
 
 import { categoryIcon, iconColor, priority, priorityColor } from '../types/appTypes';
-import { useForm, useUiStore } from '../hooks';
 
 interface Props extends StackScreenProps<any, any> {};
 
 const initialState = {
-    nombre: "",
-    cantidad: "",
-    descripcion: "",
-    fecha_inicio: "",
-    fecha_fin: "",
-    icono: "",
-    color: "",
-    prioridad: "",
-    fijar: ""
+    nombre: '',
+    cantidad: '',
+    descripcion: '',
+    fecha_inicio: '',
+    fecha_fin: '',
+    icono: 'flag-outline' as categoryIcon,
+    color: '#A233D8' as iconColor,
+    prioridad: 'Baja' as priority,
+    fijar: '0'
 };
 
 export const AddGoalScreen = ({ navigation }: Props) => {
+    const dispatch = useAppDispatch();
 
     const [ categoryModalVisible, setCategoryModalVisible ] = useState(false);
     const [ selectedCategory, setSelectedCategory ] = useState<categoryIcon>('flag-outline');
@@ -32,19 +36,52 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     const [ colorModalVisible, setColorModalVisible ] = useState(false);
     const [ selectedColor, setSelectedColor ] = useState<iconColor>('#A233D8');
 
+    const { uuid } = useAppSelector( state => state.auth );
+    const [ error, setError ] = useState('');
+
     const [ priorityModalVisible, setPriorityModalVisible ] = useState(false);
     const [ selectedPriority, setSelectedPriority ] = useState<priority>('Baja');
     const [ selectedPriorityColor, setSelectedPriorityColor ] = useState<priorityColor>('#60D833');
 
     const { changeBarVisibility } = useUiStore();
-
+    
     const { 
-        nombre, cantidad, descripcion, onChange
+        onChange, nombre, cantidad, descripcion, fecha_fin, fecha_inicio, color, icono, prioridad
     } = useForm( initialState );
 
     useEffect(() => {
         changeBarVisibility(false);
     }, []);
+
+    const onAddGoal = () => {
+        if (!nombre || !cantidad || !fecha_fin || !fecha_inicio) { 
+            setError('Debes completar todos los campos.');
+            console.log('Debes completar todos los campos.');
+            return;
+
+        } else if (Number(cantidad) <= 0) {
+            setError('La cantidad debe ser mayor a cero.');
+            console.log('La cantidad debe ser mayor a cero.');
+            return;
+        }
+
+        if(!uuid) return;
+
+        dispatch(
+            addGoal({
+                id_usuario: uuid,
+                nombre,
+                cantidad: Number(cantidad),
+                fecha_inicio: fecha_inicio.split('T')[0],
+                fecha_fin: fecha_fin.split('T')[0],
+                descripcion,
+                prioridad,
+                icono,
+                color,
+                completada: 0
+            })
+        );
+    };
 
     const openCategoryModal = () => {
         setCategoryModalVisible(true);
@@ -193,7 +230,7 @@ export const AddGoalScreen = ({ navigation }: Props) => {
                     <View className='mt-10 w-5/6 flex-row justify-between'>
                         <Button 
                             label='Guardar' 
-                            onPress={ () => {} }
+                            onPress={ onAddGoal }
                         />
                         <Button 
                             label='Cancelar' 
