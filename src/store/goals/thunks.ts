@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { AppDispatch } from '../store';
-import { startLoadingGoals, setGoals } from './goalSlice';
+import { startLoadingGoals, setGoals } from './goalsSlice';
 import { crearMeta, crearMetaFijada } from '../../api';
 
 import { MetaCreate, MetaFijadaCreate } from '../../interfaces/ApiInterfaces';

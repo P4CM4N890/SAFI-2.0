@@ -20,7 +20,7 @@ export const CustomSwitch = ({ isOn, color = '#4F33D8', scale = 1.3, onChange }:
             onValueChange={ toggleSwitch }
             value={ isEnabled }
             style={{ transform: [{ scaleX: scale }, { scaleY: scale }] }}
-            onChange={ () => onChange( isEnabled ? '0' : '1' ) }
+            onChange={ () => onChange( isEnabled ? 'no' : 'si' ) }
         />
     )
 };

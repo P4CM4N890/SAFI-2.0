@@ -24,7 +24,7 @@ const initialState = {
     icono: 'flag-outline' as categoryIcon,
     color: '#A233D8' as iconColor,
     prioridad: 'Baja' as priority,
-    fijar: '0'
+    fijar: 'no'
 };
 
 export const AddGoalScreen = ({ navigation }: Props) => {
@@ -79,7 +79,7 @@ export const AddGoalScreen = ({ navigation }: Props) => {
                 icono,
                 color,
                 completada: 0            
-            }, fijar === '1' ? true : false)
+            }, fijar === 'si' ? true : false)
         );
     };
 
