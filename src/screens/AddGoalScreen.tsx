@@ -55,23 +55,23 @@ export const AddGoalScreen = ({ navigation }: Props) => {
 
     const onAddGoal = () => {
         if (!nombre) { 
-            setError('El nombre es obligatorio.');
+            setError('El nombre es obligatorio');
             return;
 
         } else if (!fecha_inicio) {
-            setError('La fecha de inicio es obligatoria.');
+            setError('La fecha de inicio es obligatoria');
             return;
 
         } else if (!fecha_fin) {
-            setError('La fecha de finalización es obligatoria.');
+            setError('La fecha de finalización es obligatoria');
             return;
 
         } else if (!cantidad) {
-            setError('La meta a alcanzar es obligatoria.');
+            setError('La meta a alcanzar es obligatoria');
             return;
 
         }else if (Number(cantidad) <= 0) {
-            setError('La meta a alcanzar debe ser mayor a cero.');
+            setError('La meta a alcanzar debe ser mayor a cero');
             return;
         }
 
