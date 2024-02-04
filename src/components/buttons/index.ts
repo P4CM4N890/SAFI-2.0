@@ -2,6 +2,7 @@
 export * from './AddButton';
 export * from './AddGoalButton';
 export * from './AddIncomeButton';
+export * from './AddExpenseButton';
 export * from './AddNotificationButton';
 export * from './AddQuestionButton';
 export * from './BackButton';

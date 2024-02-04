@@ -1,18 +1,15 @@
-import React, { useContext, useEffect } from 'react';
-import { View, Text, Image, ScrollView } from 'react-native';
-import { useIsFocused } from '@react-navigation/native';
+import { useEffect } from "react";
+import { Text, View, ScrollView } from 'react-native';
+import { useIsFocused } from "@react-navigation/native";
+import { useUiStore } from "../hooks";
+import { ExpenseCard } from "../components";
 
-import { Header } from '../components/headers/Header';
-import { IncomeCard } from '../components/cards/IncomeCard';
-import { ActiveComponentContext } from '../context/ActiveComponentContext';
-import { useUiStore } from '../hooks';
-
-export const IncomesScreen = () => {
+export const ExpensesScreen = () => {
     const { changeActiveComponent } = useUiStore();
     const isFocused = useIsFocused();
 
     useEffect(() => {
-        if(isFocused) changeActiveComponent('IncomesScreen');
+        if(isFocused) changeActiveComponent('ExpensesScreen');
     }, [ isFocused ]);
 
     return (
@@ -23,16 +20,9 @@ export const IncomesScreen = () => {
             >
                 {/* <Header title='Proyección de Ahorro'/> */}
 
-                {/* SÓLO PARA PROBAR */}
-                <Image 
-                    source={ require('../assets/img/grafica.png') } 
-                    className='w-full h-56 mt-8'
-                    resizeMode='contain'
-                /> 
-
                 <View className='mt-6'>
                     <Text className='text-black font-semibold text-sm uppercase'>Noviembre 3</Text>
-                    <IncomeCard 
+                    <ExpenseCard 
                         id={ 1 }
                         title='Ahorro semanal' 
                         iconName='calendar-outline' 
@@ -40,7 +30,7 @@ export const IncomesScreen = () => {
                         money='500.00'
                         time='12:00 p.m.'
                     />
-                    <IncomeCard 
+                    <ExpenseCard 
                         id={ 2 }
                         title='Venta de juegos' 
                         iconName='game-controller-outline' 
@@ -52,7 +42,7 @@ export const IncomesScreen = () => {
 
                 <View className='mt-6'>
                     <Text className='text-black font-semibold text-sm uppercase'>Noviembre 1</Text>
-                    <IncomeCard 
+                    <ExpenseCard 
                         id={ 3 }
                         title='Ahorro semanal' 
                         iconName='calendar-outline' 
@@ -60,7 +50,7 @@ export const IncomesScreen = () => {
                         money='500.00'
                         time='12:00 p.m.'
                     />
-                    <IncomeCard 
+                    <ExpenseCard 
                         id={ 4 }
                         title='Venta de juegos' 
                         iconName='game-controller-outline' 
@@ -74,5 +64,5 @@ export const IncomesScreen = () => {
 
             {/* <AddIncomeButton /> */}
         </View>
-    );
+    )
 }
