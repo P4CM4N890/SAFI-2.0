@@ -5,9 +5,10 @@ interface props {
     isOn: boolean;
     scale?: number;
     color?: string;
+    onChange: (value: string) => void;
 }
 
-export const CustomSwitch = ({ isOn, color = '#4F33D8', scale = 1.3 }: props) => {
+export const CustomSwitch = ({ isOn, color = '#4F33D8', scale = 1.3, onChange }: props) => {
     const [ isEnabled, setIsEnabled ] = useState(isOn);
 
     const toggleSwitch = () => setIsEnabled(!isEnabled);
@@ -19,6 +20,7 @@ export const CustomSwitch = ({ isOn, color = '#4F33D8', scale = 1.3 }: props) =>
             onValueChange={ toggleSwitch }
             value={ isEnabled }
             style={{ transform: [{ scaleX: scale }, { scaleY: scale }] }}
+            onChange={ () => onChange( isEnabled ? '0' : '1' ) }
         />
     )
-}
+};

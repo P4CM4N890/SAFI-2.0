@@ -8,9 +8,21 @@ import { InputLabel, Button, DatePickerLabel, CustomSwitch, CategoryModal,
 ColorModal, PriorityModal } from '../components';
 
 import { categoryIcon, iconColor, priority, priorityColor } from '../types/appTypes';
-import { useUiStore } from '../hooks';
+import { useForm, useUiStore } from '../hooks';
 
 interface Props extends StackScreenProps<any, any> {};
+
+const initialState = {
+    nombre: "",
+    cantidad: "",
+    descripcion: "",
+    fecha_inicio: "",
+    fecha_fin: "",
+    icono: "",
+    color: "",
+    prioridad: "",
+    fijar: ""
+};
 
 export const AddGoalScreen = ({ navigation }: Props) => {
 
@@ -26,6 +38,10 @@ export const AddGoalScreen = ({ navigation }: Props) => {
 
     const { changeBarVisibility } = useUiStore();
 
+    const { 
+        nombre, cantidad, descripcion, onChange
+    } = useForm( initialState );
+
     useEffect(() => {
         changeBarVisibility(false);
     }, []);
@@ -40,6 +56,8 @@ export const AddGoalScreen = ({ navigation }: Props) => {
 
     const selectCategory = (category: categoryIcon) => {
         setSelectedCategory(category);
+        onChange(category, 'icono');
+
         closeCategoryModal();
     };
 
@@ -53,6 +71,8 @@ export const AddGoalScreen = ({ navigation }: Props) => {
 
     const selectColor = (color: iconColor) => {
         setSelectedColor(color);
+        onChange(color, 'color');
+
         closeColorModal();
     };
 
@@ -67,6 +87,8 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     const selectPriority = (priority: priority, color: priorityColor) => {
         setSelectedPriority(priority);
         setSelectedPriorityColor(color);
+        onChange(priority, 'prioridad');
+
         closePriorityModal();
     };
 
@@ -85,6 +107,7 @@ export const AddGoalScreen = ({ navigation }: Props) => {
                             isOn={ false }
                             scale={ 1.2 }
                             color='#60D833'
+                            onChange={ (value) => onChange(value, 'fijar') }
                         />
                     </View>
 
@@ -93,16 +116,20 @@ export const AddGoalScreen = ({ navigation }: Props) => {
                         placeholder='' 
                         type='text'
                         extraClass='mt-4'
+                        value={ nombre }
+                        onChange={ (value) => onChange(value, 'nombre') }
                     />
 
                     <DatePickerLabel 
                         label='Fecha de inicio'
                         extraClass='mt-3'
+                        onChange={ (value) => onChange(value, 'fecha_inicio') }
                     />
 
                     <DatePickerLabel 
                         label='Fecha de finalización'
                         extraClass='mt-3'
+                        onChange={ (value) => onChange(value, 'fecha_fin') }
                     />
 
                     <InputLabel 
@@ -111,6 +138,8 @@ export const AddGoalScreen = ({ navigation }: Props) => {
                         type='numeric'
                         extraClass='mt-4'
                         iconName='cash-outline'
+                        value={ cantidad }
+                        onChange={ (value) => onChange(value, 'cantidad') }
                     />
 
                     <InputLabel 
@@ -118,6 +147,8 @@ export const AddGoalScreen = ({ navigation }: Props) => {
                         placeholder='' 
                         type='text'
                         extraClass='mt-3'
+                        value={ descripcion }
+                        onChange={ (value) => onChange(value, 'descripcion') }
                     />
 
                     <View className='mt-5 w-5/6 flex-row justify-around'>

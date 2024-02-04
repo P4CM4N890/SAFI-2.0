@@ -4,15 +4,17 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { WaveTop, WaveBottom } from '../assets';
 import { Button, InputLabel, BackButton, ErrorMessage,
-    TransparentButton, DatePickerLabel, ImageModal, FotoPerfil } from '../components';
-import { useForm } from '../hooks';
+TransparentButton, DatePickerLabel, ImageModal, FotoPerfil } from '../components';
+
+import { startLoadingEmails } from '../store/other/thunks';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startSignUp } from '../store/auth/thunks';
+
+import { useForm } from '../hooks';
+
 import { isValidEmail, getImageSource } from '../utils';
-import { LoadingScreen } from './LoadingScreen';
-import { startLoadingEmails } from '../store/other/thunks';
+import { WaveTop, WaveBottom } from '../assets';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -48,11 +50,11 @@ export const SignUpScreen = ({ navigation }: Props) => {
             return;
         }
         else if (!isValidEmail(correo)) {
-            setError("El correo es invalido.");
+            setError("El correo es inválido.");
             return;
         }
         else if (emails.includes(correo)){
-            setError("El correo ya esta en uso.");
+            setError("El correo ya está en uso.");
             return;
         }
         else if(contrasena.length <= 2){
@@ -64,15 +66,17 @@ export const SignUpScreen = ({ navigation }: Props) => {
             return;
         }
         
-        dispatch( startSignUp( {
-            correo,
-            contrasena,
-            nombre,
-            fecha_de_nac: fecha_de_nac.split('T')[0],
-            experiencia: 0,
-            high_score: 0,
-            ruta_imagen: selectedImage,
-        } ) );
+        dispatch(
+            startSignUp({
+                correo,
+                contrasena,
+                nombre,
+                fecha_de_nac: fecha_de_nac.split('T')[0],
+                experiencia: 0,
+                high_score: 0,
+                ruta_imagen: selectedImage,
+            })
+        );
     };
     
     const openImageModal = () => {

@@ -141,7 +141,6 @@ export const crearMeta = async (meta: MetaCreate): Promise<AxiosResponse> => {
 
     try {
         const response = await apiInstance.post(url, body, config);
-
         return response;
     }
     catch (err) {

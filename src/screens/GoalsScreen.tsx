@@ -43,7 +43,6 @@ export const GoalsScreen = () => {
             changeActiveComponent('GoalsStackNavigator');
             changeBarVisibility(true);
         }
-
     }, [ isFocused ]);
 
     const renderItem = (item: any) => {
@@ -101,51 +100,7 @@ export const GoalsScreen = () => {
                         totalGoalAmount='2000.00'
                         progress={ 0.5 }
                     />
-                    <GoalCard 
-                        id={ 2 }
-                        title='Celular' 
-                        iconName='game-controller-outline' 
-                        iconColor='#33D8A2'
-                        totalGoalCompleted='1000.00'
-                        totalGoalAmount='2000.00'
-                        progress={ 0.5 }
-                    />
-                    <GoalCard 
-                        id={ 3 }
-                        title='Monitor' 
-                        iconName='game-controller-outline' 
-                        iconColor='#A233D8'
-                        totalGoalCompleted='1000.00'
-                        totalGoalAmount='2000.00'
-                        progress={ 0.5 }
-                    />
-                    <GoalCard 
-                        id={ 4 }
-                        title='Zapatos' 
-                        iconName='bag-handle-outline' 
-                        iconColor='#75E2F8'
-                        totalGoalCompleted='1000.00'
-                        totalGoalAmount='2000.00'
-                        progress={ 0.5 }
-                    />
-                    <GoalCard 
-                        id={ 5 }
-                        title='Camisa' 
-                        iconName='bag-handle-outline' 
-                        iconColor='#D8336A'
-                        totalGoalCompleted='1000.00'
-                        totalGoalAmount='2000.00'
-                        progress={ 0.5 }
-                    />
-                    <GoalCard 
-                        id={ 6 }
-                        title='Sombrero' 
-                        iconName='bag-handle-outline' 
-                        iconColor='#33D8A2'
-                        totalGoalCompleted='1000.00'
-                        totalGoalAmount='2000.00'
-                        progress={ 0.5 }
-                    />
+                    
                 </View>
             </ScrollView>
 
