@@ -4,7 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 // import { categoryIcon, iconColor, priority } from '../../types/appTypes';
 import { MetaCreate } from '../../interfaces/ApiInterfaces';
 
-export const authSlice = createSlice({
+export const goalSlice = createSlice({
     name: 'auth',
     initialState: {
         goals: [] as MetaCreate[],
@@ -25,4 +25,4 @@ export const authSlice = createSlice({
     }
 });
 
-export const { startLoadingGoals, setGoals } = authSlice.actions;
+export const { startLoadingGoals, setGoals } = goalSlice.actions;

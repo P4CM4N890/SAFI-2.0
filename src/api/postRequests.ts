@@ -3,6 +3,7 @@ import { apiInstance, checkToken } from './instance';
 import { AbonoCreate, CategoriaCreate, GastoCreate, IngresoCreate, 
     InicioSesion, MetaCreate, UsuarioCreate, ValidarToken, RecordatorioDePagoCreate, 
     PreguntaCreate, RespuestaCreate, MetaFijadaCreate, PredictorObject, LogroCreate } from '../interfaces/ApiInterfaces';
+import { CreateMetaFijadaResponse, CreateMetaResponse } from '../types/responseTypes';
 
 export const login = async (correo: string, password: string): 
     Promise<AxiosResponse> => {
@@ -123,7 +124,7 @@ export const crearUsuario = async (usuario: UsuarioCreate): Promise<AxiosRespons
     }
 }
 
-export const crearMeta = async (meta: MetaCreate): Promise<AxiosResponse> => {
+export const crearMeta = async (meta: MetaCreate): Promise<AxiosResponse<CreateMetaResponse>> => {
     const token = await checkToken();
 
     let config = {
@@ -378,7 +379,7 @@ export const crearRespuesta = async (respuesta: RespuestaCreate): Promise<AxiosR
     }
 }
 
-export const crearMetaFijada = async (metaFijada: MetaFijadaCreate): Promise<AxiosResponse> => {
+export const crearMetaFijada = async (metaFijada: MetaFijadaCreate): Promise<AxiosResponse<CreateMetaFijadaResponse>> => {
     const token = await checkToken();
 
     let config = {
@@ -396,7 +397,6 @@ export const crearMetaFijada = async (metaFijada: MetaFijadaCreate): Promise<Axi
 
     try {
         const response = await apiInstance.post(url, body, config);
-
         return response;
     }
     catch (err) {

@@ -46,7 +46,7 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     const { changeBarVisibility } = useUiStore();
     
     const { 
-        onChange, nombre, cantidad, descripcion, fecha_fin, fecha_inicio, color, icono, prioridad
+        onChange, nombre, cantidad, descripcion, fecha_fin, fecha_inicio, color, icono, prioridad, fijar
     } = useForm( initialState );
 
     useEffect(() => {
@@ -78,8 +78,8 @@ export const AddGoalScreen = ({ navigation }: Props) => {
                 prioridad,
                 icono,
                 color,
-                completada: 0
-            })
+                completada: 0            
+            }, fijar === '1' ? true : false)
         );
     };
 
