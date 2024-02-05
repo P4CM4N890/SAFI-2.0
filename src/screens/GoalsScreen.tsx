@@ -103,26 +103,38 @@ export const GoalsScreen = () => {
                 </View>
 
                 <View className='-mt-4'>
-                    {   isLoading 
-                        ?
+                    {   isLoading && (
                             <>
                                 <ActivityIndicator size={ 30 } color='#000' className='mt-24' /> 
                                 <Text className='text-center mt-3 font-medium text-zinc-500'>
                                     Cargando metas...
                                 </Text>
                             </>
-                            
-                        : goals.map( goal => (
-                            <GoalCard 
-                                id={ 1 }
-                                title={ goal.nombre }
-                                iconName={ goal.icono }
-                                iconColor={ goal.color }
-                                totalGoalCompleted='1000.00'
-                                totalGoalAmount='2000.00'
-                                progress={ 0.5 }
-                            />
-                        ))
+                        )
+                    }
+
+                    {
+                        (!isLoading && goals.length > 0) 
+                        ? goals.map( goal => (
+                                <GoalCard 
+                                    id={ goal.id }
+                                    title={ goal.nombre }
+                                    iconName={ goal.icono }
+                                    iconColor={ goal.color }
+                                    totalGoalCompleted='1000.00'
+                                    totalGoalAmount={ String(goal.cantidad) }
+                                    progress={ 0.5 }
+                                />
+                            ))
+                                
+                        :   <>
+                                <Text className='text-center font-medium text-xl text-zinc-500 mt-24'>
+                                    No Hay Metas Registradas 
+                                </Text>
+                                <Text className='text-center font-medium text-base text-zinc-500 mt-3'>
+                                    Cuando registres metas podrás verlas aquí
+                                </Text>
+                            </>
                     }
                 </View>
             </ScrollView>

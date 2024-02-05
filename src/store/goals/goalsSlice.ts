@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { MetaCreate } from '../../interfaces/ApiInterfaces';
+import { MetaResponse } from '../../interfaces/ApiInterfaces';
 
 export const goalsSlice = createSlice({
     name: 'goals',
     initialState: {
-        goals: [] as MetaCreate[],
+        goals: [] as MetaResponse[],
         isLoading: false
     },
 
@@ -14,11 +14,11 @@ export const goalsSlice = createSlice({
         startLoadingGoals: (state) => {
             state.isLoading = true;
         },
-        setGoals: (state, { payload }: PayloadAction<MetaCreate[]>) => {
+        setGoals: (state, { payload }: PayloadAction<MetaResponse[]>) => {
             state.isLoading = false;
             state.goals = payload
         },
-        updateGoals: (state, { payload }: PayloadAction<MetaCreate>) => {
+        updateGoals: (state, { payload }: PayloadAction<MetaResponse>) => {
             state.goals = [ ...state.goals, payload ]
         }
     }

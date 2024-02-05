@@ -6,7 +6,7 @@ import { Bar } from 'react-native-progress';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props {
-    id: number;
+    id: string;
     title: string;
     iconName: string;
     iconColor: string;
