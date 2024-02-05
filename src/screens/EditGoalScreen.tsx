@@ -1,37 +1,27 @@
 import { useEffect, useState } from 'react';
 import { View, Text, ScrollView, KeyboardAvoidingView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
+import { format } from 'date-fns';
 
 import { GoalsStackParams } from '../navigation/GoalsStackNavigator';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { InputLabel, Button, DatePickerLabel, CustomSwitch, CategoryModal, 
-ColorModal, PriorityModal, ErrorMessage } from '../components';
+import { InputLabel, Button, DatePickerLabel, CustomSwitch, 
+CategoryModal, ColorModal, PriorityModal, ErrorMessage } from '../components';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { getGoal, updateGoal } from '../store/goals/thunks';
+import { updateGoal } from '../store/goals/thunks';
 import { useForm, useUiStore } from '../hooks';
 
 import { categoryIcon, iconColor, priority, priorityColor } from '../types/appTypes';
-import { MetaCreate } from '../interfaces/ApiInterfaces';
 
 interface Props extends StackScreenProps<GoalsStackParams, 'EditGoalScreen'>{};
 
-const initialState = {
-    nombre: '',
-    cantidad: '',
-    descripcion: '',
-    fecha_inicio: '',
-    fecha_fin: '',
-    icono: 'flag-outline' as categoryIcon,
-    color: '#A233D8' as iconColor,
-    prioridad: 'Baja' as priority,
-    fijar: 'no'
-};
-
 export const EditGoalScreen = ({ navigation, route }: Props) => {
 
-    const { goalId } = route.params;
+    const { goal: initialState } = route.params;
+    const dispatch = useAppDispatch();
+
     const [ error, setError ] = useState('');
 
     const [ categoryModalVisible, setCategoryModalVisible ] = useState(false);
@@ -44,21 +34,18 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
     const [ selectedPriority, setSelectedPriority ] = useState<priority>('Baja');
     const [ selectedPriorityColor, setSelectedPriorityColor ] = useState<priorityColor>('#60D833');
 
-    const dispatch = useAppDispatch();
-    const { goal, isLoading } = useAppSelector( state => state.goals );
-
     const { changeBarVisibility } = useUiStore();
 
     const { 
         onChange, nombre, cantidad, descripcion, fecha_fin, fecha_inicio, color, icono, prioridad, fijar
-    } = useForm(initialState);
+    } = useForm({ ...initialState, fijar: 'no' });
 
     useEffect(() => {
         changeBarVisibility(false);
-    }, []);
 
-    useEffect(() => {
-        dispatch( getGoal(goalId) )
+        return () => {
+            changeBarVisibility(true);
+        };
     }, []);
 
     const onUpdateGoal = () => {
@@ -83,21 +70,21 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
             return;
         }
 
-        // dispatch(
-        //     updateGoal(goalId, 
-        //         {
-        //             nombre,
-        //             cantidad: Number(cantidad),
-        //             color,
-        //             completada: 0,
-        //             descripcion,
-        //             fecha_fin,
-        //             fecha_inicio,
-        //             icono,
-        //             prioridad
-        //         }, fijar === 'si' ? true : false
-        //     )
-        // );
+        dispatch(
+            updateGoal(initialState.id, 
+                {
+                    nombre,
+                    cantidad: Number(cantidad),
+                    color,
+                    completada: 0,
+                    descripcion,
+                    fecha_fin,
+                    fecha_inicio,
+                    icono,
+                    prioridad
+                }, fijar === 'si' ? true : false
+            )
+        );
     };
 
     const isErrorOfField = (field: string) => {
@@ -168,6 +155,7 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
                         placeholder='' 
                         type='text'
                         extraClass='mt-4'
+                        value={ nombre }
                         onChange={ (value) => onChange(value, 'nombre') }
                     />
                     <ErrorMessage
@@ -178,6 +166,8 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
                     <DatePickerLabel 
                         label='Fecha de inicio'
                         extraClass='mt-3'
+                        fechaInicial={ new Date(fecha_inicio) }
+                        fechaInicialFormatted={ format(new Date(fecha_inicio), "dd'/'MM'/'yyyy") }
                         onChange={ (value) => onChange(value, 'fecha_inicio') }
                     />
                     <ErrorMessage
@@ -188,6 +178,8 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
                     <DatePickerLabel 
                         label='Fecha de finalización'
                         extraClass='mt-3'
+                        fechaInicial={ new Date(fecha_fin) }
+                        fechaInicialFormatted={ format(new Date(fecha_fin), "dd'/'MM'/'yyyy") }
                         onChange={ (value) => onChange(value, 'fecha_fin') }
                     />
                     <ErrorMessage
@@ -201,6 +193,8 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
                         type='numeric'
                         extraClass='mt-4'
                         iconName='cash-outline'
+                        value={ String(cantidad) }
+                        onChange={ (value) => onChange(value, 'cantidad') }
                     />
                     <ErrorMessage
                         message={ error }
@@ -212,6 +206,8 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
                         placeholder='' 
                         type='text'
                         extraClass='mt-3'
+                        value={ descripcion }
+                        onChange={ (value) => onChange(value, 'descripcion') }
                     />
 
                     <View className='mt-5 w-5/6 flex-row justify-around'>

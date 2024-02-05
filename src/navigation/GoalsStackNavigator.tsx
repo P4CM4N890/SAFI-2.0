@@ -6,11 +6,12 @@ import { AddGoalScreen } from '../screens/AddGoalScreen';
 import { EditGoalScreen } from '../screens/EditGoalScreen';
 
 import { NotificationsStackNavigator } from '../navigation/NotificationsStackNavigator'
+import { MetaResponse } from '../interfaces/ApiInterfaces';
 
 export type GoalsStackParams = {
     GoalsScreen: undefined;
     AddGoalScreen: undefined;
-    EditGoalScreen: { goalId: string };
+    EditGoalScreen: { goal: MetaResponse };
     NotificationsStackNavigator: undefined;
 };
 

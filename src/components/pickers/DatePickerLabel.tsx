@@ -1,6 +1,6 @@
 import React, { useState }  from 'react'
 import { TouchableOpacity, Text } from 'react-native';
-import { add, format, sub } from 'date-fns';
+import { add, format } from 'date-fns';
 
 import DatePicker from 'react-native-date-picker';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -11,14 +11,14 @@ interface Props {
     maximumDate?: Date;
     minimumDate?: Date;
     fechaInicial?: Date;
+    fechaInicialFormatted?: string;
     onChange: (value: string) => void;
 }
 
-export const DatePickerLabel = ({ label, extraClass, 
-    maximumDate, minimumDate, fechaInicial, onChange }: Props) => {
+export const DatePickerLabel = ({ label, extraClass, maximumDate, minimumDate, fechaInicial, fechaInicialFormatted, onChange }: Props) => {
     
     const [ date, setDate ] = useState(fechaInicial || add(new Date(), { days: 1 }));
-    const [ formattedDate, setFormattedDate ] = useState('');
+    const [ formattedDate, setFormattedDate ] = useState('' || fechaInicialFormatted);
 
     const [ open, setOpen ] = useState(false);
 

@@ -117,12 +117,9 @@ export const GoalsScreen = () => {
                         (!isLoading && goals.length > 0) 
                         ?   goals.map( goal => (
                                 <GoalCard 
-                                    id={ goal.id }
-                                    title={ goal.nombre }
-                                    iconName={ goal.icono }
-                                    iconColor={ goal.color }
+                                    key={ goal.id }
+                                    goal={ goal }
                                     totalGoalCompleted='1000.00'
-                                    totalGoalAmount={ String(goal.cantidad) }
                                     progress={ 0.5 }
                                 />
                             ))
