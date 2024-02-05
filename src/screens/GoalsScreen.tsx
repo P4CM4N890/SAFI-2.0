@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
-import { View, ScrollView, Dimensions } from 'react-native';
+import { View, ScrollView, Dimensions, ActivityIndicator } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
-import { Header, GoalCard, MainGoalCard, GoalsSummaryCard } from '../components';
+import { getGoals } from '../store/goals/thunks';
+
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { useUiStore } from '../hooks';
+
+import { Header, GoalCard, MainGoalCard, GoalsSummaryCard } from '../components';
+import { Text } from 'react-native';
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
 
@@ -37,6 +42,9 @@ export const GoalsScreen = () => {
     const { changeActiveComponent, changeBarVisibility } = useUiStore();
     
     const isFocused = useIsFocused();
+    const dispatch = useAppDispatch();
+
+    const { goals, isLoading } = useAppSelector( state => state.goals );
 
     useEffect(() => {
         if(isFocused) {
@@ -44,6 +52,10 @@ export const GoalsScreen = () => {
             changeBarVisibility(true);
         }
     }, [ isFocused ]);
+
+    useEffect(() => {
+        dispatch( getGoals() );
+    }, []);
 
     const renderItem = (item: any) => {
         if(item.type === 'mainGoal') {
@@ -91,20 +103,29 @@ export const GoalsScreen = () => {
                 </View>
 
                 <View className='-mt-4'>
-                    <GoalCard 
-                        id={ 1 }
-                        title='Laptop' 
-                        iconName='game-controller-outline' 
-                        iconColor='#D8336A'
-                        totalGoalCompleted='1000.00'
-                        totalGoalAmount='2000.00'
-                        progress={ 0.5 }
-                    />
-                    
+                    {   isLoading 
+                        ?
+                            <>
+                                <ActivityIndicator size={ 30 } color='#000' className='mt-24' /> 
+                                <Text className='text-center mt-3 font-medium text-zinc-500'>
+                                    Cargando metas...
+                                </Text>
+                            </>
+                            
+                        : goals.map( goal => (
+                            <GoalCard 
+                                id={ 1 }
+                                title={ goal.nombre }
+                                iconName={ goal.icono }
+                                iconColor={ goal.color }
+                                totalGoalCompleted='1000.00'
+                                totalGoalAmount='2000.00'
+                                progress={ 0.5 }
+                            />
+                        ))
+                    }
                 </View>
             </ScrollView>
-
-            {/* <AddGoalButton /> */}
         </View>
     );
 }

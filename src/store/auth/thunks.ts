@@ -10,7 +10,6 @@ export const startLogin = (correo: string, contrasena: string) => {
         
         try{
             const { data } = await login(correo, contrasena);
-
             AsyncStorage.setItem("token", data.session_token);
 
             dispatch( loginR(data) );
@@ -34,11 +33,9 @@ export const startSignUp = (usuario: UsuarioCreate) => {
         
         try{
             await crearUsuario(usuario);
-
             dispatch( signUp() );
             
             const { data } = await login(usuario.correo, usuario.contrasena);
-
             AsyncStorage.setItem("token", data.session_token);
 
             dispatch( loginR(data) );
@@ -63,7 +60,6 @@ export const startSendingToken = (correo: string) => {
     return async (dispatch: AppDispatch) => {
         try{
             const { token } = (await generarTokenRecuperacion(correo)).data;
-
             dispatch( setToken({correo, token}) );
         }
         catch(err){
@@ -78,7 +74,6 @@ export const startChangingPassword = (datos: CambiarContrasena) => {
     return async (dispatch: AppDispatch) => {
         try{
             await actualizarPassword(datos);
-
             dispatch( changePassword() );
         }
         catch(err){

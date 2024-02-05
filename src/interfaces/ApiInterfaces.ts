@@ -48,6 +48,11 @@ export interface MetaCreate {
     prioridad: string
 }
 
+export interface MetaCreateResponse {
+    nombre: string;
+    id:     string;
+}
+
 export interface IngresoCreate {
     id_usuario: number
     nombre: string
@@ -99,6 +104,11 @@ export interface RespuestaCreate {
 export interface MetaFijadaCreate {
     id_usuario: number
     id_meta: string
+}
+
+export interface MetaFijadaCreateResponse {
+    status: string;
+    id:     string;
 }
 
 export interface PredictorObject {

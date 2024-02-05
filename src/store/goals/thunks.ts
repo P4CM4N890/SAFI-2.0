@@ -1,18 +1,12 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { AppDispatch } from '../store';
 import { startLoadingGoals, setGoals } from './goalsSlice';
-import { crearMeta, crearMetaFijada } from '../../api';
+import { crearMeta, crearMetaFijada, obtenerMetas } from '../../api';
 
-import { MetaCreate, MetaFijadaCreate } from '../../interfaces/ApiInterfaces';
-import { CreateMetaResponse } from '../../types/responseTypes';
+import { MetaCreate } from '../../interfaces/ApiInterfaces';
 
 export const addGoal = (meta: MetaCreate, fijar: boolean) => {
     return async (dispatch: AppDispatch) => {
-        // dispatch( checkingCredentials() );
-        
         try{
-
             const { data } = await crearMeta(meta);
             const { id } = data;
 
@@ -22,10 +16,24 @@ export const addGoal = (meta: MetaCreate, fijar: boolean) => {
             }
 
             // dispatch( updateGoals() )
-        }
-        catch(err){
-            let error = err as Error;
 
+        } catch(err){
+            let error = err as Error;
+            // dispatch( logout({ message: error.message }) );
+        }
+    };
+};
+
+export const getGoals = () => {
+    return async (dispatch: AppDispatch) => {
+        dispatch( startLoadingGoals() );
+
+        try{
+            const { data } = await obtenerMetas();
+            dispatch( setGoals(data) );
+
+        } catch(err){
+            let error = err as Error;
             // dispatch( logout({ message: error.message }) );
         }
     };

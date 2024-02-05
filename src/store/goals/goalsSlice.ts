@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-// import { categoryIcon, iconColor, priority } from '../../types/appTypes';
 import { MetaCreate } from '../../interfaces/ApiInterfaces';
 
 export const goalsSlice = createSlice({
@@ -15,9 +14,9 @@ export const goalsSlice = createSlice({
         startLoadingGoals: (state) => {
             state.isLoading = true;
         },
-        setGoals: (state, action) => {
+        setGoals: (state, { payload }: PayloadAction<MetaCreate[]>) => {
             state.isLoading = false;
-            state.goals = action.payload.goals;
+            state.goals = payload
         },
         updateGoals: (state, { payload }: PayloadAction<MetaCreate>) => {
             state.goals = [ ...state.goals, payload ]

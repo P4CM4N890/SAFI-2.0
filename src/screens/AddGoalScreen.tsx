@@ -70,7 +70,7 @@ export const AddGoalScreen = ({ navigation }: Props) => {
             setError('La meta a alcanzar es obligatoria');
             return;
 
-        }else if (Number(cantidad) <= 0) {
+        } else if (Number(cantidad) <= 0) {
             setError('La meta a alcanzar debe ser mayor a cero');
             return;
         }
