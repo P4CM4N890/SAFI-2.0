@@ -8,7 +8,7 @@ import { categoryIcon, iconColor } from '../../types/appTypes';
 
 interface Props {
     isModalVisible: boolean;
-    color: iconColor;
+    color: iconColor | string;
     selectCategory: (category: categoryIcon) => void;
 }
 

@@ -10,7 +10,7 @@ import { InputLabel, Button, DatePickerLabel, CustomSwitch,
 CategoryModal, ColorModal, PriorityModal, ErrorMessage } from '../components';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { updateGoal } from '../store/goals/thunks';
+import { update } from '../store/goals/thunks';
 import { useForm, useUiStore } from '../hooks';
 
 import { categoryIcon, iconColor, priority, priorityColor } from '../types/appTypes';
@@ -19,26 +19,29 @@ interface Props extends StackScreenProps<GoalsStackParams, 'EditGoalScreen'>{};
 
 export const EditGoalScreen = ({ navigation, route }: Props) => {
 
-    const { goal: initialState } = route.params;
+    const { goal } = route.params;
     const dispatch = useAppDispatch();
 
     const [ error, setError ] = useState('');
+    const { uuid } = useAppSelector( state => state.auth );
 
     const [ categoryModalVisible, setCategoryModalVisible ] = useState(false);
-    const [ selectedCategory, setSelectedCategory ] = useState<categoryIcon>('flag-outline');
+    const [ selectedCategory, setSelectedCategory ] = useState(goal.icono);
 
     const [ colorModalVisible, setColorModalVisible ] = useState(false);
-    const [ selectedColor, setSelectedColor ] = useState<iconColor>('#A233D8');
+    const [ selectedColor, setSelectedColor ] = useState(goal.color);
 
     const [ priorityModalVisible, setPriorityModalVisible ] = useState(false);
-    const [ selectedPriority, setSelectedPriority ] = useState<priority>('Baja');
-    const [ selectedPriorityColor, setSelectedPriorityColor ] = useState<priorityColor>('#60D833');
+    const [ selectedPriority, setSelectedPriority ] = useState(goal.prioridad);
+    const [ selectedPriorityColor, setSelectedPriorityColor ] = useState(
+        (goal.prioridad === 'Baja') ? '#60D833' : (goal.prioridad === 'Media') ? '#FFE500' : '#D8336A'
+    );
 
     const { changeBarVisibility } = useUiStore();
 
     const { 
-        onChange, nombre, cantidad, descripcion, fecha_fin, fecha_inicio, color, icono, prioridad, fijar
-    } = useForm({ ...initialState, fijar: 'no' });
+        onChange, nombre, cantidad, descripcion, fecha_fin, fecha_inicio, color, icono, prioridad, fijar, form
+    } = useForm({ ...goal, fijar: 'no' });
 
     useEffect(() => {
         changeBarVisibility(false);
@@ -70,18 +73,20 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
             return;
         }
 
+        if(!uuid) return;
+
         dispatch(
-            updateGoal(initialState.id, 
+            update(goal.id, Number(uuid),
                 {
                     nombre,
                     cantidad: Number(cantidad),
-                    color,
-                    completada: 0,
+                    fecha_inicio: fecha_inicio.split('T')[0],
+                    fecha_fin: fecha_fin.split('T')[0],
                     descripcion,
-                    fecha_fin,
-                    fecha_inicio,
+                    prioridad,
+                    color,
                     icono,
-                    prioridad
+                    completada: 0,
                 }, fijar === 'si' ? true : false
             )
         );
@@ -101,6 +106,8 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
 
     const selectCategory = (category: categoryIcon) => {
         setSelectedCategory(category);
+        onChange(category, 'icono');
+
         closeCategoryModal();
     };
 
@@ -114,6 +121,8 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
 
     const selectColor = (color: iconColor) => {
         setSelectedColor(color);
+        onChange(color, 'color');
+
         closeColorModal();
     };
 
@@ -128,6 +137,8 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
     const selectPriority = (priority: priority, color: priorityColor) => {
         setSelectedPriority(priority);
         setSelectedPriorityColor(color);
+        onChange(priority, 'prioridad');
+
         closePriorityModal();
     };
 

@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { useForm, useUiStore } from '../hooks';
-import { addGoal } from '../store/goals/thunks';
+import { add } from '../store/goals/thunks';
 
 import { InputLabel, Button, DatePickerLabel, CustomSwitch, CategoryModal,
 ColorModal, PriorityModal, ErrorMessage } from '../components';
@@ -78,7 +78,7 @@ export const AddGoalScreen = ({ navigation }: Props) => {
         if(!uuid) return;
 
         dispatch(
-            addGoal({
+            add({
                 id_usuario: uuid,
                 nombre,
                 cantidad: Number(cantidad),

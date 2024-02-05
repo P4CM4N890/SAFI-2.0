@@ -260,15 +260,19 @@ export interface CategoriaEdit {
 }
 
 export interface MetaEdit {
-    nombre?: string
-    cantidad?: number
-    descripcion?: string
-    fecha_inicio?: string
-    fecha_fin?: string
-    completada?: number
-    icono?: string
-    color?: string
-    prioridad?: string
+    nombre: string
+    cantidad: number
+    descripcion: string
+    fecha_inicio: string
+    fecha_fin: string
+    completada: number
+    icono: string
+    color: string
+    prioridad: string
+}
+
+export interface MetaEditResponse {
+    status: string;
 }
 
 export interface IngresoEdit {
@@ -318,4 +322,10 @@ export interface LogroEdit {
     descripcion?: string
     experiencia?: number
     cantidad_metas_cumplidas?: number
+}
+
+// DELETE
+
+export interface MetaRemove {
+    id: string;
 }

@@ -1,12 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { MetaResponse } from '../../interfaces/ApiInterfaces';
+import { MetaRemove, MetaResponse } from '../../interfaces/ApiInterfaces';
 
 export const goalsSlice = createSlice({
     name: 'goals',
     initialState: {
-        goal: {} as MetaResponse,
         goals: [] as MetaResponse[],
         isLoading: false
     },
@@ -15,18 +14,22 @@ export const goalsSlice = createSlice({
         startLoadingGoals: (state) => {
             state.isLoading = true;
         },
-        setGoal: (state, { payload }: PayloadAction<MetaResponse>) => {
-            state.isLoading = false;
-            state.goal = payload
-        },
         setGoals: (state, { payload }: PayloadAction<MetaResponse[]>) => {
             state.isLoading = false;
             state.goals = payload
         },
-        updateGoals: (state, { payload }: PayloadAction<MetaResponse>) => {
+        addGoal: (state, { payload }: PayloadAction<MetaResponse>) => {
             state.goals = [ ...state.goals, payload ]
-        }
+        },
+        removeGoal: (state, { payload }: PayloadAction<MetaRemove>) => {
+            state.goals = state.goals.filter(goal => goal.id !== payload.id);
+        },
+        updateGoal: (state, { payload }: PayloadAction<MetaResponse>) => {
+            state.goals = state.goals.map(goal =>
+                goal.id === payload.id ? { ...goal, ...payload } : goal
+            );
+        },
     }
 });
 
-export const { startLoadingGoals, setGoal, setGoals, updateGoals } = goalsSlice.actions;
+export const { startLoadingGoals, setGoals, addGoal, removeGoal } = goalsSlice.actions;

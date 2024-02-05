@@ -1,10 +1,10 @@
 import { AppDispatch } from '../store';
-import { startLoadingGoals, setGoals, updateGoals, setGoal,  } from './goalsSlice';
-import { crearMeta, crearMetaFijada, obtenerMetas, obtenerMeta, actualizarMeta } from '../../api';
+import { startLoadingGoals, setGoals, addGoal, removeGoal } from './goalsSlice';
+import { crearMeta, crearMetaFijada, obtenerMetas, actualizarMeta } from '../../api';
 
 import { MetaCreate, MetaEdit } from '../../interfaces/ApiInterfaces';
 
-export const addGoal = (meta: MetaCreate, fijar: boolean) => {
+export const add = (meta: MetaCreate, fijar: boolean) => {
     return async (dispatch: AppDispatch) => {
         try{
             const { data } = await crearMeta(meta);
@@ -15,7 +15,7 @@ export const addGoal = (meta: MetaCreate, fijar: boolean) => {
                 // si la meta no se pudo fijar, mostrar un mensaje
             }
 
-            dispatch( updateGoals({ id, ...meta }) );
+            dispatch( addGoal({ id, ...meta }) );
 
         } catch(err){
             let error = err as Error;
@@ -24,48 +24,33 @@ export const addGoal = (meta: MetaCreate, fijar: boolean) => {
     };
 };
 
-export const getGoals = () => {
+export const update = (id: string, id_usuario: number, meta: MetaEdit, fijar: boolean) => {
+    return async (dispatch: AppDispatch) => {
+        try{
+            const { data } = await actualizarMeta(id, meta);
+
+            if(fijar) {
+                await crearMetaFijada({ id_usuario, id_meta: id });
+                // si la meta no se pudo fijar, mostrar un mensaje
+            }
+
+            dispatch( removeGoal({ id }) );
+            dispatch( addGoal({ id, id_usuario, ...meta }) );
+
+        } catch(err){
+            let error = err as Error;
+            // si ocurrió un error, mostrar un mensaje
+        }
+    };
+};
+
+export const getAll = () => {
     return async (dispatch: AppDispatch) => {
         dispatch( startLoadingGoals() );
 
         try{
             const { data } = await obtenerMetas();
             dispatch( setGoals(data) );
-
-        } catch(err){
-            let error = err as Error;
-            // si ocurrió un error, mostrar un mensaje
-        }
-    };
-};
-
-export const getGoal = (id: string) => {
-    return async (dispatch: AppDispatch) => {
-        dispatch( startLoadingGoals() );
-
-        try{
-            const { data } = await obtenerMeta(id);
-            dispatch( setGoal(data) );
-
-        } catch(err){
-            let error = err as Error;
-            // si ocurrió un error, mostrar un mensaje
-        }
-    };
-};
-
-export const updateGoal = (id: string, meta: MetaEdit, fijar: boolean) => {
-    return async (dispatch: AppDispatch) => {
-        try{
-            const { data } = await actualizarMeta(id, meta);
-            // const { id } = data;
-
-            // if(fijar) {
-            //     await crearMetaFijada({ id_usuario: meta.id_usuario, id_meta: id });
-            //     // si la meta no se pudo fijar, mostrar un mensaje
-            // }
-
-            // dispatch( updateGoals({ id, ...meta }) );
 
         } catch(err){
             let error = err as Error;

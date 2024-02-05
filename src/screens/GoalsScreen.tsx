@@ -3,7 +3,7 @@ import { View, ScrollView, Dimensions, ActivityIndicator } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
-import { getGoals } from '../store/goals/thunks';
+import { getAll } from '../store/goals/thunks';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { useUiStore } from '../hooks';
@@ -54,7 +54,7 @@ export const GoalsScreen = () => {
     }, [ isFocused ]);
 
     useEffect(() => {
-        dispatch( getGoals() );
+        dispatch( getAll() );
     }, []);
 
     const renderItem = (item: any) => {
@@ -103,36 +103,33 @@ export const GoalsScreen = () => {
                 </View>
 
                 <View className='-mt-4'>
-                    {   isLoading && (
+                    {   isLoading 
+                        ? 
                             <>
                                 <ActivityIndicator size={ 30 } color='#000' className='mt-24' /> 
                                 <Text className='text-center mt-3 font-medium text-zinc-500'>
                                     Cargando metas...
                                 </Text>
                             </>
-                        )
-                    }
 
-                    {
-                        (!isLoading && goals.length > 0) 
-                        ?   goals.map( goal => (
-                                <GoalCard 
-                                    key={ goal.id }
-                                    goal={ goal }
-                                    totalGoalCompleted='1000.00'
-                                    progress={ 0.5 }
-                                />
-                            ))
-                                
-                        :   <>
-                                <Text className='text-center font-medium text-xl text-zinc-500 mt-24'>
-                                    No Hay Metas Registradas 
-                                </Text>
-                                <Text className='text-center font-medium text-base text-zinc-500 mt-3'>
-                                    Cuando registres metas podrás verlas aquí
-                                </Text>
-                            </>
-                    }
+                        : (!isLoading && goals.length > 0) 
+                            ?   goals.map( goal => (
+                                    <GoalCard 
+                                        key={ goal.id }
+                                        goal={ goal }
+                                        totalGoalCompleted='1000.00'
+                                        progress={ 0.5 }
+                                    />
+                                ))
+                            :   <>
+                                    <Text className='text-center font-medium text-xl text-zinc-500 mt-24'>
+                                        No Hay Metas Registradas 
+                                    </Text>
+                                    <Text className='text-center font-medium text-base text-zinc-500 mt-3'>
+                                        Cuando registre metas podrá verlas aquí
+                                    </Text>
+                                </>
+                        }
                 </View>
             </ScrollView>
         </View>
