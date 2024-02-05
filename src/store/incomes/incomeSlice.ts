@@ -8,6 +8,11 @@ interface InitialStateInterface {
     errorMessage: string | null;
 };
 
+interface UpdateIncome {
+    newIncome: IngresoResponse;
+    index: number;
+}
+
 const initialState: InitialStateInterface = {
     ingresos: [],
     isSaving: false,
@@ -29,7 +34,16 @@ export const incomeSlice = createSlice({
             state.isSaving = false;
             state.ingresos.push(payload);
         },
+        updateIncome(state, { payload }: PayloadAction<UpdateIncome>){
+            state.isSaving = false;
+            state.ingresos[payload.index] = payload.newIncome;
+        },
+        deleteIncome(state, { payload }: PayloadAction<string>){
+            state.isSaving = false;
+            state.ingresos = state.ingresos.filter( ingreso => ingreso.id !== payload );
+        },
     },
 });
 
-export const { savingData, loadIncomes, addIncome } = incomeSlice.actions;
+export const { savingData, loadIncomes, 
+    addIncome, updateIncome, deleteIncome } = incomeSlice.actions;
