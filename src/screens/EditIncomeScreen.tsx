@@ -23,6 +23,8 @@ export const EditIncomeScreen = ({ navigation, route }: Props) => {
 
     const { changeBarVisibility } = useUiStore();
 
+    console.log(incomeId);
+
     useEffect(() => {
         changeBarVisibility(false);
 

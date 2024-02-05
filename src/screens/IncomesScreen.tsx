@@ -1,19 +1,30 @@
-import React, { useContext, useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
-import { Header } from '../components/headers/Header';
 import { IncomeCard } from '../components/cards/IncomeCard';
-import { ActiveComponentContext } from '../context/ActiveComponentContext';
 import { useUiStore } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { startLoadingIncomes } from '../store/incomes/thunks';
+import { LoadingScreen } from './LoadingScreen';
 
 export const IncomesScreen = () => {
     const { changeActiveComponent } = useUiStore();
     const isFocused = useIsFocused();
+    const dispatch = useAppDispatch();
+    const { ingresos, isSaving } = useAppSelector( state => state.income );
+
+    const saving = useMemo( () => isSaving, [isSaving] );
 
     useEffect(() => {
         if(isFocused) changeActiveComponent('IncomesScreen');
     }, [ isFocused ]);
+
+    useEffect(() => {
+        dispatch( startLoadingIncomes() );
+    }, []);
+
+    if (saving) return <LoadingScreen />
 
     return (
         <View className='w-full h-full items-center p-5'>
@@ -31,43 +42,19 @@ export const IncomesScreen = () => {
                 /> 
 
                 <View className='mt-6'>
-                    <Text className='text-black font-semibold text-sm uppercase'>Noviembre 3</Text>
-                    <IncomeCard 
-                        id={ 1 }
-                        title='Ahorro semanal' 
-                        iconName='calendar-outline' 
-                        iconColor='#33D8A2'
-                        money='500.00'
-                        time='12:00 p.m.'
-                    />
-                    <IncomeCard 
-                        id={ 2 }
-                        title='Venta de juegos' 
-                        iconName='game-controller-outline' 
-                        iconColor='#75E2F8'
-                        money='500.00'
-                        time='12:00 p.m.'
-                    />
-                </View>
-
-                <View className='mt-6'>
-                    <Text className='text-black font-semibold text-sm uppercase'>Noviembre 1</Text>
-                    <IncomeCard 
-                        id={ 3 }
-                        title='Ahorro semanal' 
-                        iconName='calendar-outline' 
-                        iconColor='#33D8A2'
-                        money='500.00'
-                        time='12:00 p.m.'
-                    />
-                    <IncomeCard 
-                        id={ 4 }
-                        title='Venta de juegos' 
-                        iconName='game-controller-outline' 
-                        iconColor='#75E2F8'
-                        money='500.00'
-                        time='12:00 p.m.'
-                    />
+                    {
+                        ingresos.map((ingreso, index) => {
+                            return <IncomeCard 
+                                key={ index }
+                                id={ ingreso.id }
+                                title={ ingreso.nombre }
+                                money={ ingreso.cantidad }
+                                time={ ingreso.fecha }
+                                iconName={ ingreso.icono }
+                                iconColor={ ingreso.color }
+                            />
+                        })
+                    }
                 </View>
 
             </ScrollView>

@@ -54,6 +54,7 @@ export interface IngresoCreate {
     cantidad: number
     icono: string
     color: string
+    fecha: string
 }
 
 export interface AbonoCreate {
@@ -67,6 +68,8 @@ export interface GastoCreate {
     id_usuario: number
     cantidad: number
     id_categoria: string
+    color: string
+    fecha: string
 }
 
 export interface RecordatorioDePagoCreate {
@@ -161,6 +164,7 @@ export interface IngresoResponse {
     cantidad: number
     icono: string
     color: string
+    fecha: string
 }
 
 export interface AbonoResponse {
@@ -176,6 +180,8 @@ export interface GastoResponse {
     id_usuario: number
     cantidad: number
     id_categoria: string
+    color: string
+    fecha: string
 }
 
 export interface RecordatorioDePagoResponse {
@@ -266,6 +272,7 @@ export interface IngresoEdit {
     cantidad?: number
     icono?: string
     color?: string
+    fecha?: string
 }
 
 export interface AbonoEdit {
@@ -277,6 +284,8 @@ export interface AbonoEdit {
 export interface GastoEdit {
     cantidad?: number
     id_categoria?: string
+    color?: string
+    fecha?: string
 }
 
 export interface RecordatorioDePagoEdit {

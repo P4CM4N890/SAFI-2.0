@@ -11,7 +11,7 @@ import { AddExpenseScreen } from '../screens/AddExpenseScreen';
 export type IncomesStackParams = {
     IncomesScreen: undefined;
     AddIncomeScreen: undefined;
-    EditIncomeScreen: { incomeId: number };
+    EditIncomeScreen: { incomeId: string };
     WalletTopTabNavigator: undefined;
     NotificationsStackNavigator: undefined;
     AddExpenseScreen: undefined;
