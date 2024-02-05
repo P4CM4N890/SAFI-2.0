@@ -30,13 +30,15 @@ const initialState = {
 export const AddGoalScreen = ({ navigation }: Props) => {
     const dispatch = useAppDispatch();
 
+    const { message } = useAppSelector(state => state.goals);
+    const { uuid } = useAppSelector( state => state.auth );
+
     const [ categoryModalVisible, setCategoryModalVisible ] = useState(false);
     const [ selectedCategory, setSelectedCategory ] = useState<categoryIcon>('flag-outline');
 
     const [ colorModalVisible, setColorModalVisible ] = useState(false);
     const [ selectedColor, setSelectedColor ] = useState<iconColor>('#A233D8');
 
-    const { uuid } = useAppSelector( state => state.auth );
     const [ error, setError ] = useState('');
 
     const [ priorityModalVisible, setPriorityModalVisible ] = useState(false);
@@ -52,6 +54,10 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     useEffect(() => {
         changeBarVisibility(false);
     }, []);
+
+    useEffect(() => {
+        console.log(message);
+    }, [ message ]);
 
     const onAddGoal = () => {
         if (!nombre) { 

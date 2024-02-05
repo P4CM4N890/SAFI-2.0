@@ -1,5 +1,5 @@
 import { AppDispatch } from '../store';
-import { startLoadingGoals, setGoals, addGoal, removeGoal } from './goalsSlice';
+import { startLoadingGoals, setGoals, addGoal, removeGoal, setMessage } from './goalsSlice';
 import { crearMeta, crearMetaFijada, obtenerMetas, actualizarMeta } from '../../api';
 
 import { MetaCreate, MetaEdit } from '../../interfaces/ApiInterfaces';
@@ -12,14 +12,26 @@ export const add = (meta: MetaCreate, fijar: boolean) => {
 
             if(fijar) {
                 await crearMetaFijada({ id_usuario: meta.id_usuario, id_meta: id });
-                // si la meta no se pudo fijar, mostrar un mensaje
             }
 
             dispatch( addGoal({ id, ...meta }) );
+            dispatch( 
+                setMessage({ message: 'Meta guardada correctamente' }) 
+            );
 
         } catch(err){
             let error = err as Error;
-            // si ocurrió un error, mostrar un mensaje
+            
+            if(error.message.includes('ya tiene una meta fijada')) {
+                dispatch( 
+                    setMessage({ message: 'Error al fijar la meta, ya tienes una meta fijada' }) 
+                );
+
+            } else {
+                dispatch( 
+                    setMessage({ message: 'Ocurrió un error al agregar la meta' }) 
+                );
+            }
         }
     };
 };
@@ -27,19 +39,32 @@ export const add = (meta: MetaCreate, fijar: boolean) => {
 export const update = (id: string, id_usuario: number, meta: MetaEdit, fijar: boolean) => {
     return async (dispatch: AppDispatch) => {
         try{
-            const { data } = await actualizarMeta(id, meta);
+            await actualizarMeta(id, meta);
 
             if(fijar) {
                 await crearMetaFijada({ id_usuario, id_meta: id });
-                // si la meta no se pudo fijar, mostrar un mensaje
             }
 
             dispatch( removeGoal({ id }) );
             dispatch( addGoal({ id, id_usuario, ...meta }) );
 
+            dispatch( 
+                setMessage({ message: 'Meta actualizada correctamente' }) 
+            );
+
         } catch(err){
             let error = err as Error;
-            // si ocurrió un error, mostrar un mensaje
+
+            if(error.message.includes('ya tiene una meta fijada')) {
+                dispatch( 
+                    setMessage({ message: 'Error al fijar la meta, ya tienes una meta fijada' }) 
+                );
+
+            } else {
+                dispatch( 
+                    setMessage({ message: 'Ocurrió un error al actualizar la meta' }) 
+                );
+            }
         }
     };
 };
@@ -53,8 +78,9 @@ export const getAll = () => {
             dispatch( setGoals(data) );
 
         } catch(err){
-            let error = err as Error;
-            // si ocurrió un error, mostrar un mensaje
+            dispatch( 
+                setMessage({ message: 'Ocurrió un error al obtener las metas'}) 
+            );
         }
     };
 };

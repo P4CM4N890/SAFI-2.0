@@ -20,10 +20,12 @@ interface Props extends StackScreenProps<GoalsStackParams, 'EditGoalScreen'>{};
 export const EditGoalScreen = ({ navigation, route }: Props) => {
 
     const { goal } = route.params;
+    const [ error, setError ] = useState('');
+
     const dispatch = useAppDispatch();
 
-    const [ error, setError ] = useState('');
     const { uuid } = useAppSelector( state => state.auth );
+    const { message } = useAppSelector(state => state.goals);
 
     const [ categoryModalVisible, setCategoryModalVisible ] = useState(false);
     const [ selectedCategory, setSelectedCategory ] = useState(goal.icono);
@@ -50,6 +52,10 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
             changeBarVisibility(true);
         };
     }, []);
+
+    useEffect(() => {
+        console.log(message);
+    }, [ message ]);
 
     const onUpdateGoal = () => {
         if (!nombre) { 
