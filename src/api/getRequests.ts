@@ -153,10 +153,9 @@ export const obtenerMeta = async (id: string): Promise<AxiosResponse<MetaRespons
 
     try {
         const response = await apiInstance.get<MetaResponse>(url, config);
-        
         return response;
-    }
-    catch(err) {
+        
+    } catch(err) {
         const errors = err as Error | AxiosError;
 
         if(!axios.isAxiosError(errors)){

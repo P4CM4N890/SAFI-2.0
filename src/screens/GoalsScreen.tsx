@@ -19,7 +19,7 @@ interface Slide {
     endDate?: string;
     progress?: number;
     percentage?: number;
-    type: 'mainGoal' | 'GoalsSummary'
+    type: 'mainGoal' | 'goalsSummary'
 }
 
 const cards: Slide[] = [
@@ -32,7 +32,7 @@ const cards: Slide[] = [
     },
     {
         percentage: 20,
-        type: 'GoalsSummary'
+        type: 'goalsSummary'
     }
 ];
 
@@ -115,7 +115,7 @@ export const GoalsScreen = () => {
 
                     {
                         (!isLoading && goals.length > 0) 
-                        ? goals.map( goal => (
+                        ?   goals.map( goal => (
                                 <GoalCard 
                                     id={ goal.id }
                                     title={ goal.nombre }

@@ -26,9 +26,9 @@ export const EditIncomeScreen = ({ navigation, route }: Props) => {
     useEffect(() => {
         changeBarVisibility(false);
 
-        return () => {
-            changeBarVisibility(true);
-        };
+        // return () => {
+        //     changeBarVisibility(true);
+        // };
     }, []);
 
     const openCategoryModal = () => {

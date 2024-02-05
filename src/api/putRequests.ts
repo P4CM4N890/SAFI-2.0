@@ -86,10 +86,9 @@ export const actualizarMeta = async (id: string, meta: MetaEdit): Promise<AxiosR
     
     try {
         const response = await apiInstance.put(url, body, config);
-        
         return response;
-    }
-    catch (err) {
+        
+    } catch (err) {
         const errors = err as Error | AxiosError;
 
         if(!axios.isAxiosError(errors)){

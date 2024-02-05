@@ -52,9 +52,9 @@ export const ForumScreen = ({ navigation }: Props) => {
     useEffect(() => {
         changeBarVisibility(false);
 
-        return () => {
-            changeBarVisibility(true);
-        };
+        // return () => {
+        //     changeBarVisibility(true);
+        // };
     }, []);
 
     // Al usar el useEffect, unicamente se dispara la primera vez que el componente se monta.

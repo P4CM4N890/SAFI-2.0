@@ -6,6 +6,7 @@ import { MetaResponse } from '../../interfaces/ApiInterfaces';
 export const goalsSlice = createSlice({
     name: 'goals',
     initialState: {
+        goal: {} as MetaResponse,
         goals: [] as MetaResponse[],
         isLoading: false
     },
@@ -13,6 +14,10 @@ export const goalsSlice = createSlice({
     reducers: {
         startLoadingGoals: (state) => {
             state.isLoading = true;
+        },
+        setGoal: (state, { payload }: PayloadAction<MetaResponse>) => {
+            state.isLoading = false;
+            state.goal = payload
         },
         setGoals: (state, { payload }: PayloadAction<MetaResponse[]>) => {
             state.isLoading = false;
@@ -24,4 +29,4 @@ export const goalsSlice = createSlice({
     }
 });
 
-export const { startLoadingGoals, setGoals } = goalsSlice.actions;
+export const { startLoadingGoals, setGoal, setGoals, updateGoals } = goalsSlice.actions;

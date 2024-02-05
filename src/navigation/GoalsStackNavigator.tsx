@@ -10,7 +10,7 @@ import { NotificationsStackNavigator } from '../navigation/NotificationsStackNav
 export type GoalsStackParams = {
     GoalsScreen: undefined;
     AddGoalScreen: undefined;
-    EditGoalScreen: { goalId: number };
+    EditGoalScreen: { goalId: string };
     NotificationsStackNavigator: undefined;
 };
 

@@ -27,9 +27,9 @@ export const NotificationsScreen = ({ navigation }: Props) => {
     useEffect(() => {
         changeBarVisibility(false);
 
-        return () => {
-            changeBarVisibility(true);
-        };
+        // return () => {
+        //     changeBarVisibility(true);
+        // };
     }, []);
 
     const toggleSwitch = (isEnabled: boolean, setIsEnabled: Function, notification: NotificationCardProps) => {
