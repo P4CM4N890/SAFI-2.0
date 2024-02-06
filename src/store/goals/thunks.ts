@@ -10,11 +10,12 @@ export const add = (meta: MetaCreate, fijar: boolean) => {
             const { data } = await crearMeta(meta);
             const { id } = data;
 
+            dispatch( addGoal({ id, ...meta }) );
+
             if(fijar) {
                 await crearMetaFijada({ id_usuario: meta.id_usuario, id_meta: id });
             }
 
-            dispatch( addGoal({ id, ...meta }) );
             dispatch( 
                 setMessage({ message: 'Meta guardada correctamente' }) 
             );
@@ -41,12 +42,12 @@ export const update = (id: string, id_usuario: number, meta: MetaEdit, fijar: bo
         try{
             await actualizarMeta(id, meta);
 
+            dispatch( removeGoal({ id }) );
+            dispatch( addGoal({ id, id_usuario, ...meta }) );
+
             if(fijar) {
                 await crearMetaFijada({ id_usuario, id_meta: id });
             }
-
-            dispatch( removeGoal({ id }) );
-            dispatch( addGoal({ id, id_usuario, ...meta }) );
 
             dispatch( 
                 setMessage({ message: 'Meta actualizada correctamente' }) 
@@ -82,5 +83,11 @@ export const getAll = () => {
                 setMessage({ message: 'Ocurrió un error al obtener las metas'}) 
             );
         }
+    };
+};
+
+export const cleanMessage = () => {
+    return async (dispatch: AppDispatch) => {
+        dispatch( setMessage({ message: '' }) );
     };
 };

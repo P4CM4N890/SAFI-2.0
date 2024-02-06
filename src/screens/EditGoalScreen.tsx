@@ -7,10 +7,10 @@ import { GoalsStackParams } from '../navigation/GoalsStackNavigator';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { InputLabel, Button, DatePickerLabel, CustomSwitch, 
-CategoryModal, ColorModal, PriorityModal, ErrorMessage } from '../components';
+CategoryModal, ColorModal, PriorityModal, ErrorMessage, MessageModal } from '../components';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { update } from '../store/goals/thunks';
+import { cleanMessage, update } from '../store/goals/thunks';
 import { useForm, useUiStore } from '../hooks';
 
 import { categoryIcon, iconColor, priority, priorityColor } from '../types/appTypes';
@@ -21,6 +21,7 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
 
     const { goal } = route.params;
     const [ error, setError ] = useState('');
+    const [ modalVisible, setModalVisible ] = useState<boolean>(false);
 
     const dispatch = useAppDispatch();
 
@@ -54,8 +55,18 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
     }, []);
 
     useEffect(() => {
-        console.log(message);
+        if(!message) return;
+        setModalVisibility(true);
     }, [ message ]);
+
+    const setModalVisibility = (isVisible: boolean) => {
+        setModalVisible(isVisible);
+    };
+
+    const onCloseModal = () => {
+        dispatch( cleanMessage() );
+        navigation.navigate('GoalsScreen');
+    };
 
     const onUpdateGoal = () => {
         if (!nombre) { 
@@ -151,6 +162,12 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <ScrollView>
+                <MessageModal 
+                    message={ message }
+                    modalVisible={ modalVisible }
+                    setModalVisible={ setModalVisibility }
+                    onClose={ onCloseModal }
+                />
                 <View className='w-full h-full items-center py-5'>
 
                     <Text className='mt-6 text-2xl font-bold text-primary uppercase tracking-widest'>

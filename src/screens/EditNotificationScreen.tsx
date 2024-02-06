@@ -18,8 +18,6 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
         'Non-serializable values were found in the navigation state. Check:',
     ]);
     
-    const { uuid } = useAppSelector( state => state.auth );
-
     const { 
         id, 
         title: nombre, 
@@ -42,6 +40,10 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
     const [ isEnabled, setIsEnabled ] = useState(isActive);
     const [ modalVisible, setModalVisible ] = useState(false);
     const [ modalMessage, setModalMessage ] = useState('');
+
+    const setModalVisibility = (isVisible: boolean) => {
+        setModalVisible(isVisible);
+    };
     
     const onUpdate = () => {
         if (nombre.length === 0) {
@@ -70,7 +72,7 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
         navigation.goBack();
     };
 
-    const { changeBarVisibility } = useUiStore();
+    // const { changeBarVisibility } = useUiStore();
 
     // useEffect(() => {
     //     changeBarVisibility(false);
@@ -85,7 +87,7 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
             <MessageModal
                 message={ modalMessage }
                 modalVisible={ modalVisible }
-                setModalVisible={ setModalVisible }
+                setModalVisible={ setModalVisibility }
             />
 
             <View className='w-full h-full items-center py-5'>

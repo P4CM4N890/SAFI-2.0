@@ -33,7 +33,9 @@ export const AddNotificationScreen = ({ navigation }: Props) => {
     const [ modalMessage, setModalMessage ] = useState('');
     const { nombre, fecha, annotations, onChange } = useForm(initialState);
 
-    const { changeBarVisibility } = useUiStore();
+    const setModalVisibility = (isVisible: boolean) => {
+        setModalVisible(isVisible);
+    };
 
     const onAddNotification = async () => {
         Keyboard.dismiss();
@@ -107,7 +109,7 @@ export const AddNotificationScreen = ({ navigation }: Props) => {
                 <MessageModal
                     message={ modalMessage }
                     modalVisible={ modalVisible }
-                    setModalVisible={ setModalVisible }
+                    setModalVisible={ setModalVisibility }
                 />
 
                 <View className='w-full h-full items-center mb-5'>

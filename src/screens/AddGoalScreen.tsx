@@ -6,10 +6,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { useForm, useUiStore } from '../hooks';
-import { add } from '../store/goals/thunks';
+import { add, cleanMessage } from '../store/goals/thunks';
 
 import { InputLabel, Button, DatePickerLabel, CustomSwitch, CategoryModal,
-ColorModal, PriorityModal, ErrorMessage } from '../components';
+ColorModal, PriorityModal, ErrorMessage, MessageModal } from '../components';
 
 import { categoryIcon, iconColor, priority, priorityColor } from '../types/appTypes';
 
@@ -40,6 +40,7 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     const [ selectedColor, setSelectedColor ] = useState<iconColor>('#A233D8');
 
     const [ error, setError ] = useState('');
+    const [ modalVisible, setModalVisible ] = useState<boolean>(false);
 
     const [ priorityModalVisible, setPriorityModalVisible ] = useState(false);
     const [ selectedPriority, setSelectedPriority ] = useState<priority>('Baja');
@@ -56,8 +57,18 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     }, []);
 
     useEffect(() => {
-        console.log(message);
+        if(!message) return;
+        setModalVisibility(true);
     }, [ message ]);
+
+    const setModalVisibility = (isVisible: boolean) => {
+        setModalVisible(isVisible);
+    };
+
+    const onCloseModal = () => {
+        dispatch( cleanMessage() );
+        navigation.navigate('GoalsScreen');
+    };
 
     const onAddGoal = () => {
         if (!nombre) { 
@@ -152,6 +163,13 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <ScrollView>
+                <MessageModal
+                    message={ message }
+                    modalVisible={ modalVisible }
+                    setModalVisible={ setModalVisibility }
+                    onClose={ onCloseModal }
+                />
+
                 <View className='w-full h-full items-center mb-9'>
 
                     <Text className='mt-6 text-2xl font-bold text-primary uppercase tracking-widest'>
