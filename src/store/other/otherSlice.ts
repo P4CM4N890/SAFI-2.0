@@ -1,15 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { UsuarioResponse } from '../../interfaces/ApiInterfaces';
+import { CategoriaResponse, UsuarioResponse } from '../../interfaces/ApiInterfaces';
 
 interface InitialStateInterface {
     users: UsuarioResponse[];
     emails: string[];
+    categorias: CategoriaResponse[];
 }
 
 const initialState: InitialStateInterface = {
     users: [],
     emails: [],
+    categorias: [],
 };
 
 export const otherSlice = createSlice({
@@ -22,7 +24,10 @@ export const otherSlice = createSlice({
         loadEmails(state, { payload }: PayloadAction<string[]>){
             state.emails = payload;
         },
+        loadCategories(state, { payload }: PayloadAction<CategoriaResponse[]>){
+            state.categorias = payload;
+        },
     },
 });
 
-export const { loadUsers, loadEmails } = otherSlice.actions;
+export const { loadUsers, loadEmails, loadCategories } = otherSlice.actions;

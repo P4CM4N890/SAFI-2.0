@@ -1,27 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
-import Icon from 'react-native-vector-icons/Ionicons';
-
-import { InputLabel, Button, CategoryModal, ColorModal } from '../components';
-import { categoryIcon, iconColor } from '../types/appTypes';
+import { InputLabel, Button, ColorModal, ErrorMessage, CategoryDropdown } from '../components';
+import { iconColor } from '../types/appTypes';
 import { IncomesStackParams } from '../navigation/IncomesStackNavigator';
-import { useUiStore } from '../hooks';
+import { useForm, useUiStore } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { LoadingScreen } from './LoadingScreen';
+import { startDeletingExpense, startUpdatingExpense } from '../store/expenses';
+import { GastoEdit } from '../interfaces/ApiInterfaces';
 
-interface Props extends StackScreenProps<IncomesStackParams, 'EditIncomeScreen'>{};
+interface Props extends StackScreenProps<IncomesStackParams, 'EditExpenseScreen'>{};
 
 export const EditExpenseScreen = ({ navigation, route }: Props) => {
-
-    const { incomeId } = route.params;
-
-    const [ categoryModalVisible, setCategoryModalVisible ] = useState(false);
-    const [ selectedCategory, setSelectedCategory ] = useState<categoryIcon>('flag-outline');
-
-    const [ colorModalVisible, setColorModalVisible ] = useState(false);
-    const [ selectedColor, setSelectedColor ] = useState<iconColor>('#A233D8');
-
+    const dispatch = useAppDispatch();
+    const { expenseId } = route.params;
     const { changeBarVisibility } = useUiStore();
+    const { gastos, isSaving } = useAppSelector( state => state.expense );
+    const gastoActual = gastos.find( gasto => gasto.id === expenseId );
+
+    const { cantidad, onChange } = useForm({ cantidad: gastoActual?.cantidad.toString() as string });
+
+    const saving = useMemo( () => isSaving, [isSaving] );
+    
+    const [ colorModalVisible, setColorModalVisible ] = useState(false);
+    const [ selectedColor, setSelectedColor ] = useState<iconColor>(gastoActual?.color as iconColor);
+    const [ categoria, setCategoria ] = useState(gastoActual?.categoria);
+    const [ error, setError ] = useState("");
 
     useEffect(() => {
         changeBarVisibility(false);
@@ -30,19 +36,6 @@ export const EditExpenseScreen = ({ navigation, route }: Props) => {
             changeBarVisibility(true);
         };
     }, []);
-
-    const openCategoryModal = () => {
-        setCategoryModalVisible(true);
-    };
-  
-    const closeCategoryModal = () => {
-        setCategoryModalVisible(false);
-    };
-
-    const selectCategory = (category: categoryIcon) => {
-        setSelectedCategory(category);
-        closeCategoryModal();
-    };
 
     const openColorModal = () => {
         setColorModalVisible(true);
@@ -57,44 +50,80 @@ export const EditExpenseScreen = ({ navigation, route }: Props) => {
         closeColorModal();
     };
 
+    const onUpdateExpense = () => {
+        if(!categoria || !cantidad){
+            setError("Debes llenar todos los campos");
+            return;
+        }
+        else if(parseFloat(cantidad) <= 0){
+            setError("Ingresa una cantidad válida");
+            return;
+        }
+
+        let newGasto: GastoEdit = {
+            cantidad: parseFloat(cantidad),
+            categoria: categoria.toLowerCase(),
+            color: selectedColor,
+        };
+
+        dispatch( startUpdatingExpense(expenseId, newGasto) );
+
+        navigation.navigate('ExpensesScreen');
+    };
+
+    const onDeleteExpense = () => {
+        dispatch( startDeletingExpense(expenseId) );
+
+        navigation.navigate("ExpensesScreen");
+    };
+
+    if (saving) return <LoadingScreen />
+
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <ScrollView>
                 <View className='w-full h-full items-center'>
 
-                    <Text className='mt-12 text-2xl font-bold text-primary uppercase tracking-widest'>
-                        Editar Ingreso
+                    <Text 
+                        className='mt-12 text-2xl font-bold text-primary uppercase tracking-widest'
+                    >
+                        Editar Gasto
                     </Text>
 
-                    <InputLabel 
-                        label='Nombrel del ingreso' 
-                        placeholder='' 
-                        type='text'
-                        extraClass='mt-16'
-                    />
+                    <TouchableOpacity
+                        activeOpacity={ 0.8 }
+                        onPress={ onDeleteExpense }
+                    >
+                        <Text className='mt-4 text-l font-semibold text-red 
+                        uppercase tracking-widest'>
+                            Eliminar
+                        </Text>
+                    </TouchableOpacity>
 
                     <InputLabel 
                         label='Cantidad' 
                         placeholder='' 
                         type='numeric'
-                        extraClass='mt-4'
+                        extraClass='mt-16'
                         iconName='cash-outline'
+                        value={ cantidad }
+                        onChange={ (value) => onChange(value, 'cantidad') }
+                    />
+
+                    <Text 
+                        className='w-5/6 mt-4 mb-1 font-semibold text-base text-primary'
+                    >
+                        Categoria
+                    </Text>
+
+                    <CategoryDropdown
+                        defaultValue={ 
+                            gastoActual?.categoria.charAt(0).toUpperCase() as string
+                            + gastoActual?.categoria.slice(1) as string }
+                        setCategory={ setCategoria }
                     />
 
                     <View className='mt-16 w-5/6 flex-row justify-around'>
-                        <View className='items-center'>
-                            <Text className='mb-2 text-primary text-sm'>Categoria</Text>
-
-                            <TouchableOpacity
-                                activeOpacity={ 0.7 }
-                                onPress={ openCategoryModal }
-                                className='rounded-full h-12 w-12 items-center justify-center'
-                                style={{ backgroundColor: selectedColor }}
-                            >
-                                <Icon name={ selectedCategory } color='#FFF' size={ 30 }/>
-                            </TouchableOpacity>
-                        </View>
-
                         <View className='items-center'>
                             <Text className='mb-2 text-primary text-sm'>Color</Text>
 
@@ -107,10 +136,16 @@ export const EditExpenseScreen = ({ navigation, route }: Props) => {
                         </View>
                     </View>
 
+                    <ErrorMessage 
+                        message={ error }
+                        showMessage={ !!error }
+                        extraClass={ 'mt-4'}
+                    />
+
                     <View className='mt-16 w-5/6 flex-row justify-between'>
                         <Button 
                             label='Guardar' 
-                            onPress={ () => {} }
+                            onPress={ onUpdateExpense }
                         />
                         <Button 
                             label='Cancelar' 
@@ -120,12 +155,6 @@ export const EditExpenseScreen = ({ navigation, route }: Props) => {
                     </View>
 
                 </View>
-
-                <CategoryModal 
-                    isModalVisible={ categoryModalVisible } 
-                    selectCategory={ selectCategory }
-                    color={ selectedColor }
-                />
 
                 <ColorModal 
                     isModalVisible={ colorModalVisible }

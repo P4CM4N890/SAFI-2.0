@@ -67,7 +67,7 @@ export interface AbonoCreate {
 export interface GastoCreate {
     id_usuario: number
     cantidad: number
-    id_categoria: string
+    categoria: string
     color: string
     fecha: string
 }
@@ -179,7 +179,7 @@ export interface GastoResponse {
     id: string
     id_usuario: number
     cantidad: number
-    id_categoria: string
+    categoria: string
     color: string
     fecha: string
 }
@@ -283,7 +283,7 @@ export interface AbonoEdit {
 
 export interface GastoEdit {
     cantidad?: number
-    id_categoria?: string
+    categoria?: string
     color?: string
     fecha?: string
 }
