@@ -2,11 +2,11 @@ import { useEffect, useMemo } from "react";
 import { View, ScrollView } from 'react-native';
 import { useIsFocused } from "@react-navigation/native";
 import { useUiStore } from "../hooks";
-import { ExpenseCard } from "../components";
+import { ExpenseBarChart, ExpenseCard } from "../components";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { startLoadingExpenses } from "../store/expenses";
 import { LoadingScreen } from "./LoadingScreen";
 import { startLoadingCategories } from "../store/other";
+import { Text } from "react-native";
 
 export const ExpensesScreen = () => {
     const dispatch = useAppDispatch();
@@ -19,14 +19,12 @@ export const ExpensesScreen = () => {
     useEffect(() => {
         if(isFocused) changeActiveComponent('ExpensesScreen');
     }, [ isFocused ]);
-
-    useEffect(() => {
-        dispatch( startLoadingExpenses() );
-    }, []);
     
     useEffect(() => {
         dispatch( startLoadingCategories() );
     }, []);
+
+    console.log(gastos);
 
     if (saving) return <LoadingScreen />
 
@@ -36,22 +34,41 @@ export const ExpensesScreen = () => {
                 className='w-full h-full' 
                 showsVerticalScrollIndicator={ false }
             >
-                {/* <Header title='Proyección de Ahorro'/> */}
+                {
+                    gastos.length > 0 ?
+                    <>
+                        <Text className='w-5/6 text-xl text-black mb-4 font-bold tracking-widest'>
+                            Últimos 6 Meses
+                        </Text>
+                        
+                        <ExpenseBarChart 
+                            data={ [...gastos] }
+                        />
 
-                <View className='mt-6'>
-                    {
-                        gastos.map( (gasto, index) => {
-                            return <ExpenseCard 
-                                key={ index }
-                                id={ gasto.id }
-                                cantidad={ gasto.cantidad }
-                                fecha={ gasto.fecha }
-                                categoria={ gasto.categoria } 
-                                color={ gasto.color }
-                            />
-                        } )
-                    }
-                </View>
+                        <View className='mt-6'>
+                            {
+                                gastos.map( (gasto, index) => {
+                                    return <ExpenseCard 
+                                        key={ index }
+                                        id={ gasto.id }
+                                        cantidad={ gasto.cantidad }
+                                        fecha={ gasto.fecha }
+                                        categoria={ gasto.categoria } 
+                                        color={ gasto.color }
+                                    />
+                                } )
+                            }
+                        </View>
+                    </>
+                    :
+                    <Text 
+                        className='w-5/6 text-2xl text-gray mb-4 font-bold 
+                        tracking-widest text-center mt-20 ml-7'
+                    >
+                        No hay gastos registrados.
+                    </Text>
+                }
+                
 
             </ScrollView>
 

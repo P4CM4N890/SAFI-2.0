@@ -133,7 +133,7 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
                     <View className='mt-16 w-5/6 flex-row justify-around'>
 
                         <View className='items-center'>
-                            <Text className='mb-2 text-primary text-sm'>Categoria</Text>
+                            <Text className='mb-2 text-primary text-sm'>Icono</Text>
 
                             <TouchableOpacity
                                 activeOpacity={ 0.7 }

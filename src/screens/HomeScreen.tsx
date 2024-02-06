@@ -5,6 +5,9 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import { MainGoalCard, LatestIncomeCard } from '../components';
 import { useUiStore } from '../hooks';
+import { useAppDispatch } from '../store/hooks';
+import { startLoadingIncomes } from '../store/incomes';
+import { startLoadingExpenses } from '../store/expenses';
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
 
@@ -33,6 +36,7 @@ const cards: Slide[] = [
 ];
 
 export const HomeScreen = () => {
+    const dispatch = useAppDispatch();
 
     const [ activeIndex, setActiveindex ] = useState(0);
     const { changeActiveComponent } = useUiStore();
@@ -42,6 +46,14 @@ export const HomeScreen = () => {
     useEffect(() => {
         if(isFocused) changeActiveComponent('HomeScreen');
     }, [ isFocused ]);
+
+    useEffect(() => {
+        dispatch( startLoadingIncomes() );
+    }, []);
+
+    useEffect(() => {
+        dispatch( startLoadingExpenses() );
+    }, []);
 
     const renderItem = (item: any) => {
         if(item.type === 'mainGoal') {

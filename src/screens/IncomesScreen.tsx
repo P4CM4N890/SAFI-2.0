@@ -4,14 +4,13 @@ import { useIsFocused } from '@react-navigation/native';
 
 import { IncomeCard } from '../components/cards/IncomeCard';
 import { useUiStore } from '../hooks';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { startLoadingIncomes } from '../store/incomes/thunks';
+import { useAppSelector } from '../store/hooks';
 import { LoadingScreen } from './LoadingScreen';
+import { IncomeBarChart } from '../components';
 
 export const IncomesScreen = () => {
     const { changeActiveComponent } = useUiStore();
     const isFocused = useIsFocused();
-    const dispatch = useAppDispatch();
     const { ingresos, isSaving } = useAppSelector( state => state.income );
 
     const saving = useMemo( () => isSaving, [isSaving] );
@@ -19,10 +18,6 @@ export const IncomesScreen = () => {
     useEffect(() => {
         if(isFocused) changeActiveComponent('IncomesScreen');
     }, [ isFocused ]);
-
-    useEffect(() => {
-        dispatch( startLoadingIncomes() );
-    }, []);
 
     if (saving) return <LoadingScreen />
 
@@ -32,30 +27,45 @@ export const IncomesScreen = () => {
                 className='w-full h-full' 
                 showsVerticalScrollIndicator={ false }
             >
-                {/* <Header title='Proyección de Ahorro'/> */}
+                {
+                    ingresos.length > 0  ?
+                        <>
+                            <Text 
+                                className='w-5/6 text-xl text-black mb-4 font-bold tracking-widest'
+                            >
+                                Últimos 6 Meses
+                            </Text>
 
-                {/* SÓLO PARA PROBAR */}
-                <Image 
-                    source={ require('../assets/img/grafica.png') } 
-                    className='w-full h-56 mt-8'
-                    resizeMode='contain'
-                /> 
-
-                <View className='mt-6'>
-                    {
-                        ingresos.map((ingreso, index) => {
-                            return <IncomeCard 
-                                key={ index }
-                                id={ ingreso.id }
-                                title={ ingreso.nombre }
-                                money={ ingreso.cantidad }
-                                time={ ingreso.fecha }
-                                iconName={ ingreso.icono }
-                                iconColor={ ingreso.color }
+                            <IncomeBarChart 
+                                data={ [...ingresos] }
                             />
-                        })
-                    }
-                </View>
+
+                            <View className='mt-6'>
+                                {
+                                    ingresos.map((ingreso, index) => {
+                                        return <IncomeCard 
+                                            key={ index }
+                                            id={ ingreso.id }
+                                            title={ ingreso.nombre }
+                                            money={ ingreso.cantidad }
+                                            time={ ingreso.fecha }
+                                            iconName={ ingreso.icono }
+                                            iconColor={ ingreso.color }
+                                        />
+                                    })
+                                }
+                            </View>
+                        </>
+                    :
+                    <Text
+                        className='w-5/6 text-2xl text-gray mb-4 font-bold 
+                        tracking-widest text-center mt-20 ml-7'
+                    >
+                        No hay ingresos registrados.
+                    </Text>
+                }
+
+                
 
             </ScrollView>
 
