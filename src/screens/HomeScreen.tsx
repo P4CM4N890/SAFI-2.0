@@ -18,7 +18,7 @@ interface Slide {
     endDate?: string;
     progress?: number;
     incomeAmount?: number;
-    type: 'mainGoal' | 'latestIncome'
+    type: 'mainGoal' | 'latestIncome';
 }
 
 const cards: Slide[] = [
