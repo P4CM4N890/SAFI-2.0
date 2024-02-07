@@ -1,4 +1,3 @@
-import React, { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { HomeScreen } from '../screens/HomeScreen';
@@ -13,6 +12,7 @@ import { AddIncomeButton } from '../components/buttons/AddIncomeButton';
 import { TabBarButton } from '../components/buttons/TabBarButton';
 
 import { useUiStore } from '../hooks';
+import { AddExpenseButton } from '../components';
 
 const Tab = createBottomTabNavigator();
 
@@ -64,8 +64,8 @@ export const BottomTabNavigator = () => {
                             iconColor={ color } 
                             iconSize={ size } 
                             isFocused={ focused }
-                            iconName='cash-outline'
-                            label='Ingresos'
+                            iconName='wallet-outline'
+                            label='Cartera'
                         />
                     )
                 }} 
@@ -100,13 +100,27 @@ export const BottomTabNavigator = () => {
             }
 
             {
-                activeComponent === 'IncomesStackNavigator' && (
+                activeComponent === 'IncomesScreen' && (
                     <Tab.Screen 
                         name='AddIncomeButton' 
                         component={ AddIncomeButton }
                         options={{
                             tabBarIcon: () => (
                                 <AddIncomeButton />
+                            )
+                        }} 
+                    />
+                )
+            }
+            
+            {
+                activeComponent === 'ExpensesScreen' && (
+                    <Tab.Screen 
+                        name='AddExpenseButton' 
+                        component={ AddExpenseButton }
+                        options={{
+                            tabBarIcon: () => (
+                                <AddExpenseButton />
                             )
                         }} 
                     />

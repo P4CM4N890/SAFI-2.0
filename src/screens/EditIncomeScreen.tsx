@@ -1,27 +1,44 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { InputLabel, Button, CategoryModal, ColorModal } from '../components';
+import { InputLabel, Button, CategoryModal, ColorModal, ErrorMessage } from '../components';
 import { categoryIcon, iconColor } from '../types/appTypes';
 import { IncomesStackParams } from '../navigation/IncomesStackNavigator';
-import { useUiStore } from '../hooks';
+import { useForm, useUiStore } from '../hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { LoadingScreen } from './LoadingScreen';
+import { IngresoEdit, IngresoResponse } from '../interfaces/ApiInterfaces';
+import { startDeletingIncome, startUpdatigIncome } from '../store/incomes';
 
 interface Props extends StackScreenProps<IncomesStackParams, 'EditIncomeScreen'>{};
 
 export const EditIncomeScreen = ({ navigation, route }: Props) => {
-
     const { incomeId } = route.params;
+    
+    const { changeBarVisibility } = useUiStore();
+    const dispatch = useAppDispatch();
+    const { ingresos, isSaving } = useAppSelector( state => state.income );
+    const ingresoActual = ingresos.find( ingreso => ingreso.id === incomeId ) as IngresoResponse;
+
+    const initialState = {
+        nombre: ingresoActual?.nombre || '',
+        cantidad: ingresoActual?.cantidad.toString() || '',
+    }
+
+    const { nombre, cantidad, onChange } = useForm(initialState);
+
+    const saving = useMemo( () => isSaving, [isSaving] );
 
     const [ categoryModalVisible, setCategoryModalVisible ] = useState(false);
-    const [ selectedCategory, setSelectedCategory ] = useState<categoryIcon>('flag-outline');
+    const [ selectedCategory, setSelectedCategory ] = useState<categoryIcon>(ingresoActual?.icono as categoryIcon);
 
     const [ colorModalVisible, setColorModalVisible ] = useState(false);
-    const [ selectedColor, setSelectedColor ] = useState<iconColor>('#A233D8');
+    const [ selectedColor, setSelectedColor ] = useState<iconColor>(ingresoActual?.color as iconColor);
 
-    const { changeBarVisibility } = useUiStore();
+    const [ error, setError ] = useState("");
 
     useEffect(() => {
         changeBarVisibility(false);
@@ -57,6 +74,40 @@ export const EditIncomeScreen = ({ navigation, route }: Props) => {
         closeColorModal();
     };
 
+    const onUpdateIncome = () => {
+        if(!nombre || !cantidad){
+            setError("Debes llenar todos los campos");
+            return;
+        }
+        else if (nombre.length < 3) {
+            setError("El nombre debe ser de al menos 3 caracteres.")
+            return;
+        }
+        else if (parseFloat(cantidad) <= 0) {
+            setError("Ingresa una cantidad válida.");
+            return;
+        }
+
+        const newIngreso: IngresoEdit = {
+            nombre,
+            cantidad: parseFloat(cantidad),
+            color: selectedColor,
+            icono: selectedCategory,
+        }
+
+        dispatch( startUpdatigIncome(incomeId, newIngreso) );
+
+        navigation.navigate("IncomesScreen");
+    };
+
+    const onDeleteIncome = () => {
+        dispatch( startDeletingIncome(incomeId) );
+
+        navigation.navigate("IncomesScreen");
+    };
+
+    if (saving) return <LoadingScreen />
+
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <ScrollView>
@@ -65,12 +116,24 @@ export const EditIncomeScreen = ({ navigation, route }: Props) => {
                     <Text className='mt-12 text-2xl font-bold text-primary uppercase tracking-widest'>
                         Editar Ingreso
                     </Text>
+                    
+                    <TouchableOpacity
+                        activeOpacity={ 0.8 }
+                        onPress={ onDeleteIncome }
+                    >
+                        <Text className='mt-4 text-l font-semibold text-red 
+                        uppercase tracking-widest'>
+                            Eliminar
+                        </Text>
+                    </TouchableOpacity>
 
                     <InputLabel 
                         label='Nombrel del ingreso' 
                         placeholder='' 
                         type='text'
-                        extraClass='mt-16'
+                        extraClass='mt-12'
+                        value={ nombre }
+                        onChange={ (value) => onChange(value, 'nombre') }
                     />
 
                     <InputLabel 
@@ -79,11 +142,13 @@ export const EditIncomeScreen = ({ navigation, route }: Props) => {
                         type='numeric'
                         extraClass='mt-4'
                         iconName='cash-outline'
+                        value={ cantidad }
+                        onChange={ (value) => onChange(value, 'cantidad') }
                     />
 
                     <View className='mt-16 w-5/6 flex-row justify-around'>
                         <View className='items-center'>
-                            <Text className='mb-2 text-primary text-sm'>Categoria</Text>
+                            <Text className='mb-2 text-primary text-sm'>Icono</Text>
 
                             <TouchableOpacity
                                 activeOpacity={ 0.7 }
@@ -107,10 +172,16 @@ export const EditIncomeScreen = ({ navigation, route }: Props) => {
                         </View>
                     </View>
 
+                    <ErrorMessage
+                        message={ error }
+                        showMessage={ !!error }
+                        extraClass={ 'mt-4'}
+                    />
+
                     <View className='mt-16 w-5/6 flex-row justify-between'>
                         <Button 
                             label='Guardar' 
-                            onPress={ () => {} }
+                            onPress={ onUpdateIncome }
                         />
                         <Button 
                             label='Cancelar' 

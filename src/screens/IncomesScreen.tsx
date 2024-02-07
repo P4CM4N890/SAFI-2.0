@@ -1,19 +1,25 @@
-import React, { useContext, useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
-import { Header } from '../components/headers/Header';
 import { IncomeCard } from '../components/cards/IncomeCard';
-import { ActiveComponentContext } from '../context/ActiveComponentContext';
 import { useUiStore } from '../hooks';
+import { useAppSelector } from '../store/hooks';
+import { LoadingScreen } from './LoadingScreen';
+import { IncomeBarChart } from '../components';
 
 export const IncomesScreen = () => {
     const { changeActiveComponent } = useUiStore();
     const isFocused = useIsFocused();
+    const { ingresos, isSaving } = useAppSelector( state => state.income );
+
+    const saving = useMemo( () => isSaving, [isSaving] );
 
     useEffect(() => {
-        if(isFocused) changeActiveComponent('IncomesStackNavigator');
+        if(isFocused) changeActiveComponent('IncomesScreen');
     }, [ isFocused ]);
+
+    if (saving) return <LoadingScreen />
 
     return (
         <View className='w-full h-full items-center p-5'>
@@ -21,54 +27,45 @@ export const IncomesScreen = () => {
                 className='w-full h-full' 
                 showsVerticalScrollIndicator={ false }
             >
-                <Header title='Proyección de Ahorro'/>
+                {
+                    ingresos.length > 0  ?
+                        <>
+                            <Text 
+                                className='w-5/6 text-xl text-black mb-4 font-bold tracking-widest'
+                            >
+                                Últimos 6 Meses
+                            </Text>
 
-                {/* SÓLO PARA PROBAR */}
-                <Image 
-                    source={ require('../assets/img/grafica.png') } 
-                    className='w-full h-56 mt-8'
-                    resizeMode='contain'
-                /> 
+                            <IncomeBarChart 
+                                data={ [...ingresos] }
+                            />
 
-                <View className='mt-6'>
-                    <Text className='text-black font-semibold text-sm uppercase'>Noviembre 3</Text>
-                    <IncomeCard 
-                        id={ 1 }
-                        title='Ahorro semanal' 
-                        iconName='calendar-outline' 
-                        iconColor='#33D8A2'
-                        money='500.00'
-                        time='12:00 p.m.'
-                    />
-                    <IncomeCard 
-                        id={ 2 }
-                        title='Venta de juegos' 
-                        iconName='game-controller-outline' 
-                        iconColor='#75E2F8'
-                        money='500.00'
-                        time='12:00 p.m.'
-                    />
-                </View>
+                            <View className='mt-6'>
+                                {
+                                    ingresos.map((ingreso, index) => {
+                                        return <IncomeCard 
+                                            key={ index }
+                                            id={ ingreso.id }
+                                            title={ ingreso.nombre }
+                                            money={ ingreso.cantidad }
+                                            time={ ingreso.fecha }
+                                            iconName={ ingreso.icono }
+                                            iconColor={ ingreso.color }
+                                        />
+                                    })
+                                }
+                            </View>
+                        </>
+                    :
+                    <Text
+                        className='w-5/6 text-2xl text-gray mb-4 font-bold 
+                        tracking-widest text-center mt-20 ml-7'
+                    >
+                        No hay ingresos registrados.
+                    </Text>
+                }
 
-                <View className='mt-6'>
-                    <Text className='text-black font-semibold text-sm uppercase'>Noviembre 1</Text>
-                    <IncomeCard 
-                        id={ 3 }
-                        title='Ahorro semanal' 
-                        iconName='calendar-outline' 
-                        iconColor='#33D8A2'
-                        money='500.00'
-                        time='12:00 p.m.'
-                    />
-                    <IncomeCard 
-                        id={ 4 }
-                        title='Venta de juegos' 
-                        iconName='game-controller-outline' 
-                        iconColor='#75E2F8'
-                        money='500.00'
-                        time='12:00 p.m.'
-                    />
-                </View>
+                
 
             </ScrollView>
 

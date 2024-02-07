@@ -1,15 +1,16 @@
-import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import { format } from 'date-fns';
+
 interface Props {
-    id: number;
+    id: string;
     title: string;
     iconName: string;
     iconColor: string;
-    money: string;
+    money: number;
     time: string;
 }
 
@@ -38,7 +39,7 @@ export const IncomeCard = ({ id, title, iconName, iconColor, money, time }: Prop
 
             <View className='w-1/4 justify-around'>
                 <Text className='text-right text-lg font-bold text-emerald-500'>${ money }</Text>
-                <Text className='text-right text-sm'>{ time }</Text>
+                <Text className='text-right text-sm'>{ format(time, "dd/MM/yyyy") }</Text>
             </View>
             
         </TouchableOpacity>

@@ -35,31 +35,31 @@ export const FotoPerfil = ({ image, size }: params) => {
     switch(image){
         case imagen1.src:
             return (
-                <Image source={ imagen1.src } style={{
-                    width: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 70,
-                    height: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 70,
+                <Image className='rounded' source={ imagen1.src } style={{
+                    width: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 120,
+                    height: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 120,
                     borderRadius: 35,
                 }}/>
             );
         case imagen2.src:
             return (
-                <Image source={ imagen2.src } style={{
-                    width: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 70,
-                    height: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 70,
+                <Image className='rounded' source={ imagen2.src } style={{
+                    width: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 120,
+                    height: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 120,
                     borderRadius: 35,
                 }}/>
             );
         case imagen3.src:
             return (
-                <Image source={ imagen3.src } style={{
-                    width: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 70,
-                    height: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 70,
+                <Image className='rounded' source={ imagen3.src } style={{
+                    width: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 120,
+                    height: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 120,
                     borderRadius: 35,
                 }}/>
             );
         case imagen4.src:
             return (
-                <Image source={ imagen4.src } style={{
+                <Image className='rounded' source={ imagen4.src } style={{
                     width: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 70,
                     height: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 70,
                     borderRadius: 35,
