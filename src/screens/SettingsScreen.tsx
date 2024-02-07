@@ -3,10 +3,11 @@ import { View, Text, ScrollView } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 
-import { UserImageButton, SettingsOption, SettingsToggleOption } from '../components';
+import { UserImageButton, SettingsOption, SettingsToggleOption, FotoPerfil } from '../components';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startLogout } from '../store/auth/thunks';
 import { useUiStore } from '../hooks';
+import { getImageSource } from '../utils';
 
 interface Props extends StackScreenProps<any, any>{};
 
@@ -15,7 +16,7 @@ export const SettingsScreen = ({ navigation }: Props) => {
     const dispatch = useAppDispatch();
     const isFocused = useIsFocused();
     const { changeActiveComponent } = useUiStore();
-    const { nombre } = useAppSelector( state => state.auth );
+    const { nombre, ruta_imagen } = useAppSelector( state => state.auth );
 
     useEffect(() => {
         if(isFocused) changeActiveComponent('SettingsStackNavigator');
@@ -28,9 +29,21 @@ export const SettingsScreen = ({ navigation }: Props) => {
     return (
         <ScrollView showsVerticalScrollIndicator={ false }>
             <View className='w-full h-full items-center p-5'>
-                <UserImageButton size={ 160 } />
+                {/* <UserImageButton size={ 160 } /> */}
+                <View className='mt-5 rounded border-2'>
+                    {
+                        ruta_imagen 
+                        ?
+                            <FotoPerfil 
+                                image={ getImageSource(ruta_imagen as string) }
+                                size='160'
+                            />
+                        :
+                            <UserImageButton size={ 160 } />
+                    }
+                </View>
                 <Text 
-                    className='text-black text-2xl text-center font-bold uppercase'
+                    className='text-black text-2xl text-center font-bold uppercase mt-4'
                 >
                     { nombre }
                 </Text>

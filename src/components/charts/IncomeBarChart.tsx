@@ -88,11 +88,12 @@ export const IncomeBarChart = ({ data }: Props) => {
             showLine
             lineConfig={{
                 color: '#F29C6E',
-                thickness: 4,
+                thickness: 2,
                 curved: true,
                 hideDataPoints: true,
                 shiftY: 20,
-                initialSpacing: -12,
+                initialSpacing: 15,
+                spacing: 14,
             }}
         />
     );

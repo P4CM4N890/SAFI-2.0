@@ -81,7 +81,8 @@ export const ExpenseBarChart = ({ data }: Props) => {
                 curved: true,
                 hideDataPoints: true,
                 shiftY: 20,
-                initialSpacing: -12,
+                initialSpacing: 15,
+                spacing: 14,
             }}
         />
     );
