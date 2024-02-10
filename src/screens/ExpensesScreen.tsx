@@ -24,8 +24,6 @@ export const ExpensesScreen = () => {
         dispatch( startLoadingCategories() );
     }, []);
 
-    console.log(gastos);
-
     if (saving) return <LoadingScreen />
 
     return (

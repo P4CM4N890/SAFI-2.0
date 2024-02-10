@@ -10,6 +10,7 @@ import { useForm, useRandomColor, useUiStore } from '../hooks';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startLoadingQuestions, startSavingQuestion } from '../store/forum/thunks';
 import { LoadingScreen } from './LoadingScreen';
+import { showToastSuccessMessage } from '../utils';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -46,6 +47,7 @@ export const ForumScreen = ({ navigation }: Props) => {
         onChange('', 'titulo');
         onChange('', 'descripcion');
 
+        showToastSuccessMessage("Pregunta creada.");
         dispatch( startSavingQuestion({ pregunta: titulo, descripcion }) );
     };
 

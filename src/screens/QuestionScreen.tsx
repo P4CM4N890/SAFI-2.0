@@ -13,6 +13,7 @@ import { startLoadingUsers } from '../store/other/thunks';
 import { useForm } from '../hooks';
 import { startAddingLikeToQuestion, startSavingAnswer } from '../store/forum/thunks';
 import { LoadingScreen } from './LoadingScreen';
+import { showToastSuccessMessage } from '../utils';
 
 interface Props extends StackScreenProps<ForumStackParams, 'QuestionScreen'>{};
 
@@ -48,6 +49,7 @@ export const QuestionScreen = ({ navigation, route }: Props) => {
     });
 
     const onCreateAnswer = () => {
+        showToastSuccessMessage("Respuesta creada.");
         dispatch( startSavingAnswer(cuerpo, preguntaActual.id) );
 
         onChange('', 'cuerpo');

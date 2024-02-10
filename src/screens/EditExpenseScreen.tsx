@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { LoadingScreen } from './LoadingScreen';
 import { startDeletingExpense, startUpdatingExpense } from '../store/expenses';
 import { GastoEdit } from '../interfaces/ApiInterfaces';
+import { showToastSuccessMessage } from '../utils';
 
 interface Props extends StackScreenProps<IncomesStackParams, 'EditExpenseScreen'>{};
 
@@ -68,12 +69,14 @@ export const EditExpenseScreen = ({ navigation, route }: Props) => {
 
         dispatch( startUpdatingExpense(expenseId, newGasto) );
 
+        showToastSuccessMessage("Gasto modificado.");
         navigation.navigate('ExpensesScreen');
     };
 
     const onDeleteExpense = () => {
         dispatch( startDeletingExpense(expenseId) );
 
+        showToastSuccessMessage("Gasto eliminado.");
         navigation.navigate("ExpensesScreen");
     };
 

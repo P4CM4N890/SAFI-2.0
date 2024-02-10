@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 
 import React from 'react';
+import Toast from 'react-native-toast-message';
 import { SafeAreaView, StatusBar } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { Provider } from 'react-redux';
@@ -28,6 +29,8 @@ const App = () => {
                     <AuthStackNavigator />
                 </Provider>
             </NavigationContainer>
+
+            <Toast />
         </SafeAreaView>
     );
 };

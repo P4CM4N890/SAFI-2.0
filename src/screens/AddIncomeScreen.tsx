@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { LoadingScreen } from './LoadingScreen';
 import { startAddingIncome } from '../store/incomes';
 import { IngresoCreate } from '../interfaces/ApiInterfaces';
+import { showToastSuccessMessage } from '../utils';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -97,6 +98,7 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
 
         dispatch( startAddingIncome(newIncome) );
 
+        showToastSuccessMessage("Ingreso creado.");
         navigation.navigate("IncomesScreen");
     };
 

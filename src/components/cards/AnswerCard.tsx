@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { startAddingLikeToAnswer, startDeletingAnswer } from '../../store/forum/thunks';
 import { RespuestaResponse } from '../../interfaces/ApiInterfaces';
 import { LoadingScreen } from '../../screens/LoadingScreen';
+import { showToastSuccessMessage } from '../../utils';
 
 interface Props {
     id: string;
@@ -26,6 +27,7 @@ export const AnswerCard = ({ id, usuario, fecha, descripcion, isCurrentUserAnswe
     const liked = useMemo( () => respuestaActual.id_usuario_liked.includes(uuid as number), [respuestaActual.id_usuario_liked]);
 
     const onDeleteAnswer = () => {
+        showToastSuccessMessage("Respuesta eliminada.");
         dispatch( startDeletingAnswer(id) );
     };
 

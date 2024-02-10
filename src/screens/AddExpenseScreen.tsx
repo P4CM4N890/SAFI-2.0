@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { LoadingScreen } from "./LoadingScreen";
 import { startAddingExpense } from "../store/expenses";
 import { GastoCreate } from "../interfaces/ApiInterfaces";
+import { showToastSuccessMessage } from "../utils";
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -72,6 +73,7 @@ export const AddExpenseScreen = ({ navigation }: Props) => {
 
         dispatch( startAddingExpense(gasto) );
 
+        showToastSuccessMessage("Gasto creado.");
         navigation.navigate("ExpensesScreen");
     };
 
