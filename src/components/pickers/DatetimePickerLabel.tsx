@@ -18,7 +18,7 @@ export const DatetimePickerLabel = (props: Props) => {
         fechaInicial, onChange } = props;
     const [ date, setDate ] = useState(new Date(fechaInicial || new Date()));
     const [ formattedDate, setFormattedDate ] = useState(
-        fechaInicial ? format(fechaInicial, "d'/'M'/'yyyy H':'m")
+        fechaInicial ? format(fechaInicial, "dd'/'MM'/'yyyy HH':'mm")
         : ''
     );
     const [ open, setOpen ] = useState(false); 
@@ -33,7 +33,7 @@ export const DatetimePickerLabel = (props: Props) => {
                 onPress={ () => setOpen(true) }
             >
                 <Icon name='calendar-outline' size={ 30 }/>
-                <Text className='pl-3 text-lg'>{ formattedDate ? formattedDate : 'DD/MM/AAAA' }</Text>
+                <Text className='pl-3 text-lg'>{ formattedDate ? formattedDate : 'DD/MM/AAAA HH:MM' }</Text>
             </TouchableOpacity>
 
             <DatePicker
@@ -53,7 +53,7 @@ export const DatetimePickerLabel = (props: Props) => {
                 onConfirm={(date) => {
                     setOpen(false);
                     setDate(date);
-                    setFormattedDate(format(date, "d'/'M'/'yyyy H':'m"));
+                    setFormattedDate(format(date, "dd'/'MM'/'yyyy HH':'mm"));
                     onChange(date.toISOString());
                 }}
                 onCancel={() => {

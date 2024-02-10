@@ -77,7 +77,7 @@ export const ExpenseCard = ({ id, cantidad, color, fecha, categoria }: Props) =>
                 >
                     ${ cantidad }
                 </Text>
-                <Text className='text-right text-sm'>{ format(fecha, "dd/MM/yyyy") }</Text>
+                <Text className='text-right text-sm font-semibold'>{ format(fecha, "dd/MM/yyyy") }</Text>
             </View>
             
         </TouchableOpacity>

@@ -3,7 +3,7 @@ import { View, Text, ScrollView } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 
-import { UserImageButton, SettingsOption, SettingsToggleOption, FotoPerfil } from '../components';
+import { UserImageButton, SettingsOption, FotoPerfil } from '../components';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startLogout } from '../store/auth/thunks';
 import { useUiStore } from '../hooks';
@@ -16,7 +16,7 @@ export const SettingsScreen = ({ navigation }: Props) => {
     const dispatch = useAppDispatch();
     const isFocused = useIsFocused();
     const { changeActiveComponent } = useUiStore();
-    const { nombre, ruta_imagen } = useAppSelector( state => state.auth );
+    const { nombre, experiencia, ruta_imagen } = useAppSelector( state => state.auth );
 
     useEffect(() => {
         if(isFocused) changeActiveComponent('SettingsStackNavigator');
@@ -47,13 +47,19 @@ export const SettingsScreen = ({ navigation }: Props) => {
                 >
                     { nombre }
                 </Text>
-            
-                <SettingsOption icon='person-outline' option='Mi Perfil' extraClass='mt-8'/>
                 
-                {/* <View className='w-full mt-5 rounded-xl border-slate-200 border-2'>
-                    <SettingsToggleOption icon='notifications-outline' option='Notificaciones' extraClass='border-0'/>
-                    <SettingsToggleOption icon='chatbox-ellipses-outline' option='Consejos' extraClass='border-0'/>
-                </View> */}
+                <Text 
+                    className='text-dark-gray text-xl text-center font-semibold mt-2'
+                >
+                    Experiencia: { experiencia }
+                </Text>
+            
+                <SettingsOption 
+                    icon='person-outline' 
+                    option='Mi Perfil' 
+                    extraClass='mt-8'
+                    onPress={ () => navigation.navigate('MyProfileScreen') }
+                />
 
                 <View className='w-full mt-5 rounded-xl border-slate-200 border-2'>
                     <SettingsOption 

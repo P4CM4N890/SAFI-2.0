@@ -9,7 +9,6 @@ import { ForumStackParams } from '../navigation/ForumStackNavigator';
 import { BackButton, AnswerCard } from '../components';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { PreguntaResponse } from '../interfaces/ApiInterfaces';
-import { startLoadingUsers } from '../store/other/thunks';
 import { useForm } from '../hooks';
 import { startAddingLikeToQuestion, startSavingAnswer } from '../store/forum/thunks';
 import { LoadingScreen } from './LoadingScreen';
@@ -58,10 +57,6 @@ export const QuestionScreen = ({ navigation, route }: Props) => {
     const onLikeQuestion = () => {
         dispatch( startAddingLikeToQuestion(questionId) );
     };
-
-    useEffect(() => {
-        dispatch( startLoadingUsers() );
-    }, []);
 
     if (saving) return <LoadingScreen />
 

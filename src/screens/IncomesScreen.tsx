@@ -15,6 +15,10 @@ export const IncomesScreen = () => {
 
     const saving = useMemo( () => isSaving, [isSaving] );
 
+    const ingresosSorted = [...ingresos].sort((a, b) => {
+        return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
+    });
+
     useEffect(() => {
         if(isFocused) changeActiveComponent('IncomesScreen');
     }, [ isFocused ]);
@@ -42,7 +46,7 @@ export const IncomesScreen = () => {
 
                             <View className='mt-6'>
                                 {
-                                    ingresos.map((ingreso, index) => {
+                                    ingresosSorted.map((ingreso, index) => {
                                         return <IncomeCard 
                                             key={ index }
                                             id={ ingreso.id }

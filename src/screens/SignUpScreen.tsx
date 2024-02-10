@@ -11,7 +11,6 @@ import { useForm } from '../hooks';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startSignUp } from '../store/auth/thunks';
 import { isValidEmail, getImageSource } from '../utils';
-import { LoadingScreen } from './LoadingScreen';
 import { startLoadingEmails } from '../store/other/thunks';
 
 interface Props extends StackScreenProps<any, any> {};
