@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { LoadingScreen } from './LoadingScreen';
 import { IngresoEdit, IngresoResponse } from '../interfaces/ApiInterfaces';
 import { startDeletingIncome, startUpdatigIncome } from '../store/incomes';
+import { showToastSuccessMessage } from '../utils';
 
 interface Props extends StackScreenProps<IncomesStackParams, 'EditIncomeScreen'>{};
 
@@ -97,12 +98,14 @@ export const EditIncomeScreen = ({ navigation, route }: Props) => {
 
         dispatch( startUpdatigIncome(incomeId, newIngreso) );
 
+        showToastSuccessMessage("Ingreso modificado.");
         navigation.navigate("IncomesScreen");
     };
 
     const onDeleteIncome = () => {
         dispatch( startDeletingIncome(incomeId) );
 
+        showToastSuccessMessage("Ingreso eliminado.");
         navigation.navigate("IncomesScreen");
     };
 

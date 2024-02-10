@@ -9,10 +9,10 @@ import { ForumStackParams } from '../navigation/ForumStackNavigator';
 import { BackButton, AnswerCard } from '../components';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { PreguntaResponse } from '../interfaces/ApiInterfaces';
-import { startLoadingUsers } from '../store/other/thunks';
 import { useForm } from '../hooks';
 import { startAddingLikeToQuestion, startSavingAnswer } from '../store/forum/thunks';
 import { LoadingScreen } from './LoadingScreen';
+import { showToastSuccessMessage } from '../utils';
 
 interface Props extends StackScreenProps<ForumStackParams, 'QuestionScreen'>{};
 
@@ -48,6 +48,7 @@ export const QuestionScreen = ({ navigation, route }: Props) => {
     });
 
     const onCreateAnswer = () => {
+        showToastSuccessMessage("Respuesta creada.");
         dispatch( startSavingAnswer(cuerpo, preguntaActual.id) );
 
         onChange('', 'cuerpo');
@@ -56,10 +57,6 @@ export const QuestionScreen = ({ navigation, route }: Props) => {
     const onLikeQuestion = () => {
         dispatch( startAddingLikeToQuestion(questionId) );
     };
-
-    useEffect(() => {
-        dispatch( startLoadingUsers() );
-    }, []);
 
     if (saving) return <LoadingScreen />
 

@@ -60,8 +60,8 @@ export const FotoPerfil = ({ image, size }: params) => {
         case imagen4.src:
             return (
                 <Image className='rounded' source={ imagen4.src } style={{
-                    width: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 70,
-                    height: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 70,
+                    width: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 120,
+                    height: (size === 'small') ? SIZE.small : (size === 'medium') ? SIZE.medium : 120,
                     borderRadius: 35,
                 }}/>
             );

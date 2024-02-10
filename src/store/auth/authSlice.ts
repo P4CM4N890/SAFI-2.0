@@ -1,23 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { UsuarioEdit } from '../../interfaces/ApiInterfaces';
 
 interface InitialStateInterface {
     uuid: number | null;
     email: string | null;
     nombre: string | null;
     token: string | null;
+    fecha_de_nac: string | null;
     status: 'checking' | 'authenticated' | 'not-authenticated';
     ruta_imagen: string | null;
     high_score: number | null;
     experiencia: number | null;
     errorMessage: string | null;
     recoverToken: { correo: string, token: string } | null;
+    isSavingUser: boolean;
 }
 
 interface loginPayload {
     id: number;
     correo: string;
     nombre: string;
+    fecha_de_nac: string;
     session_token: string;
     ruta_imagen: string;
     high_score: number;
@@ -38,12 +42,14 @@ const initialState: InitialStateInterface = {
     email: null,
     token: null,
     nombre: null,
+    fecha_de_nac: null,
     status: 'not-authenticated',
     ruta_imagen: null,
     high_score: null,
     experiencia: null,
     errorMessage: null,
     recoverToken: null,
+    isSavingUser: false,
 };
 
 export const authSlice = createSlice({
@@ -55,6 +61,7 @@ export const authSlice = createSlice({
             state.uuid = payload.id;
             state.email = payload.correo;
             state.nombre = payload.nombre;
+            state.fecha_de_nac = payload.fecha_de_nac;
             state.token = payload.session_token;
             state.ruta_imagen = payload.ruta_imagen;
             state.high_score = payload.high_score;
@@ -89,9 +96,33 @@ export const authSlice = createSlice({
 
         changePassword(state){
             state.recoverToken = null;
-        }
+        },
+
+        setNewHighScore(state, { payload }: PayloadAction<number>){
+            state.high_score = payload;
+        },
+
+        savingUser(state){
+            state.isSavingUser = true;
+        },
+
+        updateUser(state, { payload }: PayloadAction<UsuarioEdit>){
+            if(state.nombre !== payload.nombre){
+                state.nombre = payload.nombre;
+            }
+
+            if(state.fecha_de_nac !== payload.fecha_de_nac){
+                state.fecha_de_nac = payload.fecha_de_nac;
+            }
+
+            if(state.ruta_imagen !== payload.ruta_imagen){
+                state.ruta_imagen = payload.ruta_imagen;
+            }
+
+            state.isSavingUser = false;
+        },
     },
 });
 
-export const { loginR, logout, checkingCredentials, 
-    signUp, setToken, changePassword } = authSlice.actions;
+export const { loginR, logout, checkingCredentials, updateUser, savingUser,
+    signUp, setToken, changePassword, setNewHighScore } = authSlice.actions;

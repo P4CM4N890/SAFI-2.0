@@ -39,7 +39,7 @@ export const IncomeCard = ({ id, title, iconName, iconColor, money, time }: Prop
 
             <View className='w-1/4 justify-around'>
                 <Text className='text-right text-lg font-bold text-emerald-500'>${ money }</Text>
-                <Text className='text-right text-sm'>{ format(time, "dd/MM/yyyy") }</Text>
+                <Text className='text-right text-sm font-semibold'>{ format(time, "dd/MM/yyyy") }</Text>
             </View>
             
         </TouchableOpacity>

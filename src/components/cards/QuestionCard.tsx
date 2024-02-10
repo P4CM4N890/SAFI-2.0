@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { startDeletingQuestion } from '../../store/forum/thunks';
 import { LoadingScreen } from '../../screens/LoadingScreen';
 import { format } from 'date-fns';
+import { showToastSuccessMessage } from '../../utils';
 
 interface Props {
     id: string;
@@ -37,6 +38,7 @@ export const QuestionCard = ({ id, iconColor, title, likes, numberOfAnswers,
     const saving = useMemo( () => isSaving, [isSaving] );
 
     const onDelete = () => {
+        showToastSuccessMessage("Pregunta eliminada.");
         dispatch( startDeletingQuestion(id) );
     };
     

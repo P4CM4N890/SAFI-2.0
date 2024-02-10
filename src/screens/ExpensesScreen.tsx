@@ -1,12 +1,13 @@
 import { useEffect, useMemo } from "react";
 import { View, ScrollView } from 'react-native';
 import { useIsFocused } from "@react-navigation/native";
+import { Text } from "react-native";
+
 import { useUiStore } from "../hooks";
 import { ExpenseBarChart, ExpenseCard } from "../components";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { LoadingScreen } from "./LoadingScreen";
 import { startLoadingCategories } from "../store/other";
-import { Text } from "react-native";
 
 export const ExpensesScreen = () => {
     const dispatch = useAppDispatch();
@@ -16,6 +17,10 @@ export const ExpensesScreen = () => {
     const isFocused = useIsFocused();
     const saving = useMemo( () => isSaving, [isSaving] );
 
+    const gastosSorted = [...gastos].sort((a, b) => {
+        return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
+    });
+
     useEffect(() => {
         if(isFocused) changeActiveComponent('ExpensesScreen');
     }, [ isFocused ]);
@@ -23,8 +28,6 @@ export const ExpensesScreen = () => {
     useEffect(() => {
         dispatch( startLoadingCategories() );
     }, []);
-
-    console.log(gastos);
 
     if (saving) return <LoadingScreen />
 
@@ -47,7 +50,7 @@ export const ExpensesScreen = () => {
 
                         <View className='mt-6'>
                             {
-                                gastos.map( (gasto, index) => {
+                                gastosSorted.map( (gasto, index) => {
                                     return <ExpenseCard 
                                         key={ index }
                                         id={ gasto.id }
