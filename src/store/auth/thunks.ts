@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { actualizarPassword, actualizarUsuario, crearUsuario, generarTokenRecuperacion, login } from "../../api";
 import { AppDispatch, RootState } from "../store";
-import { changePassword, checkingCredentials, loginR, logout, setNewHighScore, setToken, signUp } from "./authSlice";
+import { changePassword, checkingCredentials, loginR, logout, savingUser, setNewHighScore, setToken, signUp, updateUser } from "./authSlice";
 import { CambiarContrasena, UsuarioCreate, UsuarioEdit } from "../../interfaces/ApiInterfaces";
 
 export const startLogin = (correo: string, contrasena: string) => {
@@ -112,6 +112,25 @@ export const startSettingNewHighScore = (highScore: number) => {
 
             console.error(error);
             // dispatch( logout({ message: error.message }) );
+        }
+    };
+};
+
+export const startUpdatingUser = (usuario: UsuarioEdit) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
+        dispatch( savingUser() );
+
+        const { email } = getState().auth;
+
+        try{
+            await actualizarUsuario(email as string, usuario);
+
+            dispatch( updateUser( usuario ) );
+        }
+        catch(err){
+            let error = err as Error;
+
+            console.error(error);
         }
     };
 };

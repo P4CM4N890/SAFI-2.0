@@ -88,7 +88,8 @@ export const EditExpenseScreen = ({ navigation, route }: Props) => {
                 <View className='w-full h-full items-center'>
 
                     <Text 
-                        className='mt-12 text-2xl font-bold text-primary uppercase tracking-widest'
+                        className='mt-12 text-2xl font-bold text-primary uppercase 
+                        tracking-widest'
                     >
                         Editar Gasto
                     </Text>

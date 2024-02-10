@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { UsuarioEdit } from '../../interfaces/ApiInterfaces';
 
 interface InitialStateInterface {
     uuid: number | null;
@@ -13,6 +14,7 @@ interface InitialStateInterface {
     experiencia: number | null;
     errorMessage: string | null;
     recoverToken: { correo: string, token: string } | null;
+    isSavingUser: boolean;
 }
 
 interface loginPayload {
@@ -47,6 +49,7 @@ const initialState: InitialStateInterface = {
     experiencia: null,
     errorMessage: null,
     recoverToken: null,
+    isSavingUser: false,
 };
 
 export const authSlice = createSlice({
@@ -98,8 +101,28 @@ export const authSlice = createSlice({
         setNewHighScore(state, { payload }: PayloadAction<number>){
             state.high_score = payload;
         },
+
+        savingUser(state){
+            state.isSavingUser = true;
+        },
+
+        updateUser(state, { payload }: PayloadAction<UsuarioEdit>){
+            if(state.nombre !== payload.nombre){
+                state.nombre = payload.nombre;
+            }
+
+            if(state.fecha_de_nac !== payload.fecha_de_nac){
+                state.fecha_de_nac = payload.fecha_de_nac;
+            }
+
+            if(state.ruta_imagen !== payload.ruta_imagen){
+                state.ruta_imagen = payload.ruta_imagen;
+            }
+
+            state.isSavingUser = false;
+        },
     },
 });
 
-export const { loginR, logout, checkingCredentials, 
+export const { loginR, logout, checkingCredentials, updateUser, savingUser,
     signUp, setToken, changePassword, setNewHighScore } = authSlice.actions;
