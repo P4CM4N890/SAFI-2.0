@@ -1,23 +1,28 @@
 import { useEffect, useState } from 'react';
 import { View, Text, KeyboardAvoidingView, ScrollView, TouchableOpacity } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
+import { format } from 'date-fns';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { Button, DatePickerLabel, ErrorMessage, 
-    FotoPerfil, ImageModal, InputLabel } from '../components';
-import { getImageSource, showToastInfoMessage } from '../utils';
-import { useForm, useUiStore } from '../hooks';
-import { StackScreenProps } from '@react-navigation/stack';
 import { startUpdatingUser } from '../store/auth';
+import { useForm, useUiStore } from '../hooks';
+
+import { Button, DatePickerLabel, ErrorMessage, FotoPerfil, ImageModal, InputLabel } from '../components';
+
+import { getImageSource, showToastInfoMessage } from '../utils';
 import { UsuarioEdit } from '../interfaces/ApiInterfaces';
 
 interface Props extends StackScreenProps<any, any> {};
 
 export const EditAccountScreen = ({ navigation }: Props) => {
     const dispatch = useAppDispatch();
-    const { nombre: nT, fecha_de_nac: fnT, email, ruta_imagen,
-        errorMessage, experiencia, high_score } = useAppSelector( state => state.auth );
+    
+    const { 
+        nombre: nT, fecha_de_nac: fnT, email, ruta_imagen, errorMessage, experiencia, high_score 
+    } = useAppSelector( state => state.auth );
+    
     const { changeBarVisibility } = useUiStore();
     
     const [ error, setError ] = useState(errorMessage || "");
@@ -31,8 +36,8 @@ export const EditAccountScreen = ({ navigation }: Props) => {
         confirmar_contrasena: "",
     }
 
-    const { nombre, fecha_de_nac, contrasena, 
-        confirmar_contrasena, onChange 
+    const { 
+        nombre, fecha_de_nac, contrasena, confirmar_contrasena, onChange 
     } = useForm( initialState );
 
     useEffect(() => {
@@ -145,11 +150,11 @@ export const EditAccountScreen = ({ navigation }: Props) => {
                     />
 
                     <DatePickerLabel 
-                        label='Fecha de nacimiento' 
+                        label='Fecha de nacimiento'
                         extraClass='mt-6'
-                        fechaInicial={ new Date (fnT as string) }
+                        fechaInicial={ new Date('2002-05-30') }
+                        fechaInicialFormatted={ format(new Date('2002-05-30'), "dd'/'MM'/'yyyy") }
                         onChange={ (value) => onChange(value, 'fecha_de_nac') }
-                        maximumDate={ new Date() }
                     />
 
                     <InputLabel 

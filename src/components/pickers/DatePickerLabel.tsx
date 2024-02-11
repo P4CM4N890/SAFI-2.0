@@ -19,8 +19,7 @@ export const DatePickerLabel = ({ label, extraClass, maximumDate, minimumDate, f
     
     const [ date, setDate ] = useState(fechaInicial || add(new Date(), { days: 1 }));
     const [ formattedDate, setFormattedDate ] = useState(
-        fechaInicial ? format(fechaInicial, "dd'/'MM'/'yyyy")
-        : ''
+        fechaInicial ? format(fechaInicial, "dd'/'MM'/'yyyy") : ''
     );
 
     const [ open, setOpen ] = useState(false);
