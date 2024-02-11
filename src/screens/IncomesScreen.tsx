@@ -65,15 +65,11 @@ export const IncomesScreen = () => {
                         className='w-5/6 text-2xl text-gray mb-4 font-bold 
                         tracking-widest text-center mt-20 ml-7'
                     >
-                        No hay ingresos registrados.
+                        No hay ingresos registrados
                     </Text>
                 }
-
                 
-
             </ScrollView>
-
-            {/* <AddIncomeButton /> */}
         </View>
     );
 }

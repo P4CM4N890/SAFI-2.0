@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, ScrollView, Dimensions, ActivityIndicator } from 'react-native';
+import { View, ScrollView, Dimensions, ActivityIndicator, Text } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
@@ -9,32 +9,8 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { useUiStore } from '../hooks';
 
 import { Header, GoalCard, MainGoalCard, GoalsSummaryCard } from '../components';
-import { Text } from 'react-native';
 
 const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
-
-interface Slide {
-    title?: string;
-    startDate?: string;
-    endDate?: string;
-    progress?: number;
-    percentage?: number;
-    type: 'mainGoal' | 'goalsSummary'
-}
-
-const cards: Slide[] = [
-    {
-        title: 'Laptop Asus',
-        startDate: '12/Octubre/2023',
-        endDate: '12/Diciembre/2023',
-        progress: 0.5,
-        type: 'mainGoal'
-    },
-    {
-        percentage: 20,
-        type: 'goalsSummary'
-    }
-];
 
 export const GoalsScreen = () => {
 
@@ -43,6 +19,7 @@ export const GoalsScreen = () => {
     
     const isFocused = useIsFocused();
     const dispatch = useAppDispatch();
+    const { goalSlides } = useAppSelector( state => state.slides );
 
     const { goals, isLoading } = useAppSelector( state => state.goals );
 
@@ -65,14 +42,15 @@ export const GoalsScreen = () => {
                     startDate={ item.startDate } 
                     endDate={ item.endDate } 
                     progress={ item.progress }
+                    found={ item.found }
                 />
             )
 
         } else {
-
             return (
                 <GoalsSummaryCard 
                     percentage={ item.percentage }
+                    found={ item.found }
                 />
             )
         }
@@ -88,7 +66,7 @@ export const GoalsScreen = () => {
 
                 <View>
                     <Carousel 
-                        data={ cards }
+                        data={ goalSlides }
                         renderItem={({ item }: any) => renderItem(item)}
                         sliderWidth={ screenWidth * 0.90 }
                         itemWidth={ screenWidth * 0.90 }
@@ -97,7 +75,7 @@ export const GoalsScreen = () => {
                     />
 
                     <Pagination 
-                        dotsLength={ cards.length }
+                        dotsLength={ goalSlides.length }
                         activeDotIndex={ activeIndex }
                     />
                 </View>

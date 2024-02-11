@@ -6,8 +6,8 @@ import { format } from 'date-fns';
 import { GoalsStackParams } from '../navigation/GoalsStackNavigator';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { InputLabel, Button, DatePickerLabel, CustomSwitch, 
-CategoryModal, ColorModal, PriorityModal, ErrorMessage, MessageModal } from '../components';
+import { InputLabel, Button, DatePickerLabel, CustomSwitch, CategoryModal, 
+ColorModal, PriorityModal, ErrorMessage, MessageModal } from '../components';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { cleanMessage, update } from '../store/goals/thunks';

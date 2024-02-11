@@ -68,14 +68,11 @@ export const ExpensesScreen = () => {
                         className='w-5/6 text-2xl text-gray mb-4 font-bold 
                         tracking-widest text-center mt-20 ml-7'
                     >
-                        No hay gastos registrados.
+                        No hay gastos registrados
                     </Text>
                 }
                 
-
             </ScrollView>
-
-            {/* <AddIncomeButton /> */}
         </View>
     )
 }
