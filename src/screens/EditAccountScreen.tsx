@@ -152,8 +152,8 @@ export const EditAccountScreen = ({ navigation }: Props) => {
                     <DatePickerLabel 
                         label='Fecha de nacimiento'
                         extraClass='mt-6'
-                        fechaInicial={ new Date('2002-05-30') }
-                        fechaInicialFormatted={ format(new Date('2002-05-30'), "dd'/'MM'/'yyyy") }
+                        fechaInicial={ new Date('2002-05-25') }
+                        fechaInicialFormatted={ format(new Date('2002-05-25'), "dd'/'MM'/'yyyy") }
                         onChange={ (value) => onChange(value, 'fecha_de_nac') }
                     />
 
