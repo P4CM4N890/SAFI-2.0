@@ -18,7 +18,10 @@ interface Props {
 export const DatePickerLabel = ({ label, extraClass, maximumDate, minimumDate, fechaInicial, fechaInicialFormatted, onChange }: Props) => {
     
     const [ date, setDate ] = useState(fechaInicial || add(new Date(), { days: 1 }));
-    const [ formattedDate, setFormattedDate ] = useState('' || fechaInicialFormatted);
+    const [ formattedDate, setFormattedDate ] = useState(
+        fechaInicial ? format(fechaInicial, "dd'/'MM'/'yyyy")
+        : ''
+    );
 
     const [ open, setOpen ] = useState(false);
 

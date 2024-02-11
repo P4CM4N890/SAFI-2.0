@@ -1,84 +1,48 @@
 import { useEffect, useState } from 'react';
-import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
+import { View, Text, KeyboardAvoidingView, ScrollView, TouchableOpacity } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { Button, InputLabel, BackButton, ErrorMessage,
-TransparentButton, DatePickerLabel, ImageModal, FotoPerfil } from '../components';
-
-import { startLoadingEmails } from '../store/other/thunks';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { startSignUp } from '../store/auth/thunks';
-
-import { useForm } from '../hooks';
-
-import { isValidEmail, getImageSource } from '../utils';
-import { WaveTop, WaveBottom } from '../assets';
+import { Button, DatePickerLabel, ErrorMessage, 
+    FotoPerfil, ImageModal, InputLabel } from '../components';
+import { getImageSource, showToastInfoMessage } from '../utils';
+import { useForm, useUiStore } from '../hooks';
+import { StackScreenProps } from '@react-navigation/stack';
+import { startUpdatingUser } from '../store/auth';
+import { UsuarioEdit } from '../interfaces/ApiInterfaces';
 
 interface Props extends StackScreenProps<any, any> {};
 
-const initialState = {
-    nombre: "",
-    correo: "",
-    fecha_de_nac: "",
-    contrasena: "",
-    confirmar_contrasena: "",
-}
-
-export const SignUpScreen = ({ navigation }: Props) => {
+export const EditAccountScreen = ({ navigation }: Props) => {
     const dispatch = useAppDispatch();
-    const { errorMessage } = useAppSelector( state => state.auth );
-    const { emails } = useAppSelector( state => state.other );
+    const { nombre: nT, fecha_de_nac: fnT, email, ruta_imagen,
+        errorMessage, experiencia, high_score } = useAppSelector( state => state.auth );
+    const { changeBarVisibility } = useUiStore();
     
     const [ error, setError ] = useState(errorMessage || "");
-    
     const [ imageModalVisible, setImageModalVisible ] = useState(false);
-    const [ selectedImage, setSelectedImage ] = useState("");
-    
-    const { nombre, correo, fecha_de_nac, contrasena, 
+    const [ selectedImage, setSelectedImage ] = useState(ruta_imagen as string);
+
+    const initialState = {
+        nombre: nT as string,
+        fecha_de_nac: fnT as string,
+        contrasena: "",
+        confirmar_contrasena: "",
+    }
+
+    const { nombre, fecha_de_nac, contrasena, 
         confirmar_contrasena, onChange 
     } = useForm( initialState );
 
-    const onSignUp = async () => {
-        if (!nombre || !contrasena || !fecha_de_nac || !correo) { 
-            setError("Debes rellenar todos los campos.");
-            return;
-        }
-        else if(nombre.length <= 2){
-            setError("El nombre debe ser mayor a dos caracteres.");
-            return;
-        }
-        else if (!isValidEmail(correo)) {
-            setError("El correo es inválido.");
-            return;
-        }
-        else if (emails.includes(correo)){
-            setError("El correo ya está en uso.");
-            return;
-        }
-        else if(contrasena.length <= 2){
-            setError("La contraseña debe ser mayor a dos caracteres.");
-            return;
-        }
-        else if(contrasena !== confirmar_contrasena){
-            setError("Las contraseñas no coinciden.");
-            return;
-        }
-        
-        dispatch(
-            startSignUp({
-                correo,
-                contrasena,
-                nombre,
-                fecha_de_nac: fecha_de_nac.split('T')[0],
-                experiencia: 0,
-                high_score: 0,
-                ruta_imagen: selectedImage,
-            })
-        );
-    };
-    
+    useEffect(() => {
+        changeBarVisibility(false);
+
+        return () => {
+            changeBarVisibility(true);
+        };
+    }, []);
+
     const openImageModal = () => {
         setImageModalVisible(true);
     };
@@ -96,31 +60,52 @@ export const SignUpScreen = ({ navigation }: Props) => {
         closeImageModal();
     };
 
-    useEffect(() => {
-        dispatch( startLoadingEmails() );
-    }, []);
+    const onUpdateProfile = () => {
+        if (!nombre || !fecha_de_nac) { 
+            setError("Debes rellenar todos los campos.");
+            return;
+        }
+        else if(nombre.length <= 2){
+            setError("El nombre debe ser mayor a dos caracteres.");
+            return;
+        }
+        else if(contrasena.length > 0) {
+            if(contrasena.length <= 2){
+                setError("La contraseña debe ser mayor a dos caracteres.");
+                return;
+            }
+            else if(contrasena !== confirmar_contrasena){
+                setError("Las contraseñas no coinciden.");
+                return;
+            }
+        }
+
+        const newUser: UsuarioEdit = {
+            nombre,
+            correo: email as string,
+            experiencia: experiencia as number,
+            fecha_de_nac: fecha_de_nac.split('T')[0],
+            high_score: high_score as number,
+            ruta_imagen: selectedImage,
+            contrasena: contrasena.length !== 0 ? contrasena : undefined,
+        };
+
+        // console.log(newUser);
+        dispatch( startUpdatingUser(newUser) );
+
+        navigation.navigate("SettingsScreen");
+        showToastInfoMessage("Modificación realizada", "La información se actualizo");
+    };
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>
-            <ScrollView 
-                className='w-full h-full'
-                showsVerticalScrollIndicator={ false }
-            >
-                <WaveTop/>
-
-                <View className='w-full h-full items-center justify-center z-10 py-6 mt-5'>
-                    <BackButton 
-                        iconColor='#000' 
-                        iconSize={ 30 } 
-                        extraClass='bg-white'
-                        onPress={ () => navigation.goBack() }
-                    />
-
+            <ScrollView>
+                <View className='w-full h-full items-center'>
                     <Text 
-                        className='text-3xl font-bold text-primary uppercase 
-                        tracking-tight mt-10'
+                        className='mt-12 text-2xl font-bold text-primary uppercase 
+                        tracking-widest'
                     >
-                        Crear Cuenta
+                        Modificar Cuenta
                     </Text>
 
                     <Text 
@@ -159,30 +144,16 @@ export const SignUpScreen = ({ navigation }: Props) => {
                         showMessage={ !!error && isErrorOfField('nombre')}
                     />
 
-                    <InputLabel 
-                        label='Correo electrónico' 
-                        placeholder='ejemplo@dominio.com' 
-                        type='email'
-                        extraClass='mt-6'
-                        autoCapitalize='none'
-                        value={ correo }
-                        onChange={ (value) => onChange(value, 'correo') }
-                    />
-
-                    <ErrorMessage 
-                        message={ error }
-                        showMessage={ !!error && isErrorOfField('correo')}
-                    />
-
                     <DatePickerLabel 
                         label='Fecha de nacimiento' 
                         extraClass='mt-6'
+                        fechaInicial={ new Date (fnT as string) }
                         onChange={ (value) => onChange(value, 'fecha_de_nac') }
                         maximumDate={ new Date() }
                     />
 
                     <InputLabel 
-                        label='Contraseña' 
+                        label='Contraseña (Dejar vacio si no quieres cambiarla)' 
                         placeholder='****' 
                         type='text'
                         secureTextEntry
@@ -216,18 +187,19 @@ export const SignUpScreen = ({ navigation }: Props) => {
                         showMessage={ !!error && isErrorOfField('campos')}
                     />
 
-                    <Button 
-                        label='Registrarme' 
-                        extraClass='mt-6'
-                        onPress={ onSignUp }
-                    />
+                    <View className='mt-12 w-5/6 flex-row justify-between'>
+                        <Button 
+                            label='Actualizar' 
+                            onPress={ onUpdateProfile }
+                        />
 
-                    <TransparentButton 
-                        label='¿Ya tienes una cuenta? Inicia Sesión' 
-                        textStyle='text-black text-sm mt-3' 
-                        extraClass='mt-4'
-                        onPress={ () => navigation.navigate('LoginScreen') }
-                    />
+                        <Button 
+                            label='Cancelar' 
+                            extraClass='bg-rose-600'
+                            onPress={ () => navigation.goBack() }
+                        />
+                    </View>
+
                 </View>
 
                 <ImageModal 
@@ -235,8 +207,7 @@ export const SignUpScreen = ({ navigation }: Props) => {
                     selectImage={ selectProfilePicture }
                 />
 
-                <WaveBottom/>
             </ScrollView>
         </KeyboardAvoidingView>
     );
-}
+};

@@ -5,3 +5,4 @@ export * from './getImageSource';
 export * from './isValidEmail';
 export * from './notificationFunctions';
 export * from './randomPosition';
+export * from './toastMessage';

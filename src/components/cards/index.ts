@@ -8,3 +8,4 @@ export * from './LatestIncomeCard';
 export * from './MainGoalCard';
 export * from './NotificationCard';
 export * from './QuestionCard';
+export * from './ScoreCard';

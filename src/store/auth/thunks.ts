@@ -1,8 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { actualizarPassword, crearUsuario, generarTokenRecuperacion, login } from "../../api";
-import { AppDispatch } from "../store";
-import { changePassword, checkingCredentials, loginR, logout, setToken, signUp } from "./authSlice";
-import { CambiarContrasena, UsuarioCreate } from "../../interfaces/ApiInterfaces";
+import { actualizarPassword, actualizarUsuario, crearUsuario, generarTokenRecuperacion, login } from "../../api";
+import { AppDispatch, RootState } from "../store";
+import { changePassword, checkingCredentials, loginR, logout, savingUser, setNewHighScore, setToken, signUp, updateUser } from "./authSlice";
+import { CambiarContrasena, UsuarioCreate, UsuarioEdit } from "../../interfaces/ApiInterfaces";
 
 export const startLogin = (correo: string, contrasena: string) => {
     return async (dispatch: AppDispatch) => {
@@ -80,6 +80,52 @@ export const startChangingPassword = (datos: CambiarContrasena) => {
             let error = err as Error;
 
             dispatch( logout({ message: error.message }) );
+        }
+    };
+};
+
+export const startSettingNewHighScore = (highScore: number) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
+        const { email, experiencia, nombre, ruta_imagen, fecha_de_nac } = getState().auth;
+
+        const newUsuario: UsuarioEdit = {
+            correo: email as string,
+            nombre: nombre as string,
+            ruta_imagen: ruta_imagen as string,
+            experiencia: experiencia as number,
+            fecha_de_nac: fecha_de_nac as string,
+            high_score: highScore,
+        }
+
+        try{
+            await actualizarUsuario(email as string, newUsuario);
+
+            dispatch( setNewHighScore(highScore) );
+        }
+        catch(err){
+            let error = err as Error;
+
+            console.error(error);
+            // dispatch( logout({ message: error.message }) );
+        }
+    };
+};
+
+export const startUpdatingUser = (usuario: UsuarioEdit) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
+        dispatch( savingUser() );
+
+        const { email } = getState().auth;
+
+        try{
+            await actualizarUsuario(email as string, usuario);
+
+            dispatch( updateUser( usuario ) );
+        }
+        catch(err){
+            let error = err as Error;
+
+            console.error(error);
         }
     };
 };

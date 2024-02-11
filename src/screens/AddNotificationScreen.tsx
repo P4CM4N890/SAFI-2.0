@@ -10,6 +10,7 @@ import { InputLabel, Button, DatetimePickerLabel, MessageModal} from '../compone
 import { useForm } from '../hooks/useForm';
 import { useUiStore } from '../hooks';
 import { useAppSelector } from '../store/hooks';
+import { showToastSuccessMessage } from '../utils';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -100,6 +101,7 @@ export const AddNotificationScreen = ({ navigation }: Props) => {
             console.error(error);
         }
 
+        showToastSuccessMessage("Notificación creada.");
         navigation.goBack();
     };
 

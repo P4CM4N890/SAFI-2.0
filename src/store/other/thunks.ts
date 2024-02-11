@@ -1,6 +1,6 @@
-import { obtenerCorreos, obtenerUsuarios } from "../../api";
+import { obtenerCategorias, obtenerCorreos, obtenerUsuarios } from "../../api";
 import { AppDispatch } from "../store";
-import { loadEmails, loadUsers } from "./otherSlice";
+import { loadCategories, loadEmails, loadUsers } from "./otherSlice";
 
 export const startLoadingUsers = () => {
     return async (dispatch: AppDispatch) => {
@@ -24,6 +24,19 @@ export const startLoadingEmails = () => {
         }
         catch(error){
             console.error(error);
+        }
+    };
+};
+
+export const startLoadingCategories = () => {
+    return async (dispatch: AppDispatch) => {
+        try{
+            const { data } = await obtenerCategorias();
+
+            dispatch( loadCategories(data) );
+        }
+        catch(err){
+            console.error(err);
         }
     };
 };

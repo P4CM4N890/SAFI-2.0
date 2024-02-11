@@ -9,6 +9,7 @@ import { Button, InputLabel, DatetimePickerLabel, MessageModal } from '../compon
 import { NotificationsStackParams } from '../navigation/NotificationsStackNavigator';
 import { useUiStore, useForm } from '../hooks';
 import { useAppSelector } from '../store/hooks';
+import { showToastSuccessMessage } from '../utils';
 
 interface Props extends StackScreenProps<NotificationsStackParams, 'EditNotificationScreen'>{};
 
@@ -62,6 +63,7 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
             prevActive: isActive 
         });
 
+        showToastSuccessMessage("Notificación modificada.");
         navigation.goBack();
     }
     
@@ -69,6 +71,7 @@ export const EditNotificationScreen = ({ navigation, route }: Props) => {
         deleteNotification(id);
 
         PushNotification.cancelLocalNotification(id);
+        showToastSuccessMessage("Notificación eliminada.");
         navigation.goBack();
     };
 

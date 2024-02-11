@@ -25,11 +25,11 @@ export const CategoryModal = ({ isModalVisible, color, selectCategory }: Props) 
                     <View className='items-center'>
                         <TouchableOpacity
                             activeOpacity={ 0.7 }
-                            onPress={ () => selectCategory('home-outline') }
+                            onPress={ () => selectCategory('briefcase-outline') }
                             className='rounded-full h-12 w-12 items-center justify-center'
                             style={{ backgroundColor: color }}
                         >
-                            <Icon name='home-outline' color='#FFF' size={ 30 }/>
+                            <Icon name='briefcase-outline' color='#FFF' size={ 30 }/>
                         </TouchableOpacity>
                     </View>
                     

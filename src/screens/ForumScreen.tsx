@@ -10,6 +10,8 @@ import { useForm, useRandomColor, useUiStore } from '../hooks';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startLoadingQuestions, startSavingQuestion } from '../store/forum/thunks';
 import { LoadingScreen } from './LoadingScreen';
+import { showToastSuccessMessage } from '../utils';
+import { startLoadingUsers } from '../store/other';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -29,7 +31,7 @@ export const ForumScreen = ({ navigation }: Props) => {
 
     const preguntasSorted = [...preguntas].sort((a, b) => {
         return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
-    })
+    });
 
     const openModal = () => {
       setModalVisible(true);
@@ -46,6 +48,7 @@ export const ForumScreen = ({ navigation }: Props) => {
         onChange('', 'titulo');
         onChange('', 'descripcion');
 
+        showToastSuccessMessage("Pregunta creada.");
         dispatch( startSavingQuestion({ pregunta: titulo, descripcion }) );
     };
 
@@ -62,6 +65,10 @@ export const ForumScreen = ({ navigation }: Props) => {
     useEffect(() => {
         dispatch( startLoadingQuestions() );
     },[]);
+
+    useEffect(() => {
+        dispatch( startLoadingUsers() );
+    }, []);
 
     if (saving) return <LoadingScreen />
 

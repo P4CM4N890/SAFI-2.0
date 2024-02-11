@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { Dimensions, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import { Snake } from "./Snake";
@@ -8,9 +8,12 @@ import { checkItsFood } from "../../utils/checkItsFood";
 import { randomPosition } from "../../utils/randomPosition";
 import { Header } from "./Header";
 import { Colores } from "../../styles/colors";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useUiStore } from "../../hooks";
+import { startSettingNewHighScore } from "../../store/auth";
 
 const SNAKE_POSICION_INICIAL = [{ x: 5, y: 5}];
-const BORDES = { xMin: 0, xMax: 34, yMin: 0, yMax: 62 };
+const BORDES = { xMin: 1, xMax: 34, yMin: 1, yMax: 68 };
 const COMIDA_POSICION_INICIAL = randomPosition(BORDES.xMax, BORDES.yMax);
 const INTERVALO_MOVIMIENTO = 20;
 const INCREMENTO_SCORE = 1;
@@ -23,12 +26,24 @@ enum Direcciones {
 }
 
 export const Game = () => {
+    const dispatch = useAppDispatch();
+    const { high_score } = useAppSelector( state => state.auth );
+    const { changeBarVisibility } = useUiStore();
+
     const [ direction, setDirection ] = useState<Direcciones>(Direcciones.Right);
     const [ gameOver, setGameOver ] = useState(false);
     const [ snake, setSnake ] = useState(SNAKE_POSICION_INICIAL);
     const [ food, setFood ] = useState(COMIDA_POSICION_INICIAL);
     const [ score, setScore ] = useState(0);
     const [ isPaused, setIsPaused ] = useState(false);
+
+    useEffect(() => {
+        changeBarVisibility(false);
+
+        return () => {
+            changeBarVisibility(true);
+          };
+    }, []);
 
     useEffect(() => {
         if(!gameOver){
@@ -63,6 +78,10 @@ export const Game = () => {
         if (checkGameOver(head, BORDES)) {
             setGameOver(prev => !prev);
 
+            if(score > (high_score as number)){
+                dispatch( startSettingNewHighScore(score) );
+            }
+            
             return;
         }
 
@@ -137,7 +156,7 @@ export const Game = () => {
                             :
                             <>
                                 <Text style={{ fontSize: 22, fontWeight: 'bold', color: Colores.primary }}>Puntuación: { score }</Text>
-                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: Colores.primary }}>Record: { score }</Text>
+                                <Text style={{ fontSize: 22, fontWeight: 'bold', color: Colores.primary }}>Record: { high_score }</Text>
                             </>
                     }
                 </Header>
