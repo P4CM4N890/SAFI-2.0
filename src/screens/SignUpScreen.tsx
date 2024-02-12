@@ -42,27 +42,27 @@ export const SignUpScreen = ({ navigation }: Props) => {
 
     const onSignUp = async () => {
         if (!nombre || !contrasena || !fecha_de_nac || !correo) { 
-            setError("Debes rellenar todos los campos.");
+            setError("Todos los campos son obligatorios");
             return;
-        }
-        else if(nombre.length <= 2){
-            setError("El nombre debe ser mayor a dos caracteres.");
+
+        } else if(nombre.length <= 2){
+            setError("El nombre debe ser mayor a dos caracteres");
             return;
-        }
-        else if (!isValidEmail(correo)) {
-            setError("El correo es inválido.");
+
+        } else if (!isValidEmail(correo)) {
+            setError("El correo es inválido");
             return;
-        }
-        else if (emails.includes(correo)){
-            setError("El correo ya está en uso.");
+
+        } else if (emails.includes(correo)){
+            setError("El correo ya está en uso");
             return;
-        }
-        else if(contrasena.length <= 2){
-            setError("La contraseña debe ser mayor a dos caracteres.");
+
+        } else if(contrasena.length <= 2){
+            setError("La contraseña debe ser mayor a dos caracteres");
             return;
-        }
-        else if(contrasena !== confirmar_contrasena){
-            setError("Las contraseñas no coinciden.");
+            
+        } else if(contrasena !== confirmar_contrasena){
+            setError("Las contraseñas no coinciden");
             return;
         }
         

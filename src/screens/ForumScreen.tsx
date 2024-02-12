@@ -87,20 +87,19 @@ export const ForumScreen = ({ navigation }: Props) => {
                 showsVerticalScrollIndicator={ false }
                 className='w-full h-64'
             >
-                <Text className='mt-20 text-xl font-bold text-black uppercase tracking-widest text-center'>
-                    Foro de Preguntas
-                </Text>
-
-                <TouchableOpacity
-                    onPress={ () => navigation.navigate('YourQuestionsScreen') }
-                >
-                    <Text 
-                        className='mt-5 text-m font-semibold underline text-gray-800 
-                        uppercase text-center'
-                    >
-                        Ver tus preguntas publicadas
+                <View className='ml-5'>
+                    <Text className='mt-7 text-xl font-bold text-black uppercase tracking-widest text-center'>
+                        Foro de Preguntas
                     </Text>
-                </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={ () => navigation.navigate('YourQuestionsScreen') }
+                    >
+                        <Text className='mt-5 text-m font-semibold underline text-gray-800 uppercase text-center'>
+                            Ver tus preguntas publicadas
+                        </Text>
+                    </TouchableOpacity>
+                </View>
 
                 <View className='mt-8 w-full'>
                     {
@@ -123,10 +122,12 @@ export const ForumScreen = ({ navigation }: Props) => {
 
                 <Modal 
                     isVisible={ modalVisible }
-                    animationIn={ 'bounceIn' }
+                    animationIn='bounceIn'
                 >
                     <View className='bg-white w-full rounded-2xl items-center py-5'>
-                        <Text className='text-primary font-bold text-2xl uppercase tracking-wider'>Crear Pregunta</Text>
+                        <Text className='text-primary font-bold text-2xl uppercase tracking-wider'>
+                            Crear Pregunta
+                        </Text>
                     
                         <InputLabel 
                             type='text'
