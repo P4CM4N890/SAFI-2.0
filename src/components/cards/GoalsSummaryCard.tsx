@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 interface Props {
     percentage: number;
     found: boolean;
-}
+};
 
 export const GoalsSummaryCard = ({ percentage, found }: Props) => {
     return (

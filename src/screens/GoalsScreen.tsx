@@ -3,10 +3,11 @@ import { View, ScrollView, Dimensions, ActivityIndicator, Text } from 'react-nat
 import { useIsFocused } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
-import { getAll } from '../store/goals/thunks';
+import { getAll } from '../store/goals';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 import { useUiStore } from '../hooks';
+
 import { Header, GoalCard, MainGoalCard, GoalsSummaryCard } from '../components';
 
 const { width: screenWidth } = Dimensions.get('window');

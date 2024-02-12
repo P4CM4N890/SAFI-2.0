@@ -10,7 +10,7 @@ import { InputLabel, Button, DatePickerLabel, CustomSwitch, CategoryModal,
 ColorModal, PriorityModal, ErrorMessage, MessageModal } from '../components';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { cleanMessage, update } from '../store/goals/thunks';
+import { cleanMessage, update } from '../store/goals';
 import { useForm, useUiStore } from '../hooks';
 
 import { categoryIcon, iconColor, priority, priorityColor } from '../types/appTypes';

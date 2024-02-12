@@ -5,8 +5,9 @@ import { StackScreenProps } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { add, cleanMessage } from '../store/goals';
+
 import { useForm, useUiStore } from '../hooks';
-import { add, cleanMessage } from '../store/goals/thunks';
 
 import { InputLabel, Button, DatePickerLabel, CustomSwitch, CategoryModal,
 ColorModal, PriorityModal, ErrorMessage, MessageModal } from '../components';
