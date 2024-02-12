@@ -25,8 +25,9 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
 
     const dispatch = useAppDispatch();
 
-    const { uuid } = useAppSelector( state => state.auth );
+    const { uuid } = useAppSelector(state => state.auth);
     const { message } = useAppSelector(state => state.goals);
+    const { mainGoalId } = useAppSelector(state => state.goals);
 
     const [ categoryModalVisible, setCategoryModalVisible ] = useState(false);
     const [ selectedCategory, setSelectedCategory ] = useState(goal.icono);
@@ -43,8 +44,8 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
     const { changeBarVisibility } = useUiStore();
 
     const { 
-        onChange, nombre, cantidad, descripcion, fecha_fin, fecha_inicio, color, icono, prioridad, fijar, form
-    } = useForm({ ...goal, fijar: 'no' });
+        onChange, nombre, cantidad, descripcion, fecha_fin, fecha_inicio, color, icono, prioridad, fijar
+    } = useForm({ ...goal, fijar: goal.id === mainGoalId ? 'si' : 'no' });
 
     useEffect(() => {
         changeBarVisibility(false);
@@ -53,7 +54,7 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
             changeBarVisibility(true);
         };
     }, []);
-
+    
     useEffect(() => {
         if(!message) return;
         setModalVisibility(true);

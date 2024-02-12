@@ -335,6 +335,6 @@ export interface LogroEdit {
 
 // DELETE
 
-export interface MetaRemove {
+export interface MetaId {
     id: string;
 }

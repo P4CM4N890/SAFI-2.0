@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { MetaRemove, MetaResponse, MetaFijadaResponse } from '../../interfaces/ApiInterfaces';
+import { MetaResponse, MetaId } from '../../interfaces/ApiInterfaces';
 
 interface ErrorMessage {
     message: string;
@@ -11,7 +11,7 @@ export const goalsSlice = createSlice({
     name: 'goals',
     initialState: {
         goals: [] as MetaResponse[],
-        mainGoal: {} as MetaFijadaResponse,
+        mainGoalId: '' as string,
         isLoading: false,
         message: ''
     },
@@ -20,21 +20,19 @@ export const goalsSlice = createSlice({
         startLoadingGoals: (state) => {
             state.isLoading = true;
         },
-        setMainGoal: (state, { payload }: PayloadAction<MetaFijadaResponse>) => {
-            state.isLoading = false;
-            state.message = '';
-            state.mainGoal = payload;
-        },
         setGoals: (state, { payload }: PayloadAction<MetaResponse[]>) => {
             state.isLoading = false;
             state.message = '';
             state.goals = payload;
         },
+        setMainGoalId: (state, { payload }: PayloadAction<MetaId>) => {
+            state.mainGoalId = payload.id;
+        },
         addGoal: (state, { payload }: PayloadAction<MetaResponse>) => {
             state.message = '';
             state.goals = [ ...state.goals, payload ];
         },
-        removeGoal: (state, { payload }: PayloadAction<MetaRemove>) => {
+        removeGoal: (state, { payload }: PayloadAction<MetaId>) => {
             state.message = '';
             state.goals = state.goals.filter(goal => goal.id !== payload.id);
         },
@@ -50,4 +48,4 @@ export const goalsSlice = createSlice({
     }
 });
 
-export const { startLoadingGoals, setGoals, addGoal, removeGoal, setMessage, setMainGoal } = goalsSlice.actions;
+export const { startLoadingGoals, setGoals, addGoal, removeGoal, setMessage, setMainGoalId } = goalsSlice.actions;

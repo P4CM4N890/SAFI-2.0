@@ -1,6 +1,8 @@
-import { AppDispatch } from "../store";
+import { AppDispatch } from '../store';
 
 import { setMainGoalSlide, setLatestIncomeSlide, setGoalsSummarySlide } from './slidesSlice';
+import { setMainGoalId } from '../goals';
+
 import { obtenerMetaFijada, obtenerMeta } from '../../api';
 
 export const loadMainGoalSlide = (id_usuario: number) => {
@@ -19,6 +21,8 @@ export const loadMainGoalSlide = (id_usuario: number) => {
                     found: true
                 }) 
             );
+
+            dispatch( setMainGoalId({ id: data.id_meta }) );
 
         } catch(err){
 
