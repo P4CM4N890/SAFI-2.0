@@ -23,7 +23,7 @@ export const LatestIncomeCard = ({ title, amount, found }: Props) => {
                     </View>
                 :   <View className='mt-7'>
                         <Text className='text-lg text-center font-bold text-primary uppercase'>No tiene ingresos registrados</Text>
-                        <Text className='text-lg text-center text-black font-bold'>Puede registrar ingresos en la sección cartera</Text>
+                        <Text className='text-base text-center text-black font-bold'>Puede registrar ingresos en la sección cartera</Text>
                     </View>
             }
         </View>

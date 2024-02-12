@@ -52,8 +52,8 @@ export const MainGoalCard = ({ title, startDate, endDate, progress, found }: Pro
                         <Text className='text-lg text-center font-bold text-primary uppercase'>
                             No Hay Una Meta Establecida
                         </Text>
-                        <Text className='text-lg text-center font-bold text-black'>
-                            Puede establecer una meta al crear o editar una
+                        <Text className='text-base text-center font-bold text-black'>
+                            Puede fijar una meta al crear o editar una
                         </Text>
                     </View>      
             }
