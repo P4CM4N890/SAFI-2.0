@@ -4,13 +4,12 @@ import { useIsFocused } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import { getAll } from '../store/goals/thunks';
-
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { useUiStore } from '../hooks';
 
+import { useUiStore } from '../hooks';
 import { Header, GoalCard, MainGoalCard, GoalsSummaryCard } from '../components';
 
-const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
+const { width: screenWidth } = Dimensions.get('window');
 
 export const GoalsScreen = () => {
 
@@ -19,8 +18,8 @@ export const GoalsScreen = () => {
     
     const isFocused = useIsFocused();
     const dispatch = useAppDispatch();
-    const { goalSlides } = useAppSelector( state => state.slides );
 
+    const { mainGoalSlide, goalsSummarySlide } = useAppSelector( state => state.slides );
     const { goals, isLoading } = useAppSelector( state => state.goals );
 
     useEffect(() => {
@@ -66,7 +65,7 @@ export const GoalsScreen = () => {
 
                 <View>
                     <Carousel 
-                        data={ goalSlides }
+                        data={ [ mainGoalSlide, goalsSummarySlide ] }
                         renderItem={({ item }: any) => renderItem(item)}
                         sliderWidth={ screenWidth * 0.90 }
                         itemWidth={ screenWidth * 0.90 }
@@ -75,7 +74,7 @@ export const GoalsScreen = () => {
                     />
 
                     <Pagination 
-                        dotsLength={ goalSlides.length }
+                        dotsLength={ 2 }
                         activeDotIndex={ activeIndex }
                     />
                 </View>

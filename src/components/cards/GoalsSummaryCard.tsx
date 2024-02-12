@@ -26,7 +26,7 @@ export const GoalsSummaryCard = ({ percentage, found }: Props) => {
                             No tiene metas registradas
                         </Text>
                         <Text className='text-lg text-center text-black font-bold'>
-                            Podrá ver un resumen del progreso de sus metas aquí
+                            Aquí podrá ver un resumen del progreso de sus metas
                         </Text>
                     </View>
             }

@@ -6,14 +6,37 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startLoadingIncomes } from '../store/incomes';
 import { startLoadingExpenses } from '../store/expenses';
-import { startLoadingSlides } from '../store/slides';
+import { loadMainGoalSlide, loadGoalsSummarySlide, loadLatestIncomeSlide } from '../store/slides';
 
 import { useUiStore } from '../hooks';
 
 import { MainGoalCard, LatestIncomeCard, HomeLineChart } from '../components';
 import { LoadingScreen } from './LoadingScreen';
 
-const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
+const { width: screenWidth } = Dimensions.get('window');
+
+const renderItem = (item: any) => {
+    if(item.type === 'mainGoal') {
+        return (
+            <MainGoalCard
+                title={ item.title } 
+                startDate={ item.startDate } 
+                endDate={ item.endDate } 
+                progress={ item.progress }
+                found={ item.found }
+            />
+        )
+
+    } else {
+        return (
+            <LatestIncomeCard 
+                title={ item.title }
+                amount={ item.incomeAmount }
+                found={ item.found }
+            />
+        )
+    }
+};
 
 export const HomeScreen = () => {
     
@@ -24,7 +47,7 @@ export const HomeScreen = () => {
     
     const { changeActiveComponent } = useUiStore();
     const { uuid } = useAppSelector( state => state.auth );
-    const { homeSlides } = useAppSelector( state => state.slides );
+    const { mainGoalSlide, latestIncomeSlide } = useAppSelector( state => state.slides );
 
     const dispatch = useAppDispatch();
     const isFocused = useIsFocused();
@@ -38,7 +61,11 @@ export const HomeScreen = () => {
 
     useEffect(() => {
         if(!uuid) return;
-        dispatch( startLoadingSlides(uuid) );
+
+        dispatch( loadMainGoalSlide(uuid) );
+        dispatch( loadLatestIncomeSlide(uuid) );
+        dispatch( loadGoalsSummarySlide(uuid) );
+
     }, [ uuid ]);
 
     useEffect(() => {
@@ -48,29 +75,6 @@ export const HomeScreen = () => {
     useEffect(() => {
         dispatch( startLoadingExpenses() );
     }, []);
-
-    const renderItem = (item: any) => {
-        if(item.type === 'mainGoal') {
-            return (
-                <MainGoalCard
-                    title={ item.title } 
-                    startDate={ item.startDate } 
-                    endDate={ item.endDate } 
-                    progress={ item.progress }
-                    found={ item.found }
-                />
-            )
-
-        } else {
-            return (
-                <LatestIncomeCard 
-                    title={ item.title }
-                    amount={ item.incomeAmount }
-                    found={ item.found }
-                />
-            )
-        }
-    }
 
     if ( isLoadingIncomes || isLoadingExpenses ) return <LoadingScreen />;
 
@@ -82,7 +86,7 @@ export const HomeScreen = () => {
             >
                 <View>
                     <Carousel
-                        data={ homeSlides }
+                        data={ [ mainGoalSlide, latestIncomeSlide ] }
                         renderItem={({ item }: any) => renderItem(item)}
                         sliderWidth={ screenWidth * 0.90 }
                         itemWidth={ screenWidth * 0.90 }
@@ -90,7 +94,7 @@ export const HomeScreen = () => {
                         onSnapToItem={(index) => setActiveindex(index)}
                     />
                     <Pagination 
-                        dotsLength={ homeSlides.length }
+                        dotsLength={ 2 }
                         activeDotIndex={ activeIndex }
                     />
                 </View>

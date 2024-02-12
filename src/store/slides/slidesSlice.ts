@@ -24,21 +24,22 @@ interface GoalSlide {
 export const slidesSlice = createSlice({
     name: 'goals',
     initialState: {
-        homeSlides: [] as HomeSlide[],
-        goalSlides: [] as GoalSlide[],
-        isLoading: true
+        mainGoalSlide: {} as HomeSlide,
+        latestIncomeSlide: {} as HomeSlide,
+        goalsSummarySlide: {} as GoalSlide,
     },
 
     reducers: {
-        setHomeSlides: (state, { payload }: PayloadAction<HomeSlide[]>) => {
-            state.isLoading = false;
-            state.homeSlides = payload;
+        setMainGoalSlide: (state, { payload }: PayloadAction<HomeSlide>) => {
+            state.mainGoalSlide = payload;
         },
-        setGoalSlides: (state, { payload }: PayloadAction<GoalSlide[]>) => {
-            state.isLoading = false;
-            state.goalSlides = payload;
+        setLatestIncomeSlide: (state, { payload }: PayloadAction<HomeSlide>) => {
+            state.latestIncomeSlide = payload;
+        },
+        setGoalsSummarySlide: (state, { payload }: PayloadAction<GoalSlide>) => {
+            state.goalsSummarySlide = payload;
         },
     }
 });
 
-export const { setHomeSlides, setGoalSlides } = slidesSlice.actions;
+export const { setMainGoalSlide, setLatestIncomeSlide, setGoalsSummarySlide } = slidesSlice.actions;
