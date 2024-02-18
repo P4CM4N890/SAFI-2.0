@@ -58,7 +58,7 @@ export const add = (meta: MetaCreate, fijar: boolean) => {
     };
 };
 
-export const update = (id: string, id_usuario: number, meta: MetaEdit, fijar: boolean) => {
+export const update = (id: string, id_usuario: number, meta: MetaEdit, fijar: boolean, fijado: boolean) => {
     return async (dispatch: AppDispatch) => {
         try{
             // actualizar la meta
@@ -68,7 +68,7 @@ export const update = (id: string, id_usuario: number, meta: MetaEdit, fijar: bo
             dispatch( removeGoal({ id }) );
             dispatch( addGoal({ id, id_usuario, ...meta }) );
 
-            if(fijar) {
+            if(fijar && !fijado) {
                 // crear la meta fijada
                 await crearMetaFijada({ id_usuario, id_meta: id });
 
@@ -87,7 +87,7 @@ export const update = (id: string, id_usuario: number, meta: MetaEdit, fijar: bo
                 // actualizar el state del id de la meta fijada
                 dispatch( setMainGoalId({ id }) );
 
-            } else {
+            } else if(!fijar && fijado) {
                 // eliminar meta fijada
                 await eliminarMetaFijada(id);
 

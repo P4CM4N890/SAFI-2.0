@@ -9,3 +9,4 @@ export * from './MainGoalCard';
 export * from './NotificationCard';
 export * from './QuestionCard';
 export * from './ScoreCard';
+export * from './GoalContributionCard';

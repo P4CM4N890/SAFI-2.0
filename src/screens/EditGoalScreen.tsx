@@ -105,7 +105,9 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
                     color,
                     icono,
                     completada: 0,
-                }, fijar === 'si' ? true : false
+                }, 
+                fijar === 'si' ? true : false, 
+                goal.id === mainGoalId ? true : false
             )
         );
     };
