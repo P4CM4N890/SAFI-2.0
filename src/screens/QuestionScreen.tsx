@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { format } from 'date-fns';
 import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -7,26 +7,31 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import { ForumStackParams } from '../navigation/ForumStackNavigator';
 import { BackButton, AnswerCard } from '../components';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { PreguntaResponse } from '../interfaces/ApiInterfaces';
-import { useForm } from '../hooks';
-import { startAddingLikeToQuestion, startSavingAnswer } from '../store/forum/thunks';
 import { LoadingScreen } from './LoadingScreen';
+
+import { startAddingLikeToQuestion, startSavingAnswer } from '../store/forum/thunks';
+
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useForm } from '../hooks';
+
+import { PreguntaResponse } from '../interfaces/ApiInterfaces';
 import { showToastSuccessMessage } from '../utils';
 
 interface Props extends StackScreenProps<ForumStackParams, 'QuestionScreen'>{};
 
 const initialState = {
-    cuerpo: '',
-}
+    cuerpo: ''
+};
 
 export const QuestionScreen = ({ navigation, route }: Props) => {
     const { questionId } = route.params;
 
     const dispatch = useAppDispatch();
+
     const { preguntas, respuestas, isSaving } = useAppSelector( state => state.forum );
     const { users } = useAppSelector( state => state.other );
     const { nombre, uuid } = useAppSelector( state => state.auth );
+
     const { cuerpo, onChange } = useForm(initialState);
     const saving = useMemo( () => isSaving, [isSaving] );
     

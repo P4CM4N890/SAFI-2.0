@@ -1,18 +1,35 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
+import Modal from 'react-native-modal';
 
 import { GoalsStackParams } from '../navigation/GoalsStackNavigator';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { GoalContributionCard } from '../components';
-import { useUiStore } from '../hooks';
+import { BackButton, Button, GoalContributionCard, InputLabel } from '../components';
+import { useForm, useUiStore } from '../hooks';
+import { format } from 'date-fns';
 
-interface Props extends StackScreenProps<GoalsStackParams, 'GoalContributionsScreen'> {};
+interface Props extends StackScreenProps<GoalsStackParams, 'GoalContributionsScreen'>{};
+
+const initialState = {
+    cantidad: ''
+};
 
 export const GoalContributionsScreen = ({ navigation }: Props) => {
 
     const { changeBarVisibility } = useUiStore();
+    const [ modalVisible, setModalVisible ] = useState(false);
+
+    const { cantidad, onChange } = useForm(initialState);
+    
+    const openModal = () => {
+        setModalVisible(true);
+    };
+    
+    const closeModal = () => {
+        setModalVisible(false);
+    };
     
     useEffect(() => {
         changeBarVisibility(false);
@@ -21,11 +38,20 @@ export const GoalContributionsScreen = ({ navigation }: Props) => {
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <ScrollView>
-                <View className='w-full h-full items-center'>
 
-                    <Text className='mt-12 text-2xl font-bold text-primary uppercase tracking-widest'>
-                        Abonos
-                    </Text>
+                <View className='w-full h-full items-center'>
+                    <View className='mt-1 w-full flex-row justify-center items-center'>    
+                        <BackButton
+                            iconColor='#fff' 
+                            iconSize={ 25 } 
+                            extraClass='bg-primary'
+                            onPress={ () => navigation.goBack() }
+                        />
+
+                        <Text className='mt-7 text-2xl font-bold text-primary uppercase tracking-widest'>
+                            Abonos
+                        </Text>
+                    </View>
 
                     <View className='w-full mt-7 px-5'>
                         <Text className='text-2xl text-black font-semibold mb-2'>Datos de la meta</Text>
@@ -51,12 +77,13 @@ export const GoalContributionsScreen = ({ navigation }: Props) => {
                         </Text>
                     </View>
 
-                    <View className='w-full mt-7 px-5 mb-10'>
+                    <View className='w-full mt-7 px-5'>
                         <View className='flex flex-row justify-between mb-1'>
                             <Text className='text-2xl text-black font-semibold'>Historial de abonos</Text>
                             
                             <TouchableOpacity 
                                 activeOpacity={ 0.8 }
+                                onPress={ openModal }
                             >
                                 <Icon name='add-circle-outline' size={ 35 } color='#4F33D8' />
                             </TouchableOpacity>
@@ -64,26 +91,49 @@ export const GoalContributionsScreen = ({ navigation }: Props) => {
                         
                         <View className='w-full border-t-2 border-zinc-500 mb-1'/>
 
-                        <Text className='text-base font-medium mt-3'>
-                            Enero 2024
-                        </Text>
-                        <GoalContributionCard />
-                        <GoalContributionCard />
-
-                        <Text className='text-base font-medium mt-3'>
-                            Febrero 2024
-                        </Text>
-                        <GoalContributionCard />
-                        <GoalContributionCard />
-
-                        <Text className='text-base font-medium mt-3'>
-                            Marzo 2024
-                        </Text>
+                        <Text className='text-base font-medium mt-3'>Enero 2024</Text>
                         <GoalContributionCard />
                         <GoalContributionCard />
                     </View>
-
                 </View>
+
+                <Modal 
+                    isVisible={ modalVisible }
+                    animationIn='bounceIn'
+                >
+                    <View className='bg-white w-full rounded-2xl items-center py-5'>
+                        <Text className='text-primary font-bold text-2xl uppercase tracking-wider'>
+                            Nuevo abono
+                        </Text>
+
+                        <InputLabel 
+                            type='numeric'
+                            label='Cantidad'
+                            extraClass='mt-5'
+                            value={ cantidad.toString() }
+                            onChange={ (value) => onChange(value, 'cantidad') }
+                        />
+                        <InputLabel 
+                            type='numeric'
+                            label='Fecha'
+                            extraClass='mt-5'
+                            editable={ false }
+                            value={ format(new Date(), "dd'/'MM'/'yyyy") }
+                        />
+
+                        <View className='w-5/6 mt-16 flex-row justify-between'>
+                            <Button
+                                label='Guardar' 
+                            />
+                            <Button 
+                                label='Cancelar' 
+                                extraClass='bg-rose-600'
+                                onPress={ closeModal }
+                            />
+                        </View>
+                    </View>
+                </Modal>
+
             </ScrollView>
         </KeyboardAvoidingView>
     );

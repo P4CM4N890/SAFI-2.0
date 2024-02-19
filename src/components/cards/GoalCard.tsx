@@ -35,7 +35,9 @@ export const GoalCard = ({ goal, totalGoalCompleted, progress }: Props) => {
                 </View>
 
                 <View className='w-2/3'>
-                    <Text className='text-black font-bold text-lg' numberOfLines={ 1 }>{ nombre }</Text>
+                    <Text className='text-black font-bold text-lg' numberOfLines={ 1 }>
+                        { nombre }
+                    </Text>
                     <Bar 
                         progress={ progress } 
                         height={ 10 } 
@@ -48,7 +50,9 @@ export const GoalCard = ({ goal, totalGoalCompleted, progress }: Props) => {
             </View>
 
             <View className='w-1/4 justify-around'>
-                <Text className='text-right text-base text-black font-bold'>${ totalGoalCompleted }</Text>
+                <Text className='text-right text-base text-black font-bold'>
+                    ${ totalGoalCompleted }
+                </Text>
                 <Text className='text-right text-xs'>de ${ cantidad }</Text>
             </View>
 

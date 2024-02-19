@@ -4,30 +4,34 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 import Modal from 'react-native-modal';
 
-import { AddQuestionButton, RankingButton, QuestionCard,
-InputLabel, Button, BackButton } from '../components';
-import { useForm, useRandomColor, useUiStore } from '../hooks';
+import { AddQuestionButton, RankingButton, QuestionCard, InputLabel, Button, BackButton } from '../components';
+import { LoadingScreen } from './LoadingScreen';
+
+import { startLoadingUsers } from '../store/other';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startLoadingQuestions, startSavingQuestion } from '../store/forum/thunks';
-import { LoadingScreen } from './LoadingScreen';
+
+import { useForm, useRandomColor, useUiStore } from '../hooks';
+
 import { showToastSuccessMessage } from '../utils';
-import { startLoadingUsers } from '../store/other';
 
 interface Props extends StackScreenProps<any, any> {};
 
 const initialState = {
     titulo: '',
     descripcion: '',
-}
+};
 
 export const ForumScreen = ({ navigation }: Props) => {
-    const [ modalVisible, setModalVisible ] = useState(false);
 
     const dispatch = useAppDispatch();
-    const { preguntas, respuestas, isSaving } = useAppSelector(state => state.forum);
+    const [ modalVisible, setModalVisible ] = useState(false);
+
     const { changeBarVisibility } = useUiStore();
     const { titulo, descripcion, onChange } = useForm(initialState);
     const { getNewColor } = useRandomColor();
+
+    const { preguntas, respuestas, isSaving } = useAppSelector(state => state.forum);
 
     const preguntasSorted = [...preguntas].sort((a, b) => {
         return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();

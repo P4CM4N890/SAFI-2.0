@@ -12,10 +12,11 @@ interface Props {
     value?: string,
     autoCapitalize?: 'characters' | 'none' | 'sentences' | 'words',
     onChange?: (value: string) => void,
-    iconName?: string
+    iconName?: string;
+    editable?: boolean;
 };
 
-export const InputLabel = ( { label, placeholder = '', iconName, type, secureTextEntry, extraClass, autoCapitalize, value, onChange }: Props ) => {
+export const InputLabel = ( { label, placeholder = '', iconName, type, secureTextEntry, extraClass, autoCapitalize, value, editable = true, onChange }: Props ) => {
     return (
         <>
             <Text className={`w-5/6 mb-1 font-semibold text-base text-primary ${ extraClass }`}>{ label }</Text>
@@ -33,6 +34,7 @@ export const InputLabel = ( { label, placeholder = '', iconName, type, secureTex
                     autoCapitalize={ autoCapitalize }
                     value={ value }
                     onChangeText={ onChange }
+                    editable={ editable }
                 />
             </View>
         </>
