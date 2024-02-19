@@ -69,6 +69,11 @@ export interface AbonoCreate {
     fecha: string
 }
 
+export interface AbonoCreateResponse {
+    status: string;
+    id:     string;
+}
+
 export interface GastoCreate {
     id_usuario: number
     cantidad: number
@@ -336,5 +341,9 @@ export interface LogroEdit {
 // DELETE
 
 export interface MetaId {
+    id: string;
+}
+
+export interface GoalContributionId {
     id: string;
 }

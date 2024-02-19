@@ -4,7 +4,7 @@ import {
     AbonoCreate, CategoriaCreate, GastoCreate, IngresoCreate, 
     InicioSesion, MetaCreate, UsuarioCreate, ValidarToken, RecordatorioDePagoCreate, 
     PreguntaCreate, RespuestaCreate, MetaFijadaCreate, PredictorObject, LogroCreate,
-    MetaCreateResponse, MetaFijadaCreateResponse 
+    MetaCreateResponse, MetaFijadaCreateResponse, AbonoCreateResponse 
 } from '../interfaces/ApiInterfaces';
 
 export const login = async (correo: string, password: string): 
@@ -221,7 +221,7 @@ export const crearIngreso = async (ingreso: IngresoCreate): Promise<AxiosRespons
     }
 }
 
-export const crearAbono = async (abono: AbonoCreate): Promise<AxiosResponse> => {
+export const crearAbono = async (abono: AbonoCreate): Promise<AxiosResponse<AbonoCreateResponse>> => {
     const token = await checkToken();
 
     let config = {
@@ -239,10 +239,9 @@ export const crearAbono = async (abono: AbonoCreate): Promise<AxiosResponse> => 
 
     try {
         const response = await apiInstance.post(url, body, config);
-
         return response;
-    }
-    catch (err) {
+        
+    } catch (err) {
         const errors = err as Error | AxiosError;
         
         if(!axios.isAxiosError(errors)){

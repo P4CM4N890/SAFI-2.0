@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
+import { format } from 'date-fns';
 import Modal from 'react-native-modal';
 
 import { GoalsStackParams } from '../navigation/GoalsStackNavigator';
+import { BackButton, Button, GoalContributionCard, InputLabel } from '../components';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { BackButton, Button, GoalContributionCard, InputLabel } from '../components';
+import { useAppSelector } from '../store/hooks';
 import { useForm, useUiStore } from '../hooks';
-import { format } from 'date-fns';
 
 interface Props extends StackScreenProps<GoalsStackParams, 'GoalContributionsScreen'>{};
 
@@ -16,11 +17,14 @@ const initialState = {
     cantidad: ''
 };
 
-export const GoalContributionsScreen = ({ navigation }: Props) => {
+export const GoalContributionsScreen = ({ navigation, route }: Props) => {
 
     const { changeBarVisibility } = useUiStore();
-    const [ modalVisible, setModalVisible ] = useState(false);
 
+    const { goal_id } = route.params;
+    const { uuid } = useAppSelector( state => state.auth );
+
+    const [ modalVisible, setModalVisible ] = useState(false);
     const { cantidad, onChange } = useForm(initialState);
     
     const openModal = () => {
@@ -48,7 +52,7 @@ export const GoalContributionsScreen = ({ navigation }: Props) => {
                             onPress={ () => navigation.goBack() }
                         />
 
-                        <Text className='mt-7 text-2xl font-bold text-primary uppercase tracking-widest'>
+                        <Text className='mt-7 text-2xl font-bold text-primary uppercase'>
                             Abonos
                         </Text>
                     </View>
