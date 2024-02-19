@@ -4,11 +4,11 @@ import { useIsFocused } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useUiStore } from '../hooks';
+
 import { startLoadingIncomes } from '../store/incomes';
 import { startLoadingExpenses } from '../store/expenses';
 import { loadMainGoalSlide, loadGoalsSummarySlide, loadLatestIncomeSlide } from '../store/slides';
-
-import { useUiStore } from '../hooks';
 
 import { MainGoalCard, LatestIncomeCard, HomeLineChart } from '../components';
 import { LoadingScreen } from './LoadingScreen';

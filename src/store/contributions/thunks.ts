@@ -1,6 +1,6 @@
 import { AppDispatch } from '../store';
-import { crearAbono } from '../../api';
-import { addContribution, setMessage } from './goalContributionsSlice';
+import { crearAbono, obtenerAbonos } from '../../api';
+import { addContribution, setGoalContributions, setMessage, startLoadingContributions } from './goalContributionsSlice';
 
 import { AbonoCreate, AbonoEdit } from '../../interfaces/ApiInterfaces';
 
@@ -40,10 +40,19 @@ export const update = (abono: AbonoEdit) => {
 
 export const getAll = () => {
     return async (dispatch: AppDispatch) => {
+        dispatch( startLoadingContributions() );
+
         try{
+            // obtener los abonos
+            const { data } = await obtenerAbonos();
+
+            // actualizar el state de los abonos
+            dispatch( setGoalContributions(data) );
 
         } catch(err){
-
+            dispatch( 
+                setMessage({ message: 'Ocurrió un error al obtener los abonos' }) 
+            );
         }
     };
 };

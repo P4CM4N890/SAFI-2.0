@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { format } from 'date-fns';
 
@@ -11,9 +11,11 @@ import { BackButton, Button, ErrorMessage, GoalContributionCard, InputLabel } fr
 
 import { add, cleanMessage } from '../store/contributions';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { useForm, useUiStore } from '../hooks';
 
+import { useForm, useUiStore } from '../hooks';
 import { showToastSuccessMessage } from '../utils';
+
+import { AbonoResponse } from '../interfaces/ApiInterfaces';
 
 interface Props extends StackScreenProps<GoalsStackParams, 'GoalContributionsScreen'>{};
 
@@ -27,11 +29,16 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
     const dispatch = useAppDispatch();
 
     const { goal_id } = route.params;
+
     const { uuid } = useAppSelector(state => state.auth);
     const { message } = useAppSelector(state => state.goalContributions);
+    const { contributions } = useAppSelector(state => state.goalContributions);
 
-    const [ modalVisible, setModalVisible ] = useState(false);
-    const [ error, setError ] = useState('');
+    const [ goalContributions, setGoalContributions ] = useState<AbonoResponse[]>([]);
+    const [ isLoading, setIsLoading ] = useState<boolean>(true);
+
+    const [ modalVisible, setModalVisible ] = useState<boolean>(false);
+    const [ error, setError ] = useState<string>('');
 
     const { cantidad, onChange } = useForm(initialState);
     
@@ -73,6 +80,17 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
     
     useEffect(() => {
         changeBarVisibility(false);
+    }, []);
+
+    useEffect(() => {
+        if(contributions.length === 0) return;
+
+        const currentGoalContributions = contributions.filter( 
+            item => item.id_meta_abonada === goal_id 
+        );
+
+        setGoalContributions(currentGoalContributions);
+        setIsLoading(false);
     }, []);
 
     useEffect(() => {
@@ -142,9 +160,32 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
                         
                         <View className='w-full border-t-2 border-zinc-500 mb-1'/>
 
-                        <Text className='text-base font-medium mt-3'>Enero 2024</Text>
-                        <GoalContributionCard />
-                        <GoalContributionCard />
+                        {   
+                            isLoading 
+                            ? 
+                                <>
+                                    <ActivityIndicator size={ 30 } color='#000' className='mt-24' /> 
+                                    <Text className='text-center mt-3 font-medium text-zinc-500'>
+                                        Cargando abonos...
+                                    </Text>
+                                </>
+
+                            : (!isLoading && goalContributions.length > 0) 
+                                ?   goalContributions.map( contribution => (
+                                        <GoalContributionCard 
+                                            key={ contribution.id }
+                                            contribution={ contribution }
+                                        />
+                                    ))
+                                :   <>
+                                        <Text className='text-center font-medium text-xl text-zinc-500 mt-24'>
+                                            Esta Meta No Tiene Abonos
+                                        </Text>
+                                        <Text className='text-center font-medium text-base text-zinc-500 mt-3'>
+                                            Cuando registre abonos podrá verlos aquí
+                                        </Text>
+                                    </>
+                        }
                     </View>
                 </View>
 

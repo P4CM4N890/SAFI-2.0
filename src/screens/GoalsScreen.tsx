@@ -3,11 +3,11 @@ import { View, ScrollView, Dimensions, ActivityIndicator, Text } from 'react-nat
 import { useIsFocused } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
-import { getAll } from '../store/goals';
+import { getAll as getAllGoals } from '../store/goals';
+import { getAll as getAllContributions } from '../store/contributions';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 import { useUiStore } from '../hooks';
-
 import { Header, GoalCard, MainGoalCard, GoalsSummaryCard } from '../components';
 
 const { width: screenWidth } = Dimensions.get('window');
@@ -31,7 +31,11 @@ export const GoalsScreen = () => {
     }, [ isFocused ]);
 
     useEffect(() => {
-        dispatch( getAll() );
+        dispatch( getAllGoals() );
+    }, []);
+
+    useEffect(() => {
+        dispatch( getAllContributions() );
     }, []);
 
     const renderItem = (item: any) => {
