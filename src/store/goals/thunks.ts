@@ -1,9 +1,9 @@
 import { format } from 'date-fns';
-import { AppDispatch } from '../store';
 
 import { startLoadingGoals, setGoals, addGoal, removeGoal, setMessage, setMainGoalId } from './goalsSlice';
 import { crearMeta, crearMetaFijada, obtenerMetas, actualizarMeta, eliminarMetaFijada } from '../../api';
 import { setMainGoalSlide } from '../slides';
+import { AppDispatch } from '../store';
 
 import { MetaCreate, MetaEdit } from '../../interfaces/ApiInterfaces';
 
@@ -46,12 +46,12 @@ export const add = (meta: MetaCreate, fijar: boolean) => {
             
             if(error.message.includes('ya tiene una meta fijada')) {
                 dispatch( 
-                    setMessage({ message: 'Error al fijar la meta, ya tienes una meta fijada' }) 
+                    setMessage({ message: 'Error, ya tienes una meta fijada' }) 
                 );
 
             } else {
                 dispatch( 
-                    setMessage({ message: 'Ocurrió un error al agregar la meta' }) 
+                    setMessage({ message: 'Ocurrió un error al registrar la meta' }) 
                 );
             }
         }
@@ -112,7 +112,7 @@ export const update = (id: string, id_usuario: number, meta: MetaEdit, fijar: bo
 
             if(error.message.includes('ya tiene una meta fijada')) {
                 dispatch( 
-                    setMessage({ message: 'Error al fijar la meta, ya tienes una meta fijada' }) 
+                    setMessage({ message: 'Error, ya tienes una meta fijada' }) 
                 );
 
             } else {

@@ -10,8 +10,9 @@ import { add, cleanMessage } from '../store/goals';
 import { useForm, useUiStore } from '../hooks';
 
 import { InputLabel, Button, DatePickerLabel, CustomSwitch, CategoryModal,
-ColorModal, PriorityModal, ErrorMessage, MessageModal } from '../components';
+ColorModal, PriorityModal, ErrorMessage } from '../components';
 
+import { showToastSuccessMessage, showToastErrorMessage } from '../utils';
 import { categoryIcon, iconColor, priority, priorityColor } from '../types/appTypes';
 
 interface Props extends StackScreenProps<any, any> {};
@@ -32,7 +33,7 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     const dispatch = useAppDispatch();
 
     const { message } = useAppSelector(state => state.goals);
-    const { uuid } = useAppSelector( state => state.auth );
+    const { uuid } = useAppSelector(state => state.auth);
 
     const [ categoryModalVisible, setCategoryModalVisible ] = useState(false);
     const [ selectedCategory, setSelectedCategory ] = useState<categoryIcon>('flag-outline');
@@ -41,7 +42,6 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     const [ selectedColor, setSelectedColor ] = useState<iconColor>('#A233D8');
 
     const [ error, setError ] = useState('');
-    const [ modalVisible, setModalVisible ] = useState<boolean>(false);
 
     const [ priorityModalVisible, setPriorityModalVisible ] = useState(false);
     const [ selectedPriority, setSelectedPriority ] = useState<priority>('Baja');
@@ -59,17 +59,20 @@ export const AddGoalScreen = ({ navigation }: Props) => {
 
     useEffect(() => {
         if(!message) return;
-        setModalVisibility(true);
+
+        setTimeout(() => {
+            if( message.toLocaleLowerCase().includes('error') ) {
+                showToastErrorMessage(message);
+
+            } else {
+                showToastSuccessMessage(message);
+            }
+
+            navigation.navigate('GoalsScreen');
+            dispatch(cleanMessage());
+
+        }, 500);
     }, [ message ]);
-
-    const setModalVisibility = (isVisible: boolean) => {
-        setModalVisible(isVisible);
-    };
-
-    const onCloseModal = () => {
-        dispatch( cleanMessage() );
-        navigation.navigate('GoalsScreen');
-    };
 
     const onAddGoal = () => {
         if (!nombre) { 
@@ -164,13 +167,6 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     return (
         <KeyboardAvoidingView className='w-full h-full'>
             <ScrollView>
-                <MessageModal
-                    message={ message }
-                    modalVisible={ modalVisible }
-                    setModalVisible={ setModalVisibility }
-                    onClose={ onCloseModal }
-                />
-
                 <View className='w-full h-full items-center mb-9'>
 
                     <Text className='mt-6 text-2xl font-bold text-primary uppercase tracking-widest'>

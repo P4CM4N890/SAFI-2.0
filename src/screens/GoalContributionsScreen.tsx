@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { format } from 'date-fns';
+
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
 
