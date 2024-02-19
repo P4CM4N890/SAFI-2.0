@@ -3,13 +3,16 @@ import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from '
 import { StackScreenProps } from '@react-navigation/stack';
 import { format } from 'date-fns';
 import Modal from 'react-native-modal';
-
-import { GoalsStackParams } from '../navigation/GoalsStackNavigator';
-import { BackButton, Button, GoalContributionCard, InputLabel } from '../components';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { useAppSelector } from '../store/hooks';
+import { GoalsStackParams } from '../navigation/GoalsStackNavigator';
+import { BackButton, Button, ErrorMessage, GoalContributionCard, InputLabel } from '../components';
+
+import { add, cleanMessage } from '../store/contributions';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { useForm, useUiStore } from '../hooks';
+
+import { showToastSuccessMessage } from '../utils';
 
 interface Props extends StackScreenProps<GoalsStackParams, 'GoalContributionsScreen'>{};
 
@@ -18,13 +21,17 @@ const initialState = {
 };
 
 export const GoalContributionsScreen = ({ navigation, route }: Props) => {
-
+    
     const { changeBarVisibility } = useUiStore();
+    const dispatch = useAppDispatch();
 
     const { goal_id } = route.params;
-    const { uuid } = useAppSelector( state => state.auth );
+    const { uuid } = useAppSelector(state => state.auth);
+    const { message } = useAppSelector(state => state.goalContributions);
 
     const [ modalVisible, setModalVisible ] = useState(false);
+    const [ error, setError ] = useState('');
+
     const { cantidad, onChange } = useForm(initialState);
     
     const openModal = () => {
@@ -34,10 +41,49 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
     const closeModal = () => {
         setModalVisible(false);
     };
+
+    const isErrorOfField = (field: string) => {
+        return error.includes(field);
+    };
+
+    const onAddGoalContribution = () => {
+        if (!cantidad) {
+            setError('La cantidad es obligatoria');
+            return;
+
+        } else if (Number(cantidad) <= 0) {
+            setError('La cantidad debe ser mayor a cero');
+            return;
+        }
+
+        if(!uuid) return;
+
+        dispatch(
+            add({
+                id_usuario: uuid,
+                id_meta_abonada: goal_id,
+                cantidad: Number(cantidad),
+                fecha: new Date().toISOString().split('T')[0]
+            })
+        );
+
+        closeModal();     
+    };
     
     useEffect(() => {
         changeBarVisibility(false);
     }, []);
+
+    useEffect(() => {
+        if(!message) return;
+
+        setTimeout(() => {
+            showToastSuccessMessage(message);
+            navigation.navigate('GoalsScreen');
+
+            dispatch(cleanMessage());
+        }, 500);
+    }, [ message ]);
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>
@@ -117,6 +163,11 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
                             value={ cantidad.toString() }
                             onChange={ (value) => onChange(value, 'cantidad') }
                         />
+                        <ErrorMessage
+                            message={ error }
+                            showMessage={ !!error && isErrorOfField('cantidad')}
+                        />
+
                         <InputLabel 
                             type='numeric'
                             label='Fecha'
@@ -128,6 +179,7 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
                         <View className='w-5/6 mt-16 flex-row justify-between'>
                             <Button
                                 label='Guardar' 
+                                onPress={ onAddGoalContribution }
                             />
                             <Button 
                                 label='Cancelar' 

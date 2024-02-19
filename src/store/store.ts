@@ -7,7 +7,7 @@ import { incomeSlice } from './incomes';
 import { expenseSlice } from './expenses';
 import { goalsSlice } from './goals/goalsSlice';
 import { slidesSlice } from './slides/slidesSlice';
-import { goalsContributionsSlice } from './goal contributions';
+import { goalsContributionsSlice } from './contributions';
 
 export const store = configureStore({
     reducer: {
