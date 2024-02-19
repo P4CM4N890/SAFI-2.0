@@ -1,12 +1,13 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { NotificationsStackNavigator } from '../navigation/NotificationsStackNavigator'
+
 import { GoalsScreen } from '../screens/GoalsScreen';
 import { AddGoalScreen } from '../screens/AddGoalScreen';
 import { EditGoalScreen } from '../screens/EditGoalScreen';
 import { GoalContributionsScreen } from '../screens/GoalContributionsScreen';
 
-import { NotificationsStackNavigator } from '../navigation/NotificationsStackNavigator'
 import { MetaResponse } from '../interfaces/ApiInterfaces';
 
 export type GoalsStackParams = {
@@ -14,7 +15,7 @@ export type GoalsStackParams = {
     AddGoalScreen: undefined;
     EditGoalScreen: { goal: MetaResponse };
     NotificationsStackNavigator: undefined;
-    GoalContributionsScreen: { goal_id: string };
+    GoalContributionsScreen: { goal: MetaResponse };
 };
 
 const GoalsStack = createStackNavigator<GoalsStackParams>();

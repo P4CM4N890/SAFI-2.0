@@ -58,7 +58,7 @@ export const GoalCard = ({ goal, totalGoalCompleted, progress }: Props) => {
 
             <TouchableOpacity
                 activeOpacity={ 0.7 }
-                onPress={ () => navigation.navigate('GoalContributionsScreen', { goal_id: goal.id }) }
+                onPress={ () => navigation.navigate('GoalContributionsScreen', { goal }) }
             >
                 <Icon 
                     name='add-circle-outline' 
