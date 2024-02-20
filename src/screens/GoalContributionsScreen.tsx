@@ -123,9 +123,10 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
     };
 
     const onDeleteGoalContribution = () => {
-        dispatch( remove(selectedContribution.id) );
-        setDeleteModalVisible(false);
+        closeDeleteConfirmationModal();
         closeModal();
+        
+        dispatch( remove(selectedContribution.id) );
     };
     
     useEffect(() => {
