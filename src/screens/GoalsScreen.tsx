@@ -4,7 +4,7 @@ import { useIsFocused } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import { getAll as getAllGoals } from '../store/goals';
-import { getAll as getAllContributions } from '../store/contributions';
+import { GoalProgress, getAll as getAllContributions, setGoalsProgress } from '../store/contributions';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 import { useUiStore } from '../hooks';
@@ -22,6 +22,7 @@ export const GoalsScreen = () => {
 
     const { mainGoalSlide, goalsSummarySlide } = useAppSelector( state => state.slides );
     const { goals, isLoading } = useAppSelector( state => state.goals );
+    const { goalsProgress, contributions } = useAppSelector( state => state.goalContributions );
 
     useEffect(() => {
         if(isFocused) {
@@ -37,6 +38,25 @@ export const GoalsScreen = () => {
     useEffect(() => {
         dispatch( getAllContributions() );
     }, []);
+
+    useEffect(() => {
+        if(goals.length === 0) return;
+        if(contributions.length === 0) return;
+
+        const goalsProgress = contributions.reduce<GoalProgress[]>((goalsProgressArray, goalContribution) => {
+            const { id_meta_abonada, cantidad } = goalContribution;
+
+            const goalProgress = goalsProgressArray.find(goalProgress => goalProgress.id === id_meta_abonada);
+            
+            if (goalProgress) goalProgress.total += cantidad;
+            else goalsProgressArray.push({ id: id_meta_abonada, total: cantidad })
+            
+            return goalsProgressArray;
+        }, []);
+
+        dispatch( setGoalsProgress(goalsProgress) );
+        
+    }, [ goals, contributions ]);
 
     const renderItem = (item: any) => {
         if(item.type === 'mainGoal') {
@@ -99,8 +119,12 @@ export const GoalsScreen = () => {
                                     <GoalCard 
                                         key={ goal.id }
                                         goal={ goal }
-                                        totalGoalCompleted='1000.00'
-                                        progress={ 0.5 }
+                                        totalGoalCompleted={ 
+                                            goalsProgress.find( goalProgress => goalProgress.id === goal.id )?.total || 0 
+                                        }
+                                        progress={
+                                            (goalsProgress.find( goalProgress => goalProgress.id === goal.id )?.total || 0) / goal.cantidad
+                                        }
                                     />
                                 ))
                             :   <>

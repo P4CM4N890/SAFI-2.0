@@ -9,7 +9,7 @@ import { MetaResponse } from '../../interfaces/ApiInterfaces';
 
 interface Props {
     goal: MetaResponse;
-    totalGoalCompleted: string;
+    totalGoalCompleted: number;
     progress: number;
 }
 
@@ -51,7 +51,7 @@ export const GoalCard = ({ goal, totalGoalCompleted, progress }: Props) => {
 
             <View className='w-1/4 justify-around'>
                 <Text className='text-right text-base text-black font-bold'>
-                    ${ totalGoalCompleted }
+                    ${ totalGoalCompleted.toFixed(2) }
                 </Text>
                 <Text className='text-right text-xs'>de ${ cantidad.toFixed(2) }</Text>
             </View>

@@ -1,6 +1,9 @@
 import { AppDispatch } from '../store';
 import { crearAbono, obtenerAbonos, actualizarAbono, eliminarAbono } from '../../api';
-import { addContribution, setGoalContributions, setMessage, startLoadingContributions, updateContribution, removeContribution } from './goalContributionsSlice';
+import { 
+    addContribution, setGoalContributions, setMessage, startLoadingContributions, updateContribution, 
+    removeContribution, GoalProgress, setGoalsProgress 
+} from './goalContributionsSlice';
 
 import { AbonoCreate, AbonoEdit } from '../../interfaces/ApiInterfaces';
 
@@ -82,14 +85,35 @@ export const getAll = () => {
             // obtener los abonos
             const { data } = await obtenerAbonos();
 
+            // calcular el progreso de cada meta
+            const goalsProgress = data.reduce<GoalProgress[]>((goalsProgressArray, goalContribution) => {
+                const { id_meta_abonada, cantidad } = goalContribution;
+
+                const goalProgress = goalsProgressArray.find(goalProgress => goalProgress.id === id_meta_abonada);
+                
+                if (goalProgress) goalProgress.total += cantidad;
+                else goalsProgressArray.push({ id: id_meta_abonada, total: cantidad })
+                
+                return goalsProgressArray;
+            }, []);
+
             // actualizar el state de los abonos
             dispatch( setGoalContributions(data) );
+
+            // actualizar el state de los progresos de las metas
+            dispatch( setGoalsProgress(goalsProgress) );
 
         } catch(err){
             dispatch( 
                 setMessage({ message: 'Ocurrió un error al obtener los abonos' }) 
             );
         }
+    };
+};
+
+export const goalsProgress = (goalsProgress: GoalProgress[]) => {
+    return async (dispatch: AppDispatch) => {
+        dispatch( setGoalsProgress(goalsProgress) );
     };
 };
 

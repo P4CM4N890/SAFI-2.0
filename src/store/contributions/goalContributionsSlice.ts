@@ -7,10 +7,16 @@ interface ErrorMessage {
     message: string;
 };
 
+export interface GoalProgress {
+    id: string;
+    total: number;
+};
+
 export const goalsContributionsSlice = createSlice({
     name: 'goalContributions',
     initialState: {
         contributions: [] as AbonoResponse[],
+        goalsProgress: [] as GoalProgress[],
         isLoading: true,
         message: ''
     },
@@ -23,6 +29,9 @@ export const goalsContributionsSlice = createSlice({
             state.isLoading = false;
             state.message = '';
             state.contributions = payload;
+        },
+        setGoalsProgress: (state, { payload }: PayloadAction<GoalProgress[]>) => {
+            state.goalsProgress = payload;
         },
         addContribution: (state, { payload }: PayloadAction<AbonoResponse>) => {
             state.message = '';
@@ -45,5 +54,6 @@ export const goalsContributionsSlice = createSlice({
 });
 
 export const { 
-    startLoadingContributions, setGoalContributions, addContribution, removeContribution, updateContribution, setMessage
+    startLoadingContributions, setGoalContributions, addContribution, removeContribution, updateContribution, 
+    setMessage, setGoalsProgress
 } = goalsContributionsSlice.actions;

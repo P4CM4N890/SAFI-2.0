@@ -31,7 +31,7 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
     const { goal } = route.params;
 
     const { uuid } = useAppSelector(state => state.auth);
-    const { message } = useAppSelector(state => state.goalContributions);
+    const { message, goalsProgress } = useAppSelector(state => state.goalContributions);
     const { contributions, isLoading } = useAppSelector(state => state.goalContributions);
 
     const [ amountAchieved, setAmountAchieved ] = useState<Number>(0);
@@ -139,8 +139,8 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
         const currentGoalContributions = contributions.filter(item => item.id_meta_abonada === goal.id);
         setGoalContributions(currentGoalContributions);
 
-        const total = currentGoalContributions.reduce((total, contribution) => total + contribution.cantidad, 0);
-        setAmountAchieved(total);
+        const totalAchieved = goalsProgress.find( goalProgress => goalProgress.id === goal.id )?.total || 0;
+        setAmountAchieved(totalAchieved);
     }, []);
 
     useEffect(() => {
