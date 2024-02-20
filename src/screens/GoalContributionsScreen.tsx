@@ -35,7 +35,7 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
     const { contributions, isLoading } = useAppSelector(state => state.goalContributions);
 
     const [ amountAchieved, setAmountAchieved ] = useState<Number>(0);
-    const [ selectedContribution, setSelectedContribution ] = useState<string>('');
+    const [ selectedContribution, setSelectedContribution ] = useState({ id: '', date: '' });
 
     const [ goalContributions, setGoalContributions ] = useState<AbonoResponse[]>([]);
 
@@ -44,17 +44,17 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
 
     const { cantidad, onChange } = useForm(initialState);
 
-    const onSelectContribution = (id: string) => {
-        setSelectedContribution(id);
+    const onSelectContribution = (id: string, date: string) => {
+        setSelectedContribution({ id, date });
         openModal();
-    }
+    };
     
     const openModal = () => {
         setModalVisible(true);
     };
     
     const closeModal = () => {
-        setSelectedContribution('');
+        setSelectedContribution({ id: '', date: '' });
         setModalVisible(false);
     };
 
@@ -100,12 +100,12 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
 
         dispatch(
             update(
-                selectedContribution,
+                selectedContribution.id,
                 uuid,
                 {
                     id_meta_abonada: goal.id,
                     cantidad: Number(cantidad),
-                    fecha: new Date().toISOString().split('T')[0],
+                    fecha: selectedContribution.date
                 }
             )
         );
@@ -240,7 +240,7 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
                 >
                     <View className='bg-white w-full rounded-2xl items-center py-5'>
                         <Text className='text-primary font-bold text-2xl uppercase tracking-wider'>
-                            { selectedContribution ? 'Editar abono' : 'Nuevo abono' }
+                            { selectedContribution.id ? 'Editar abono' : 'Nuevo abono' }
                         </Text>
 
                         <InputLabel 
@@ -260,14 +260,18 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
                             label='Fecha'
                             extraClass='mt-5'
                             editable={ false }
-                            value={ format(new Date(), "dd'/'MM'/'yyyy") }
+                            value={ 
+                                selectedContribution.id 
+                                    ? format(new Date(selectedContribution.date), "dd'/'MM'/'yyyy") 
+                                    : format(new Date(), "dd'/'MM'/'yyyy") 
+                            }
                         />
 
                         <View className='w-5/6 mt-16 flex-row justify-between'>
                             <Button
                                 label='Guardar' 
                                 onPress={() => {
-                                    if (selectedContribution) onEditGoalContribution();
+                                    if (selectedContribution.id) onEditGoalContribution();
                                     else onAddGoalContribution();
                                 }}
                             />
