@@ -154,10 +154,9 @@ export const eliminarAbono = async (id: string): Promise<AxiosResponse> => {
 
     try {
         const response = await apiInstance.delete(url, config);
-
         return response;
-    }
-    catch (err) {
+        
+    } catch (err) {
         const errors = err as Error | AxiosError;
 
         if(!axios.isAxiosError(errors)){

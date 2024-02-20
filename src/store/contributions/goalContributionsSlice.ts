@@ -1,9 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { 
-    AbonoCreate, AbonoEdit, AbonoResponse, AbonoCreateResponse, GoalContributionId
-} from '../../interfaces/ApiInterfaces';
+import { AbonoResponse, GoalContributionId } from '../../interfaces/ApiInterfaces';
 
 interface ErrorMessage {
     message: string;

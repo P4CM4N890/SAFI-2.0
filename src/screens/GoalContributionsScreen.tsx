@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { GoalsStackParams } from '../navigation/GoalsStackNavigator';
 import { BackButton, Button, ErrorMessage, GoalContributionCard, InputLabel } from '../components';
 
-import { add, cleanMessage, update } from '../store/contributions';
+import { add, cleanMessage, update, remove } from '../store/contributions';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 import { useForm, useUiStore } from '../hooks';
@@ -40,6 +40,7 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
     const [ goalContributions, setGoalContributions ] = useState<AbonoResponse[]>([]);
 
     const [ modalVisible, setModalVisible ] = useState<boolean>(false);
+    const [ deleteModalVisible, setDeleteModalVisible ] = useState<boolean>(false);
     const [ error, setError ] = useState<string>('');
 
     const { cantidad, onChange } = useForm(initialState);
@@ -56,6 +57,14 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
     const closeModal = () => {
         setSelectedContribution({ id: '', date: '' });
         setModalVisible(false);
+    };
+
+    const openDeleteConfirmationModal = () => {
+        setDeleteModalVisible(true);
+    };
+
+    const closeDeleteConfirmationModal = () => {
+        setDeleteModalVisible(false);
     };
 
     const isErrorOfField = (field: string) => {
@@ -110,6 +119,12 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
             )
         );
 
+        closeModal();
+    };
+
+    const onDeleteGoalContribution = () => {
+        dispatch( remove(selectedContribution.id) );
+        setDeleteModalVisible(false);
         closeModal();
     };
     
@@ -266,8 +281,28 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
                                     : format(new Date(), "dd'/'MM'/'yyyy") 
                             }
                         />
+                        
+                        {
+                            selectedContribution.id 
+                            ?   <View className='w-full mt-10'>
+                                    <TouchableOpacity
+                                        className='flex flex-row justify-center items-center'
+                                        activeOpacity={ 0.8 }
+                                        onPress={ openDeleteConfirmationModal }
+                                    >
+                                        <Icon
+                                            name='trash-outline' 
+                                            size={ 30 } 
+                                            color='#4F33D8' 
+                                        />
 
-                        <View className='w-5/6 mt-16 flex-row justify-between'>
+                                        <Text className='text-base text-black'>Eliminar</Text>
+                                    </TouchableOpacity>
+                                </View> 
+                            : <></>
+                        }
+
+                        <View className='w-5/6 mt-8 flex-row justify-between'>
                             <Button
                                 label='Guardar' 
                                 onPress={() => {
@@ -279,6 +314,30 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
                                 label='Cancelar' 
                                 extraClass='bg-rose-600'
                                 onPress={ closeModal }
+                            />
+                        </View>
+                    </View>
+                </Modal>
+
+                <Modal 
+                    isVisible={ deleteModalVisible }
+                    animationIn='fadeIn'
+                    animationOut='fadeOut'
+                >
+                    <View className='bg-white w-full rounded-2xl items-center py-5'>
+                        <Text className='text-primary font-bold text-2xl uppercase tracking-wider'>
+                            ¿Eliminar abono?
+                        </Text>
+
+                        <View className='w-5/6 mt-8 flex-row justify-between'>
+                            <Button
+                                label='Aceptar' 
+                                onPress={ onDeleteGoalContribution }
+                            />
+                            <Button 
+                                label='Cancelar' 
+                                extraClass='bg-rose-600'
+                                onPress={ closeDeleteConfirmationModal }
                             />
                         </View>
                     </View>

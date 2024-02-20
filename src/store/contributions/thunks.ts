@@ -1,6 +1,6 @@
 import { AppDispatch } from '../store';
-import { crearAbono, obtenerAbonos, actualizarAbono } from '../../api';
-import { addContribution, setGoalContributions, setMessage, startLoadingContributions, updateContribution } from './goalContributionsSlice';
+import { crearAbono, obtenerAbonos, actualizarAbono, eliminarAbono } from '../../api';
+import { addContribution, setGoalContributions, setMessage, startLoadingContributions, updateContribution, removeContribution } from './goalContributionsSlice';
 
 import { AbonoCreate, AbonoEdit } from '../../interfaces/ApiInterfaces';
 
@@ -50,6 +50,26 @@ export const update = (contribution_id: string, user_id: number, abono: AbonoEdi
             } else {
                 dispatch( setMessage({ message: 'Error al abonar a la meta' }) );
             }
+        }
+    };
+};
+
+export const remove = (contribution_id: string) => {
+    return async (dispatch: AppDispatch) => {
+        try{
+            // obtener los abonos
+            await eliminarAbono(contribution_id);
+
+            // actualizar el state de los abonos
+            dispatch( removeContribution({ id: contribution_id }) );
+
+            // actualizar el state del mensaje
+            dispatch( setMessage({ message: 'El abono se eliminó correctamente' }) );
+
+        } catch(err){
+            dispatch( 
+                setMessage({ message: 'Ocurrió un error al eliminar el abono' }) 
+            );
         }
     };
 };
