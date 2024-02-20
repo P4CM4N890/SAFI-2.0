@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { GoalsStackParams } from '../navigation/GoalsStackNavigator';
 import { BackButton, Button, ErrorMessage, GoalContributionCard, InputLabel } from '../components';
 
-import { add, cleanMessage } from '../store/contributions';
+import { add, cleanMessage, update } from '../store/contributions';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 import { useForm, useUiStore } from '../hooks';
@@ -34,18 +34,27 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
     const { message } = useAppSelector(state => state.goalContributions);
     const { contributions, isLoading } = useAppSelector(state => state.goalContributions);
 
+    const [ amountAchieved, setAmountAchieved ] = useState<Number>(0);
+    const [ selectedContribution, setSelectedContribution ] = useState<string>('');
+
     const [ goalContributions, setGoalContributions ] = useState<AbonoResponse[]>([]);
 
     const [ modalVisible, setModalVisible ] = useState<boolean>(false);
     const [ error, setError ] = useState<string>('');
 
     const { cantidad, onChange } = useForm(initialState);
+
+    const onSelectContribution = (id: string) => {
+        setSelectedContribution(id);
+        openModal();
+    }
     
     const openModal = () => {
         setModalVisible(true);
     };
     
     const closeModal = () => {
+        setSelectedContribution('');
         setModalVisible(false);
     };
 
@@ -76,6 +85,33 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
 
         closeModal();     
     };
+
+    const onEditGoalContribution = () => {
+        if (!cantidad) {
+            setError('La cantidad es obligatoria');
+            return;
+
+        } else if (Number(cantidad) <= 0) {
+            setError('La cantidad debe ser mayor a cero');
+            return;
+        }
+
+        if(!uuid) return;
+
+        dispatch(
+            update(
+                selectedContribution,
+                uuid,
+                {
+                    id_meta_abonada: goal.id,
+                    cantidad: Number(cantidad),
+                    fecha: new Date().toISOString().split('T')[0],
+                }
+            )
+        );
+
+        closeModal();
+    };
     
     useEffect(() => {
         changeBarVisibility(false);
@@ -86,6 +122,9 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
 
         const currentGoalContributions = contributions.filter(item => item.id_meta_abonada === goal.id);
         setGoalContributions(currentGoalContributions);
+
+        const total = currentGoalContributions.reduce((total, contribution) => total + contribution.cantidad, 0);
+        setAmountAchieved(total);
     }, []);
 
     useEffect(() => {
@@ -135,10 +174,10 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
                             Nombre: <Text className='text-zinc-700'>{ goal.nombre }</Text>
                         </Text>
                         <Text className='text-lg text-primary font-semibold'>
-                            Cantidad a lograr: <Text className='text-zinc-700'>{ goal.cantidad.toFixed(1) }$</Text>
+                            Cantidad a lograr: <Text className='text-zinc-700'>${ goal.cantidad.toFixed(2) }</Text>
                         </Text>
                         <Text className='text-lg text-primary font-semibold'>
-                            Cantidad lograda: <Text className='text-zinc-700'>{ Number(10000).toFixed(1) }$</Text>
+                            Cantidad lograda: <Text className='text-zinc-700'>${ amountAchieved.toFixed(2) }</Text>
                         </Text>
                         <Text className='text-lg text-primary font-semibold'>
                             Fecha inicio: <Text className='text-zinc-700'>{ format(new Date(goal.fecha_inicio), "dd'/'MM'/'yyyy") }</Text>
@@ -167,7 +206,7 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
 
                         {   
                             isLoading 
-                            ? 
+                            ?
                                 <>
                                     <ActivityIndicator size={ 30 } color='#000' className='mt-24' /> 
                                     <Text className='text-center mt-3 font-medium text-zinc-500'>
@@ -180,7 +219,7 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
                                         <GoalContributionCard 
                                             key={ contribution.id }
                                             contribution={ contribution }
-
+                                            onPress={ onSelectContribution }
                                         />
                                     ))
                                 :   <>
@@ -201,7 +240,7 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
                 >
                     <View className='bg-white w-full rounded-2xl items-center py-5'>
                         <Text className='text-primary font-bold text-2xl uppercase tracking-wider'>
-                            Nuevo abono
+                            { selectedContribution ? 'Editar abono' : 'Nuevo abono' }
                         </Text>
 
                         <InputLabel 
@@ -227,7 +266,10 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
                         <View className='w-5/6 mt-16 flex-row justify-between'>
                             <Button
                                 label='Guardar' 
-                                onPress={ onAddGoalContribution }
+                                onPress={() => {
+                                    if (selectedContribution) onEditGoalContribution();
+                                    else onAddGoalContribution();
+                                }}
                             />
                             <Button 
                                 label='Cancelar' 

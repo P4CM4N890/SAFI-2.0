@@ -295,9 +295,9 @@ export interface IngresoEdit {
 }
 
 export interface AbonoEdit {
-    cantidad?: number
-    id_meta_abonada?: string
-    fecha?: string
+    cantidad: number
+    id_meta_abonada: string
+    fecha: string
 }
 
 export interface GastoEdit {

@@ -42,7 +42,7 @@ export const GoalCard = ({ goal, totalGoalCompleted, progress }: Props) => {
                         progress={ progress } 
                         height={ 10 } 
                         color={ color } 
-                        style={{ width: '95%' }} 
+                        style={{ width: '90%' }} 
                         unfilledColor='#D9D9D9' 
                         borderColor='#D9D9D9'
                     />
@@ -53,7 +53,7 @@ export const GoalCard = ({ goal, totalGoalCompleted, progress }: Props) => {
                 <Text className='text-right text-base text-black font-bold'>
                     ${ totalGoalCompleted }
                 </Text>
-                <Text className='text-right text-xs'>de ${ cantidad }</Text>
+                <Text className='text-right text-xs'>de ${ cantidad.toFixed(2) }</Text>
             </View>
 
             <TouchableOpacity
