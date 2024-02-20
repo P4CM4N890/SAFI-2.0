@@ -51,7 +51,7 @@ export const HomeScreen = () => {
 
     const dispatch = useAppDispatch();
     const isFocused = useIsFocused();
-    
+
     const isLoadingIncomes = useMemo(() => loadingIncomes, [ loadingIncomes ]);
     const isLoadingExpenses = useMemo(() => loadingExpenses, [ loadingExpenses ]);
 
@@ -112,4 +112,4 @@ export const HomeScreen = () => {
             </ScrollView>
         </View>
     );
-}
+};

@@ -239,8 +239,8 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
                                         />
                                     ))
                                 :   <>
-                                        <Text className='text-center font-medium text-xl text-zinc-500 mt-24'>
-                                            Esta Meta No Tiene Abonos
+                                        <Text className='text-center font-medium text-lg text-zinc-500 mt-24 uppercase'>
+                                            Esta meta no tiene abonos
                                         </Text>
                                         <Text className='text-center font-medium text-base text-zinc-500 mt-3'>
                                             Cuando registre abonos podrá verlos aquí
