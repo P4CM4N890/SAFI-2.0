@@ -85,7 +85,7 @@ export const HomeScreen = () => {
 
     }, [ uuid, isLoadingContributions, goalsProgress, mainGoalId ]);
 
-    if ( isLoadingIncomes || isLoadingExpenses ) return <LoadingScreen />;
+    if ( isLoadingIncomes || isLoadingExpenses || isLoadingContributions ) return <LoadingScreen />;
 
     return (
         <View className='w-full h-full items-center p-5'>
