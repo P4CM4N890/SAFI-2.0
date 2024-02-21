@@ -38,7 +38,7 @@ export const GoalsScreen = () => {
     }, []);
 
     useEffect(() => {
-        // si el progreso de las metas cambia volver a calcular el resumen
+        // calcular el resumen si el progreso de las metas cambia
         dispatch( loadGoalsSummarySlide(goals, goalsProgress) );
     }, [ goalsProgress ]);
 
