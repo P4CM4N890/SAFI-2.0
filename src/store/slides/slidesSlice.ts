@@ -5,7 +5,8 @@ interface HomeSlide {
     title?: string;
     startDate?: string;
     endDate?: string;
-    progress?: number;
+    amountAchieved?: number;
+    totalAmount?: number;
     incomeAmount?: number;
     type: 'mainGoal' | 'latestIncome';
     found: boolean;
@@ -15,7 +16,8 @@ interface GoalSlide {
     title?: string;
     startDate?: string;
     endDate?: string;
-    progress?: number;
+    amountAchieved?: number;
+    totalAmount?: number;
     percentage?: number;
     type: 'mainGoal' | 'goalsSummary';
     found: boolean;

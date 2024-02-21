@@ -6,6 +6,7 @@ import { setMainGoalSlide } from '../slides';
 import { AppDispatch } from '../store';
 
 import { MetaCreate, MetaEdit } from '../../interfaces/ApiInterfaces';
+import { GoalProgress } from '../contributions';
 
 export const add = (meta: MetaCreate, fijar: boolean) => {
     return async (dispatch: AppDispatch) => {
@@ -28,7 +29,8 @@ export const add = (meta: MetaCreate, fijar: boolean) => {
                         type: 'mainGoal', 
                         startDate: format(new Date(meta.fecha_inicio), "dd'/'MM'/'yyyy"),
                         endDate: format(new Date(meta.fecha_fin), "dd'/'MM'/'yyyy"),
-                        progress: 50,
+                        amountAchieved: 0,
+                        totalAmount: meta.cantidad,
                         found: true
                     }) 
                 );
@@ -58,7 +60,7 @@ export const add = (meta: MetaCreate, fijar: boolean) => {
     };
 };
 
-export const update = (id: string, id_usuario: number, meta: MetaEdit, fijar: boolean, fijado: boolean) => {
+export const update = (id: string, id_usuario: number, meta: MetaEdit, fijar: boolean, fijado: boolean, goalsProgress: GoalProgress[]) => {
     return async (dispatch: AppDispatch) => {
         try{
             // actualizar la meta
@@ -67,6 +69,9 @@ export const update = (id: string, id_usuario: number, meta: MetaEdit, fijar: bo
             // actualizar el state de las metas
             dispatch( removeGoal({ id }) );
             dispatch( addGoal({ id, id_usuario, ...meta }) );
+
+            // calcular el progreso de la meta
+            const amountAchieved = goalsProgress.find( goalProgress => goalProgress.id === id )?.total || 0;
 
             if(fijar && !fijado) {
                 // crear la meta fijada
@@ -79,7 +84,8 @@ export const update = (id: string, id_usuario: number, meta: MetaEdit, fijar: bo
                         type: 'mainGoal', 
                         startDate: format(new Date(meta.fecha_inicio), "dd'/'MM'/'yyyy"),
                         endDate: format(new Date(meta.fecha_fin), "dd'/'MM'/'yyyy"),
-                        progress: 50,
+                        amountAchieved,
+                        totalAmount: meta.cantidad,
                         found: true
                     }) 
                 );

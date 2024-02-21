@@ -3,12 +3,13 @@ import { View, ScrollView, Dimensions } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
-import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { useUiStore } from '../hooks';
 
 import { startLoadingIncomes } from '../store/incomes';
 import { startLoadingExpenses } from '../store/expenses';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loadMainGoalSlide, loadGoalsSummarySlide, loadLatestIncomeSlide } from '../store/slides';
+import { getAll as getAllContributions } from '../store/contributions';
 
 import { MainGoalCard, LatestIncomeCard, HomeLineChart } from '../components';
 import { LoadingScreen } from './LoadingScreen';
@@ -22,7 +23,8 @@ const renderItem = (item: any) => {
                 title={ item.title } 
                 startDate={ item.startDate } 
                 endDate={ item.endDate } 
-                progress={ item.progress }
+                amountAchieved={ item.amountAchieved }
+                totalAmount={ item.totalAmount }
                 found={ item.found }
             />
         )
@@ -44,10 +46,12 @@ export const HomeScreen = () => {
     const { gastos, isSaving: loadingExpenses } = useAppSelector( state => state.expense );
 
     const [ activeIndex, setActiveindex ] = useState(0);
-    
+
     const { changeActiveComponent } = useUiStore();
     const { uuid } = useAppSelector( state => state.auth );
     const { mainGoalSlide, latestIncomeSlide } = useAppSelector( state => state.slides );
+    const { goals, mainGoalId } = useAppSelector( state => state.goals );
+    const { isLoading: isLoadingContributions, goalsProgress } = useAppSelector( state => state.goalContributions );
 
     const dispatch = useAppDispatch();
     const isFocused = useIsFocused();
@@ -56,17 +60,8 @@ export const HomeScreen = () => {
     const isLoadingExpenses = useMemo(() => loadingExpenses, [ loadingExpenses ]);
 
     useEffect(() => {
-        if(isFocused) changeActiveComponent('HomeScreen');
-    }, [ isFocused ]);
-
-    useEffect(() => {
-        if(!uuid) return;
-
-        dispatch( loadMainGoalSlide(uuid) );
-        dispatch( loadLatestIncomeSlide(uuid) );
-        dispatch( loadGoalsSummarySlide(uuid) );
-
-    }, [ uuid ]);
+        dispatch( getAllContributions() );
+    }, []);
 
     useEffect(() => {
         dispatch( startLoadingIncomes() );
@@ -75,6 +70,20 @@ export const HomeScreen = () => {
     useEffect(() => {
         dispatch( startLoadingExpenses() );
     }, []);
+
+    useEffect(() => {
+        if(isFocused) changeActiveComponent('HomeScreen');
+    }, [ isFocused ]);
+
+    useEffect(() => {
+        if(!uuid) return;
+        if(isLoadingContributions) return;
+
+        dispatch( loadMainGoalSlide(uuid, goalsProgress) );
+        dispatch( loadGoalsSummarySlide(uuid) );
+        dispatch( loadLatestIncomeSlide(uuid) );
+
+    }, [ uuid, isLoadingContributions, goals, goalsProgress, mainGoalId ]);
 
     if ( isLoadingIncomes || isLoadingExpenses ) return <LoadingScreen />;
 

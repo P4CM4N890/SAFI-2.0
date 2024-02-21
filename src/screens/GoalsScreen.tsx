@@ -4,7 +4,7 @@ import { useIsFocused } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 import { getAll as getAllGoals } from '../store/goals';
-import { GoalProgress, getAll as getAllContributions, setGoalsProgress } from '../store/contributions';
+import { GoalProgress, setGoalsProgress } from '../store/contributions';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 import { useUiStore } from '../hooks';
@@ -36,10 +36,6 @@ export const GoalsScreen = () => {
     }, []);
 
     useEffect(() => {
-        dispatch( getAllContributions() );
-    }, []);
-
-    useEffect(() => {
         if(goals.length === 0) return;
         if(contributions.length === 0) return;
 
@@ -65,7 +61,8 @@ export const GoalsScreen = () => {
                     title={ item.title } 
                     startDate={ item.startDate } 
                     endDate={ item.endDate } 
-                    progress={ item.progress }
+                    amountAchieved={ item.amountAchieved }
+                    totalAmount={ item.totalAmount }
                     found={ item.found }
                 />
             )

@@ -30,6 +30,7 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
     const { uuid } = useAppSelector(state => state.auth);
     const { message } = useAppSelector(state => state.goals);
     const { mainGoalId } = useAppSelector(state => state.goals);
+    const { goalsProgress } = useAppSelector(state => state.goalContributions);
 
     const [ categoryModalVisible, setCategoryModalVisible ] = useState(false);
     const [ selectedCategory, setSelectedCategory ] = useState(goal.icono);
@@ -108,7 +109,8 @@ export const EditGoalScreen = ({ navigation, route }: Props) => {
                     completada: 0,
                 }, 
                 fijar === 'si' ? true : false, 
-                goal.id === mainGoalId ? true : false
+                goal.id === mainGoalId ? true : false,
+                goalsProgress
             )
         );
     };

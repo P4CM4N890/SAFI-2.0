@@ -6,11 +6,12 @@ interface Props {
     title: string;
     startDate: string;
     endDate: string;
-    progress: number;
+    amountAchieved: number;
+    totalAmount: number;
     found: boolean;
 };
 
-export const MainGoalCard = ({ title, startDate, endDate, progress, found }: Props) => {
+export const MainGoalCard = ({ title, startDate, endDate, amountAchieved, totalAmount, found }: Props) => {
     return (
         <View className='w-full h-44 items-center mt-6 rounded-xl border-2 border-slate-200 overflow-hidden bg-white'>
             <View className='w-full bg-rose-600 py-1'>
@@ -35,11 +36,11 @@ export const MainGoalCard = ({ title, startDate, endDate, progress, found }: Pro
                         </View>
             
                         <Text className='text-sm text-black font-normal uppercase mt-2'>
-                            $1,000 / $2,000
+                            ${ amountAchieved } / ${ totalAmount }
                         </Text>
 
                         <Bar 
-                            progress={ progress } 
+                            progress={ amountAchieved / totalAmount } 
                             height={ 10 } 
                             color='#60D833' 
                             unfilledColor='#D9D9D9' 
