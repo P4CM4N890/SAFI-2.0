@@ -46,11 +46,11 @@ export const HomeScreen = () => {
     const { gastos, isSaving: loadingExpenses } = useAppSelector( state => state.expense );
 
     const [ activeIndex, setActiveindex ] = useState(0);
-
     const { changeActiveComponent } = useUiStore();
+
     const { uuid } = useAppSelector( state => state.auth );
     const { mainGoalSlide, latestIncomeSlide } = useAppSelector( state => state.slides );
-    const { goals, mainGoalId } = useAppSelector( state => state.goals );
+    const { mainGoalId } = useAppSelector( state => state.goals );
     const { isLoading: isLoadingContributions, goalsProgress } = useAppSelector( state => state.goalContributions );
 
     const dispatch = useAppDispatch();
@@ -83,7 +83,7 @@ export const HomeScreen = () => {
         dispatch( loadGoalsSummarySlide(uuid) );
         dispatch( loadLatestIncomeSlide(uuid) );
 
-    }, [ uuid, isLoadingContributions, goals, goalsProgress, mainGoalId ]);
+    }, [ uuid, isLoadingContributions, goalsProgress, mainGoalId ]);
 
     if ( isLoadingIncomes || isLoadingExpenses ) return <LoadingScreen />;
 
