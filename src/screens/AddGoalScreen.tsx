@@ -231,7 +231,7 @@ export const AddGoalScreen = ({ navigation }: Props) => {
                     />
 
                     <InputLabel 
-                        label='Notas (opcional)' 
+                        label='Notas' 
                         placeholder='' 
                         type='text'
                         extraClass='mt-3'
