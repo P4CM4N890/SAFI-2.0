@@ -6,6 +6,7 @@ import { setMainGoalId } from '../goals';
 
 import { obtenerMetaFijada, obtenerMeta } from '../../api';
 import { GoalProgress } from '../contributions';
+import { MetaResponse } from '../../interfaces/ApiInterfaces';
 
 export const loadMainGoalSlide = (id_usuario: number, goalsProgress: GoalProgress[]) => {
     return async (dispatch: AppDispatch) => {
@@ -67,24 +68,31 @@ export const loadLatestIncomeSlide = (id_usuario: number) => {
     };
 };
 
-export const loadGoalsSummarySlide = (id_usuario: number) => {
+export const loadGoalsSummarySlide = (goals: MetaResponse[], goalsProgress: GoalProgress[]) => {
     return async (dispatch: AppDispatch) => {
-        try{
+        if(goals.length === 0) {
             dispatch( 
                 setGoalsSummarySlide({ 
                     type: 'goalsSummary', 
                     found: false
                 }) 
             );
-
-        } catch(err){
-
-            dispatch( 
-                setGoalsSummarySlide({ 
-                    type: 'goalsSummary', 
-                    found: false
-                }) 
-            );
+            
+            return;
         }
+
+        // calcular la cantidad total de las metas
+        const total = goals.reduce((total, goal) => total + goal.cantidad, 0);
+
+        // calcular el progreso de las metas
+        const progress = goalsProgress.reduce((total, goal) => total + goal.total, 0);
+
+        dispatch( 
+            setGoalsSummarySlide({ 
+                type: 'goalsSummary', 
+                percentage: ((progress * 100) / total),
+                found: true,
+            }) 
+        );
     };
 };

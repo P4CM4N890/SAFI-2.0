@@ -8,7 +8,7 @@ import { useUiStore } from '../hooks';
 import { startLoadingIncomes } from '../store/incomes';
 import { startLoadingExpenses } from '../store/expenses';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { loadMainGoalSlide, loadGoalsSummarySlide, loadLatestIncomeSlide } from '../store/slides';
+import { loadMainGoalSlide, loadLatestIncomeSlide } from '../store/slides';
 import { getAll as getAllContributions } from '../store/contributions';
 
 import { MainGoalCard, LatestIncomeCard, HomeLineChart } from '../components';
@@ -51,7 +51,7 @@ export const HomeScreen = () => {
     const { uuid } = useAppSelector( state => state.auth );
     const { mainGoalSlide, latestIncomeSlide } = useAppSelector( state => state.slides );
     const { mainGoalId } = useAppSelector( state => state.goals );
-    const { isLoading: isLoadingContributions, goalsProgress } = useAppSelector( state => state.goalContributions );
+    const { isLoading: isLoadingContributions, goalsProgress, contributions } = useAppSelector( state => state.goalContributions );
 
     const dispatch = useAppDispatch();
     const isFocused = useIsFocused();
@@ -60,14 +60,17 @@ export const HomeScreen = () => {
     const isLoadingExpenses = useMemo(() => loadingExpenses, [ loadingExpenses ]);
 
     useEffect(() => {
+        // obtener todos los abonos
         dispatch( getAllContributions() );
     }, []);
 
     useEffect(() => {
+        // obtener todos los ingresos
         dispatch( startLoadingIncomes() );
     }, []);
 
     useEffect(() => {
+        // obtener todos los gastos
         dispatch( startLoadingExpenses() );
     }, []);
 
@@ -80,7 +83,6 @@ export const HomeScreen = () => {
         if(isLoadingContributions) return;
 
         dispatch( loadMainGoalSlide(uuid, goalsProgress) );
-        dispatch( loadGoalsSummarySlide(uuid) );
         dispatch( loadLatestIncomeSlide(uuid) );
 
     }, [ uuid, isLoadingContributions, goalsProgress, mainGoalId ]);

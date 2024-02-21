@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 
 import { useUiStore } from '../hooks';
 import { Header, GoalCard, MainGoalCard, GoalsSummaryCard } from '../components';
+import { loadGoalsSummarySlide } from '../store/slides';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -32,26 +33,33 @@ export const GoalsScreen = () => {
     }, [ isFocused ]);
 
     useEffect(() => {
+        // obtener todas las metas
         dispatch( getAllGoals() );
     }, []);
 
     useEffect(() => {
-        if(goals.length === 0) return;
-        if(contributions.length === 0) return;
+        // si el progreso de las metas cambia volver a calcular el resumen
+        dispatch( loadGoalsSummarySlide(goals, goalsProgress) );
+    }, [ goalsProgress ]);
 
-        const goalsProgress = contributions.reduce<GoalProgress[]>((goalsProgressArray, goalContribution) => {
-            const { id_meta_abonada, cantidad } = goalContribution;
+    useEffect(() => {
+        let goalsProgress = [] as GoalProgress[];
 
-            const goalProgress = goalsProgressArray.find(goalProgress => goalProgress.id === id_meta_abonada);
-            
-            if (goalProgress) goalProgress.total += cantidad;
-            else goalsProgressArray.push({ id: id_meta_abonada, total: cantidad })
-            
-            return goalsProgressArray;
-        }, []);
+        // calcular el progreso de las metas
+        if(contributions.length !== 0) {
+            goalsProgress = contributions.reduce<GoalProgress[]>((goalsProgressArray, goalContribution) => {
+                const { id_meta_abonada, cantidad } = goalContribution;
+                const goalProgress = goalsProgressArray.find(goalProgress => goalProgress.id === id_meta_abonada);
+                
+                if (goalProgress) goalProgress.total += cantidad;
+                else goalsProgressArray.push({ id: id_meta_abonada, total: cantidad });
 
+                return goalsProgressArray;
+            }, []);
+        };
+
+        // actualizar el progreso de las metas
         dispatch( setGoalsProgress(goalsProgress) );
-        
     }, [ goals, contributions ]);
 
     const renderItem = (item: any) => {
@@ -75,7 +83,7 @@ export const GoalsScreen = () => {
                 />
             )
         }
-    }
+    };
 
     return (
         <View className='w-full h-full items-center p-5'>

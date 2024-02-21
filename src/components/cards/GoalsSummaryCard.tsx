@@ -17,9 +17,15 @@ export const GoalsSummaryCard = ({ percentage, found }: Props) => {
 
             {
                 found
-                ?   <Text className='text-xl text-center text-black font-bold mb-7'>
-                        { percentage }%
-                    </Text>
+                ?   
+                    <View className='mt-10'>
+                        <Text className='text-xl text-center text-primary font-bold'>
+                            Progreso de tus metas
+                        </Text>
+                        <Text className='text-xl text-center text-black font-bold'>
+                            { percentage.toFixed(2) }%
+                        </Text>
+                    </View>
 
                 :   <View className='mt-7 px-2'>
                         <Text className='text-lg text-center font-bold text-primary uppercase'>
@@ -33,4 +39,4 @@ export const GoalsSummaryCard = ({ percentage, found }: Props) => {
 
         </View>
     );
-}
+};
