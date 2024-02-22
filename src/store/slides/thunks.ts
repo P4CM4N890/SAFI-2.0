@@ -6,7 +6,7 @@ import { setMainGoalId } from '../goals';
 
 import { obtenerMetaFijada, obtenerMeta } from '../../api';
 import { GoalProgress } from '../contributions';
-import { MetaResponse } from '../../interfaces/ApiInterfaces';
+import { IngresoResponse, MetaResponse } from '../../interfaces/ApiInterfaces';
 
 export const loadMainGoalSlide = (id_usuario: number, goalsProgress: GoalProgress[]) => {
     return async (dispatch: AppDispatch) => {
@@ -46,13 +46,15 @@ export const loadMainGoalSlide = (id_usuario: number, goalsProgress: GoalProgres
     };
 };
 
-export const loadLatestIncomeSlide = (id_usuario: number) => {
+export const loadLatestIncomeSlide = (id_usuario: number, ingreso: IngresoResponse) => {
     return async (dispatch: AppDispatch) => {
         try{
             dispatch( 
                 setLatestIncomeSlide({ 
-                    type: 'latestIncome', 
-                    found: false
+                    type: 'latestIncome',
+                    incomeAmount: ingreso.cantidad,
+                    title: ingreso.nombre,
+                    found: true
                 }) 
             );
 

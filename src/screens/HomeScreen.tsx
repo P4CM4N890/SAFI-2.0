@@ -83,7 +83,7 @@ export const HomeScreen = () => {
         if(isLoadingContributions) return;
 
         dispatch( loadMainGoalSlide(uuid, goalsProgress) );
-        dispatch( loadLatestIncomeSlide(uuid) );
+        dispatch( loadLatestIncomeSlide(uuid, ingresos[ingresos.length-1]) );
 
     }, [ uuid, isLoadingContributions, goalsProgress, mainGoalId ]);
 

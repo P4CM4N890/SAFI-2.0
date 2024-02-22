@@ -12,7 +12,7 @@ import { useForm, useUiStore } from '../hooks';
 import { InputLabel, Button, DatePickerLabel, CustomSwitch, CategoryModal,
 ColorModal, PriorityModal, ErrorMessage } from '../components';
 
-import { showToastSuccessMessage, showToastErrorMessage } from '../utils';
+import { showToastSuccessMessage, showToastErrorMessage, createNotification } from '../utils';
 import { categoryIcon, iconColor, priority, priorityColor } from '../types/appTypes';
 
 interface Props extends StackScreenProps<any, any> {};
@@ -50,7 +50,8 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     const { changeBarVisibility } = useUiStore();
     
     const { 
-        onChange, nombre, cantidad, descripcion, fecha_fin, fecha_inicio, color, icono, prioridad, fijar
+        onChange, nombre, cantidad, descripcion, fecha_fin, fecha_inicio, color, 
+        icono, prioridad, fijar
     } = useForm( initialState );
 
     useEffect(() => {
@@ -112,6 +113,10 @@ export const AddGoalScreen = ({ navigation }: Props) => {
                 completada: 0            
             }, fijar === 'si' ? true : false)
         );
+        
+        createNotification(nombre, new Date(fecha_fin), uuid)
+        .then(() => console.log("Notificaciones de meta creadas"))
+        .catch((error) => console.error(error));
     };
 
     const isErrorOfField = (field: string) => {
