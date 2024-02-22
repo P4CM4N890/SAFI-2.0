@@ -14,6 +14,7 @@ import { startSettingNewHighScore } from "../../store/auth";
 
 const SNAKE_POSICION_INICIAL = [{ x: 5, y: 5}];
 const BORDES = { xMin: 1, xMax: 34, yMin: 1, yMax: 68 };
+// const BORDES = { xMin: 1, xMax: 36, yMin: 1, yMax: 72 }; pal jodido emulador
 const COMIDA_POSICION_INICIAL = randomPosition(BORDES.xMax, BORDES.yMax);
 const INTERVALO_MOVIMIENTO = 20;
 const INCREMENTO_SCORE = 1;

@@ -11,6 +11,12 @@ export const LeaderboardScreen = ({ navigation }: Props) => {
     const { users } = useAppSelector( state => state.other );
     const puntajes = users.map( (user) => { return {username: user.nombre, score: user.high_score} } );
 
+    const puntajesSorted = puntajes.sort((a, b) => {
+        if (a.score < b.score) return 1;
+        else if (a.score > b.score) return -1;
+        else return 0;
+    });	
+
     return (
         <View className="w-full h-full items-center p-5">
             <View className='w-full items-center right-5'>    
@@ -33,7 +39,7 @@ export const LeaderboardScreen = ({ navigation }: Props) => {
             >
                 <View className='mt-12 w-full items-center'>
                     {
-                        puntajes.map((usuario, index) => {
+                        puntajesSorted.map((usuario, index) => {
                             return <ScoreCard 
                                 key={ index }
                                 place={ index + 1}
