@@ -1,4 +1,4 @@
-import Toast from "react-native-toast-message";
+import Toast from 'react-native-toast-message';
 
 export const showToastSuccessMessage = (message: string) => {
     Toast.show({
@@ -12,7 +12,7 @@ export const showToastSuccessMessage = (message: string) => {
 
 export const showToastErrorMessage = (message: string) => {
     Toast.show({
-        type: 'success',
+        type: 'error',
         text1: 'Error',
         text2: message,
         text1Style: { fontSize: 18 },

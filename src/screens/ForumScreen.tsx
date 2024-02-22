@@ -4,30 +4,34 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 import Modal from 'react-native-modal';
 
-import { AddQuestionButton, RankingButton, QuestionCard,
-InputLabel, Button, BackButton } from '../components';
-import { useForm, useRandomColor, useUiStore } from '../hooks';
+import { AddQuestionButton, RankingButton, QuestionCard, InputLabel, Button, BackButton } from '../components';
+import { LoadingScreen } from './LoadingScreen';
+
+import { startLoadingUsers } from '../store/other';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startLoadingQuestions, startSavingQuestion } from '../store/forum/thunks';
-import { LoadingScreen } from './LoadingScreen';
+
+import { useForm, useRandomColor, useUiStore } from '../hooks';
+
 import { showToastSuccessMessage } from '../utils';
-import { startLoadingUsers } from '../store/other';
 
 interface Props extends StackScreenProps<any, any> {};
 
 const initialState = {
     titulo: '',
     descripcion: '',
-}
+};
 
 export const ForumScreen = ({ navigation }: Props) => {
-    const [ modalVisible, setModalVisible ] = useState(false);
 
     const dispatch = useAppDispatch();
-    const { preguntas, respuestas, isSaving } = useAppSelector(state => state.forum);
+    const [ modalVisible, setModalVisible ] = useState(false);
+
     const { changeBarVisibility } = useUiStore();
     const { titulo, descripcion, onChange } = useForm(initialState);
     const { getNewColor } = useRandomColor();
+
+    const { preguntas, respuestas, isSaving } = useAppSelector(state => state.forum);
 
     const preguntasSorted = [...preguntas].sort((a, b) => {
         return new Date(b.fecha).getTime() - new Date(a.fecha).getTime();
@@ -87,20 +91,19 @@ export const ForumScreen = ({ navigation }: Props) => {
                 showsVerticalScrollIndicator={ false }
                 className='w-full h-64'
             >
-                <Text className='mt-20 text-xl font-bold text-black uppercase tracking-widest text-center'>
-                    Foro de Preguntas
-                </Text>
-
-                <TouchableOpacity
-                    onPress={ () => navigation.navigate('YourQuestionsScreen') }
-                >
-                    <Text 
-                        className='mt-5 text-m font-semibold underline text-gray-800 
-                        uppercase text-center'
-                    >
-                        Ver tus preguntas publicadas
+                <View className='ml-5'>
+                    <Text className='mt-7 text-xl font-bold text-black uppercase tracking-widest text-center'>
+                        Foro de Preguntas
                     </Text>
-                </TouchableOpacity>
+
+                    <TouchableOpacity
+                        onPress={ () => navigation.navigate('YourQuestionsScreen') }
+                    >
+                        <Text className='mt-5 text-m font-semibold underline text-gray-800 uppercase text-center'>
+                            Ver tus preguntas publicadas
+                        </Text>
+                    </TouchableOpacity>
+                </View>
 
                 <View className='mt-8 w-full'>
                     {
@@ -123,10 +126,12 @@ export const ForumScreen = ({ navigation }: Props) => {
 
                 <Modal 
                     isVisible={ modalVisible }
-                    animationIn={ 'bounceIn' }
+                    animationIn='bounceIn'
                 >
                     <View className='bg-white w-full rounded-2xl items-center py-5'>
-                        <Text className='text-primary font-bold text-2xl uppercase tracking-wider'>Crear Pregunta</Text>
+                        <Text className='text-primary font-bold text-2xl uppercase tracking-wider'>
+                            Crear Pregunta
+                        </Text>
                     
                         <InputLabel 
                             type='text'

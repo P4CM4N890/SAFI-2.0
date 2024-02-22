@@ -1,17 +1,21 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { NotificationsStackNavigator } from '../navigation/NotificationsStackNavigator'
+
 import { GoalsScreen } from '../screens/GoalsScreen';
 import { AddGoalScreen } from '../screens/AddGoalScreen';
 import { EditGoalScreen } from '../screens/EditGoalScreen';
+import { GoalContributionsScreen } from '../screens/GoalContributionsScreen';
 
-import { NotificationsStackNavigator } from '../navigation/NotificationsStackNavigator'
+import { MetaResponse } from '../interfaces/ApiInterfaces';
 
 export type GoalsStackParams = {
     GoalsScreen: undefined;
     AddGoalScreen: undefined;
-    EditGoalScreen: { goalId: number };
+    EditGoalScreen: { goal: MetaResponse };
     NotificationsStackNavigator: undefined;
+    GoalContributionsScreen: { goal: MetaResponse };
 };
 
 const GoalsStack = createStackNavigator<GoalsStackParams>();
@@ -24,13 +28,31 @@ export const GoalsStackNavigator = () => {
                 headerShown: false
             }}
         >
-            
-            <GoalsStack.Screen name='GoalsScreen' options={{ title: 'GoalsScreen' }} component={ GoalsScreen } />
-            <GoalsStack.Screen name='AddGoalScreen' options={{ title: 'AddGoalScreen' }} component={ AddGoalScreen } />
-            <GoalsStack.Screen name='EditGoalScreen' options={{ title: 'EditGoalScreen' }} component={ EditGoalScreen } />
-            
-            <GoalsStack.Screen name='NotificationsStackNavigator' options={{ title: 'NotificationsStackNavigator' }} component={ NotificationsStackNavigator } />
-        
+            <GoalsStack.Screen
+                name='GoalsScreen' 
+                options={{ title: 'GoalsScreen' }} 
+                component={ GoalsScreen } 
+            />
+            <GoalsStack.Screen
+                name='AddGoalScreen' 
+                options={{ title: 'AddGoalScreen' }} 
+                component={ AddGoalScreen } 
+            />
+            <GoalsStack.Screen
+                name='EditGoalScreen' 
+                options={{ title: 'EditGoalScreen' }} 
+                component={ EditGoalScreen } 
+            />
+            <GoalsStack.Screen
+                name='GoalContributionsScreen' 
+                options={{ title: 'GoalContributionsScreen' }} 
+                component={ GoalContributionsScreen } 
+            />
+            <GoalsStack.Screen
+                name='NotificationsStackNavigator' 
+                options={{ title: 'NotificationsStackNavigator' }} 
+                component={ NotificationsStackNavigator } 
+            />
         </GoalsStack.Navigator>
     );
 }

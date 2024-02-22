@@ -1,8 +1,11 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { apiInstance, checkToken } from './instance';
-import { AbonoCreate, CategoriaCreate, GastoCreate, IngresoCreate, 
+import { 
+    AbonoCreate, CategoriaCreate, GastoCreate, IngresoCreate, 
     InicioSesion, MetaCreate, UsuarioCreate, ValidarToken, RecordatorioDePagoCreate, 
-    PreguntaCreate, RespuestaCreate, MetaFijadaCreate, PredictorObject, LogroCreate } from '../interfaces/ApiInterfaces';
+    PreguntaCreate, RespuestaCreate, MetaFijadaCreate, PredictorObject, LogroCreate,
+    MetaCreateResponse, MetaFijadaCreateResponse, AbonoCreateResponse 
+} from '../interfaces/ApiInterfaces';
 
 export const login = async (correo: string, password: string): 
     Promise<AxiosResponse> => {
@@ -123,7 +126,7 @@ export const crearUsuario = async (usuario: UsuarioCreate): Promise<AxiosRespons
     }
 }
 
-export const crearMeta = async (meta: MetaCreate): Promise<AxiosResponse> => {
+export const crearMeta = async (meta: MetaCreate): Promise<AxiosResponse<MetaCreateResponse>> => {
     const token = await checkToken();
 
     let config = {
@@ -141,10 +144,9 @@ export const crearMeta = async (meta: MetaCreate): Promise<AxiosResponse> => {
 
     try {
         const response = await apiInstance.post(url, body, config);
-
         return response;
-    }
-    catch (err) {
+
+    } catch (err) {
         const errors = err as Error | AxiosError;
         
         if(!axios.isAxiosError(errors)){
@@ -219,7 +221,7 @@ export const crearIngreso = async (ingreso: IngresoCreate): Promise<AxiosRespons
     }
 }
 
-export const crearAbono = async (abono: AbonoCreate): Promise<AxiosResponse> => {
+export const crearAbono = async (abono: AbonoCreate): Promise<AxiosResponse<AbonoCreateResponse>> => {
     const token = await checkToken();
 
     let config = {
@@ -237,10 +239,9 @@ export const crearAbono = async (abono: AbonoCreate): Promise<AxiosResponse> => 
 
     try {
         const response = await apiInstance.post(url, body, config);
-
         return response;
-    }
-    catch (err) {
+        
+    } catch (err) {
         const errors = err as Error | AxiosError;
         
         if(!axios.isAxiosError(errors)){
@@ -379,7 +380,7 @@ export const crearRespuesta = async (respuesta: RespuestaCreate): Promise<AxiosR
     }
 }
 
-export const crearMetaFijada = async (metaFijada: MetaFijadaCreate): Promise<AxiosResponse> => {
+export const crearMetaFijada = async (metaFijada: MetaFijadaCreate): Promise<AxiosResponse<MetaFijadaCreateResponse>> => {
     const token = await checkToken();
 
     let config = {
@@ -397,10 +398,9 @@ export const crearMetaFijada = async (metaFijada: MetaFijadaCreate): Promise<Axi
 
     try {
         const response = await apiInstance.post(url, body, config);
-
         return response;
-    }
-    catch (err) {
+        
+    } catch (err) {
         const errors = err as Error | AxiosError;
         
         if(!axios.isAxiosError(errors)){

@@ -5,7 +5,6 @@ export const useRandomColor = () => {
 
     const getNewColor = () => {
         color = colores[Math.floor(Math.random() * (colores.length - 1))];
-
         return color;
     };    
 

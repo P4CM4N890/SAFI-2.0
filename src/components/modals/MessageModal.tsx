@@ -1,20 +1,23 @@
-import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Modal, Text, TouchableOpacity } from "react-native";
 
 interface MessageModalProps {
     message: string;
     modalVisible: boolean;
-    setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    setModalVisible: (isVisible: boolean) => void;
+    onClose?: () => void;
 }
 
-export const MessageModal = ({ message, modalVisible, setModalVisible }: MessageModalProps) => {    
+export const MessageModal = ({ message, modalVisible, setModalVisible, onClose }: MessageModalProps) => {    
     return (
         <Modal
             animationType="fade"
             transparent
             visible={ modalVisible }
-            onRequestClose={ () => setModalVisible(!modalVisible) }
+            onRequestClose={ () => {
+                setModalVisible(!modalVisible);
+                if(onClose) onClose();
+            }}
         >
             <View style={ modalStyles.centeredView }>
                 <View style={ modalStyles.modalView }>
@@ -27,7 +30,10 @@ export const MessageModal = ({ message, modalVisible, setModalVisible }: Message
 
                     <TouchableOpacity 
                         style={ [modalStyles.button, modalStyles.buttonClose] }
-                        onPress={ () => setModalVisible(!modalVisible) }
+                        onPress={ () => {
+                            setModalVisible(!modalVisible);
+                            if(onClose) onClose();
+                        }}
                     >
                         <Text style={ modalStyles.textStyle }>Aceptar</Text>
                     </TouchableOpacity>

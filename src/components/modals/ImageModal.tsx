@@ -14,7 +14,7 @@ export const ImageModal = ({ isModalVisible, selectImage }: Props) => {
     return (
         <Modal 
             isVisible={ isModalVisible }
-            animationIn={ 'bounce' }
+            animationIn='bounce'
         >
             <View className='w-full items-center gap-y-20 rounded-2xl py-5'>
         

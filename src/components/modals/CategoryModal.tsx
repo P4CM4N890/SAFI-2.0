@@ -8,7 +8,7 @@ import { categoryIcon, iconColor } from '../../types/appTypes';
 
 interface Props {
     isModalVisible: boolean;
-    color: iconColor;
+    color: iconColor | string;
     selectCategory: (category: categoryIcon) => void;
 }
 
@@ -17,7 +17,7 @@ export const CategoryModal = ({ isModalVisible, color, selectCategory }: Props) 
     return (
         <Modal 
             isVisible={ isModalVisible }
-            animationIn={ 'bounce' }
+            animationIn='bounce'
         >
             <View className='w-full items-center gap-y-3 rounded-2xl py-5'>
         

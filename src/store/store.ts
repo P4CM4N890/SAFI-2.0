@@ -5,6 +5,9 @@ import { forumSlice } from './forum';
 import { otherSlice } from './other';
 import { incomeSlice } from './incomes';
 import { expenseSlice } from './expenses';
+import { goalsSlice } from './goals/goalsSlice';
+import { slidesSlice } from './slides/slidesSlice';
+import { goalsContributionsSlice } from './contributions';
 
 export const store = configureStore({
     reducer: {
@@ -13,6 +16,9 @@ export const store = configureStore({
         forum: forumSlice.reducer,
         income: incomeSlice.reducer,
         expense: expenseSlice.reducer,
+        goals: goalsSlice.reducer,
+        slides: slidesSlice.reducer,
+        goalContributions: goalsContributionsSlice.reducer,
         other: otherSlice.reducer,
     },
 });

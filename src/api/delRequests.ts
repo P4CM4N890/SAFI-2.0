@@ -85,6 +85,33 @@ export const eliminarMeta = async (id: string): Promise<AxiosResponse> => {
     }
 }
 
+export const eliminarMetaFijada = async (id: string): Promise<AxiosResponse> => {
+    const token = await checkToken();
+
+    let config = {
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
+    let url = `/metaFijada/${id}`;
+
+    try {
+        const response = await apiInstance.delete(url, config);
+        return response;
+        
+    } catch (err) {
+        const errors = err as Error | AxiosError;
+
+        if(!axios.isAxiosError(errors)){
+            throw new Error(errors.message);
+        }
+
+        throw new Error(errors.response?.data?.detail);
+    }
+}
+
 export const eliminarIngreso = async (id: string): Promise<AxiosResponse> => {
     const token = await checkToken();
 
@@ -127,10 +154,9 @@ export const eliminarAbono = async (id: string): Promise<AxiosResponse> => {
 
     try {
         const response = await apiInstance.delete(url, config);
-
         return response;
-    }
-    catch (err) {
+        
+    } catch (err) {
         const errors = err as Error | AxiosError;
 
         if(!axios.isAxiosError(errors)){

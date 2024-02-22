@@ -48,6 +48,11 @@ export interface MetaCreate {
     prioridad: string
 }
 
+export interface MetaCreateResponse {
+    nombre: string;
+    id:     string;
+}
+
 export interface IngresoCreate {
     id_usuario: number
     nombre: string
@@ -62,6 +67,11 @@ export interface AbonoCreate {
     cantidad: number
     id_meta_abonada: string
     fecha: string
+}
+
+export interface AbonoCreateResponse {
+    status: string;
+    id:     string;
 }
 
 export interface GastoCreate {
@@ -102,6 +112,11 @@ export interface RespuestaCreate {
 export interface MetaFijadaCreate {
     id_usuario: number
     id_meta: string
+}
+
+export interface MetaFijadaCreateResponse {
+    status: string;
+    id:     string;
 }
 
 export interface PredictorObject {
@@ -256,15 +271,19 @@ export interface CategoriaEdit {
 }
 
 export interface MetaEdit {
-    nombre?: string
-    cantidad?: number
-    descripcion?: string
-    fecha_inicio?: string
-    fecha_fin?: string
-    completada?: number
-    icono?: string
-    color?: string
-    prioridad?: string
+    nombre: string
+    cantidad: number
+    descripcion: string
+    fecha_inicio: string
+    fecha_fin: string
+    completada: number
+    icono: string
+    color: string
+    prioridad: string
+}
+
+export interface MetaEditResponse {
+    status: string;
 }
 
 export interface IngresoEdit {
@@ -276,9 +295,9 @@ export interface IngresoEdit {
 }
 
 export interface AbonoEdit {
-    cantidad?: number
-    id_meta_abonada?: string
-    fecha?: string
+    cantidad: number
+    id_meta_abonada: string
+    fecha: string
 }
 
 export interface GastoEdit {
@@ -317,4 +336,14 @@ export interface LogroEdit {
     descripcion?: string
     experiencia?: number
     cantidad_metas_cumplidas?: number
+}
+
+// DELETE
+
+export interface MetaId {
+    id: string;
+}
+
+export interface GoalContributionId {
+    id: string;
 }

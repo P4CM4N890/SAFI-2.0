@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { apiInstance, checkToken } from './instance';
 import { AbonoEdit, CategoriaEdit, GastoEdit, IngresoEdit, MetaEdit, 
     UsuarioEdit, RecordatorioDePagoEdit, PreguntaEdit, 
-    RespuestaEdit, MetaFijadaEdit, LogroEdit, CambiarContrasena } from '../interfaces/ApiInterfaces';
+    RespuestaEdit, MetaFijadaEdit, LogroEdit, CambiarContrasena, MetaEditResponse } from '../interfaces/ApiInterfaces';
 
 export const actualizarUsuario = async (correo: string, usuario: UsuarioEdit): Promise<AxiosResponse> => {
     const token = await checkToken();
@@ -68,7 +68,7 @@ export const actualizarCategoria = async (id: string, categoria: CategoriaEdit):
     }
 }
 
-export const actualizarMeta = async (id: string, meta: MetaEdit): Promise<AxiosResponse> => {
+export const actualizarMeta = async (id: string, meta: MetaEdit): Promise<AxiosResponse<MetaEditResponse>> => {
     const token = await checkToken();
 
     let config = {
@@ -86,10 +86,9 @@ export const actualizarMeta = async (id: string, meta: MetaEdit): Promise<AxiosR
     
     try {
         const response = await apiInstance.put(url, body, config);
-        
         return response;
-    }
-    catch (err) {
+        
+    } catch (err) {
         const errors = err as Error | AxiosError;
 
         if(!axios.isAxiosError(errors)){

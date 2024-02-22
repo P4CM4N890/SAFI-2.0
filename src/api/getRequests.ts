@@ -127,10 +127,9 @@ export const obtenerMetas = async (): Promise<AxiosResponse<MetaResponse[]>> => 
 
     try {
         const response = await apiInstance.get<MetaResponse[]>(url, config);
-        
         return response;
-    }
-    catch(err) {
+
+    } catch(err) {
         const errors = err as Error | AxiosError;
 
         if(!axios.isAxiosError(errors)){
@@ -154,10 +153,9 @@ export const obtenerMeta = async (id: string): Promise<AxiosResponse<MetaRespons
 
     try {
         const response = await apiInstance.get<MetaResponse>(url, config);
-        
         return response;
-    }
-    catch(err) {
+        
+    } catch(err) {
         const errors = err as Error | AxiosError;
 
         if(!axios.isAxiosError(errors)){
@@ -519,7 +517,7 @@ export const obtenerMetasFijadas = async (): Promise<AxiosResponse<MetaFijadaRes
     };
 }
 
-export const obtenerMetaFijada = async (id: string): Promise<AxiosResponse<MetaFijadaResponse>> => {
+export const obtenerMetaFijada = async (id: number): Promise<AxiosResponse<MetaFijadaResponse>> => {
     const token = await checkToken();
 
     let config = {
@@ -532,10 +530,9 @@ export const obtenerMetaFijada = async (id: string): Promise<AxiosResponse<MetaF
 
     try {
         const response = await apiInstance.get<MetaFijadaResponse>(url, config);
-        
         return response;
-    }
-    catch(err) {
+
+    } catch(err) {
         const errors = err as Error | AxiosError;
 
         if(!axios.isAxiosError(errors)){

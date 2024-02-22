@@ -1,9 +1,8 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { format } from 'date-fns';
 
 import Icon from 'react-native-vector-icons/Ionicons';
-
-import { format } from 'date-fns';
 
 interface Props {
     id: string;

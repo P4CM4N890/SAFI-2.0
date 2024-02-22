@@ -33,10 +33,7 @@ export const YourQuestionsScreen = ({ navigation }: Props) => {
                 showsVerticalScrollIndicator={ false }
                 className='w-full h-64'
             >
-                <Text 
-                    className='mt-20 text-xl font-bold text-black uppercase 
-                    tracking-widest text-center'
-                >
+                <Text className='mt-7 ml-4 text-xl font-bold text-black uppercase tracking-widest text-center'>
                     Tus Preguntas
                 </Text>
 
@@ -60,21 +57,13 @@ export const YourQuestionsScreen = ({ navigation }: Props) => {
                                 )
                             })
                         :
-                            <View
-                                className='mt-48 w-full'
-                            >
-                                <Text
-                                    className='text-xl font-bold text-gray-800 uppercase 
-                                    tracking-wider text-center'
-                                >
-                                    No has hecho ninguna pregunta.
+                            <View className='mt-48 w-full'>
+                                <Text className='text-lg font-bold text-gray-800 uppercase tracking-wider text-center'>
+                                    No has hecho ninguna pregunta
                                 </Text>
                                 
-                                <Text
-                                    className='text-l font-semibold text-gray-800 uppercase 
-                                    tracking-wide text-center mt-10'
-                                >
-                                    Te invitamos a crear alguna en la pantalla anterior.
+                                <Text className='text-lg font-semibold text-gray-800 tracking-wide text-center mt-5'>
+                                    Te invitamos a crear alguna en la pantalla anterior
                                 </Text>
                             </View>
                     } 
@@ -83,4 +72,3 @@ export const YourQuestionsScreen = ({ navigation }: Props) => {
         </View>
     );
 };
-

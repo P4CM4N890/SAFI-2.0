@@ -36,7 +36,7 @@ export const SettingsScreen = ({ navigation }: Props) => {
         <ScrollView showsVerticalScrollIndicator={ false }>
             <View className='w-full h-full items-center p-5'>
                 {/* <UserImageButton size={ 160 } /> */}
-                <View className='mt-5 rounded border-2'>
+                <View className='mt-5 rounded'>
                     {
                         ruta_imagen 
                         ?

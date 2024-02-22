@@ -25,6 +25,10 @@ export const LoginScreen = ({ navigation }: Props) => {
     const [ error, setError ] = useState<string>('');
     const [ modalVisible, setModalVisible ] = useState(false);
 
+    const setModalVisibility = (isVisible: boolean) => {
+        setModalVisible(isVisible);
+    };
+
     const onLogin = async () => {
         Keyboard.dismiss();
 
@@ -58,7 +62,7 @@ export const LoginScreen = ({ navigation }: Props) => {
             <MessageModal 
                 message={ error }
                 modalVisible={ modalVisible }
-                setModalVisible={ setModalVisible }
+                setModalVisible={ setModalVisibility }
             />
             <View className='w-full h-full items-center justify-center z-10'>
                 <Logo/>
@@ -99,7 +103,6 @@ export const LoginScreen = ({ navigation }: Props) => {
                     label='Iniciar sesión' 
                     extraClass='mt-10' 
                     onPress={ onLogin }
-                    // onPress={ () => navigation.navigate('BottomTabNavigator') }
                 />
 
                 <View className='w-5/6 border-t-2 border-gray-700 mt-12'/>

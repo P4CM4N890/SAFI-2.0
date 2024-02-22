@@ -1,35 +1,17 @@
 import { useEffect, useState } from 'react';
-import { View, ScrollView, Dimensions } from 'react-native';
+import { View, ScrollView, Dimensions, ActivityIndicator, Text } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
-import { Header, GoalCard, MainGoalCard, GoalsSummaryCard } from '../components';
+import { getAll as getAllGoals } from '../store/goals';
+import { GoalProgress, setGoalsProgress } from '../store/contributions';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+
 import { useUiStore } from '../hooks';
+import { Header, GoalCard, MainGoalCard, GoalsSummaryCard } from '../components';
+import { loadGoalsSummarySlide } from '../store/slides';
 
-const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
-
-interface Slide {
-    title?: string;
-    startDate?: string;
-    endDate?: string;
-    progress?: number;
-    percentage?: number;
-    type: 'mainGoal' | 'GoalsSummary'
-}
-
-const cards: Slide[] = [
-    {
-        title: 'Laptop Asus',
-        startDate: '12/Octubre/2023',
-        endDate: '12/Diciembre/2023',
-        progress: 0.5,
-        type: 'mainGoal'
-    },
-    {
-        percentage: 20,
-        type: 'GoalsSummary'
-    }
-];
+const { width: screenWidth } = Dimensions.get('window');
 
 export const GoalsScreen = () => {
 
@@ -37,14 +19,48 @@ export const GoalsScreen = () => {
     const { changeActiveComponent, changeBarVisibility } = useUiStore();
     
     const isFocused = useIsFocused();
+    const dispatch = useAppDispatch();
+
+    const { mainGoalSlide, goalsSummarySlide } = useAppSelector( state => state.slides );
+    const { goals, isLoading } = useAppSelector( state => state.goals );
+    const { goalsProgress, contributions } = useAppSelector( state => state.goalContributions );
 
     useEffect(() => {
         if(isFocused) {
             changeActiveComponent('GoalsStackNavigator');
             changeBarVisibility(true);
         }
-
     }, [ isFocused ]);
+
+    useEffect(() => {
+        // obtener todas las metas
+        dispatch( getAllGoals() );
+    }, []);
+
+    useEffect(() => {
+        // calcular el resumen si el progreso de las metas cambia
+        dispatch( loadGoalsSummarySlide(goals, goalsProgress) );
+    }, [ goalsProgress ]);
+
+    useEffect(() => {
+        let goalsProgress = [] as GoalProgress[];
+
+        // calcular el progreso de las metas
+        if(contributions.length !== 0) {
+            goalsProgress = contributions.reduce<GoalProgress[]>((goalsProgressArray, goalContribution) => {
+                const { id_meta_abonada, cantidad } = goalContribution;
+                const goalProgress = goalsProgressArray.find(goalProgress => goalProgress.id === id_meta_abonada);
+                
+                if (goalProgress) goalProgress.total += cantidad;
+                else goalsProgressArray.push({ id: id_meta_abonada, total: cantidad });
+
+                return goalsProgressArray;
+            }, []);
+        };
+
+        // actualizar el progreso de las metas
+        dispatch( setGoalsProgress(goalsProgress) );
+    }, [ goals, contributions ]);
 
     const renderItem = (item: any) => {
         if(item.type === 'mainGoal') {
@@ -53,19 +69,21 @@ export const GoalsScreen = () => {
                     title={ item.title } 
                     startDate={ item.startDate } 
                     endDate={ item.endDate } 
-                    progress={ item.progress }
+                    amountAchieved={ item.amountAchieved }
+                    totalAmount={ item.totalAmount }
+                    found={ item.found }
                 />
             )
 
         } else {
-
             return (
                 <GoalsSummaryCard 
                     percentage={ item.percentage }
+                    found={ item.found }
                 />
             )
         }
-    }
+    };
 
     return (
         <View className='w-full h-full items-center p-5'>
@@ -77,7 +95,7 @@ export const GoalsScreen = () => {
 
                 <View>
                     <Carousel 
-                        data={ cards }
+                        data={ [ mainGoalSlide, goalsSummarySlide ] }
                         renderItem={({ item }: any) => renderItem(item)}
                         sliderWidth={ screenWidth * 0.90 }
                         itemWidth={ screenWidth * 0.90 }
@@ -86,70 +104,45 @@ export const GoalsScreen = () => {
                     />
 
                     <Pagination 
-                        dotsLength={ cards.length }
+                        dotsLength={ 2 }
                         activeDotIndex={ activeIndex }
                     />
                 </View>
 
                 <View className='-mt-4'>
-                    <GoalCard 
-                        id={ 1 }
-                        title='Laptop' 
-                        iconName='game-controller-outline' 
-                        iconColor='#D8336A'
-                        totalGoalCompleted='1000.00'
-                        totalGoalAmount='2000.00'
-                        progress={ 0.5 }
-                    />
-                    <GoalCard 
-                        id={ 2 }
-                        title='Celular' 
-                        iconName='game-controller-outline' 
-                        iconColor='#33D8A2'
-                        totalGoalCompleted='1000.00'
-                        totalGoalAmount='2000.00'
-                        progress={ 0.5 }
-                    />
-                    <GoalCard 
-                        id={ 3 }
-                        title='Monitor' 
-                        iconName='game-controller-outline' 
-                        iconColor='#A233D8'
-                        totalGoalCompleted='1000.00'
-                        totalGoalAmount='2000.00'
-                        progress={ 0.5 }
-                    />
-                    <GoalCard 
-                        id={ 4 }
-                        title='Zapatos' 
-                        iconName='bag-handle-outline' 
-                        iconColor='#75E2F8'
-                        totalGoalCompleted='1000.00'
-                        totalGoalAmount='2000.00'
-                        progress={ 0.5 }
-                    />
-                    <GoalCard 
-                        id={ 5 }
-                        title='Camisa' 
-                        iconName='bag-handle-outline' 
-                        iconColor='#D8336A'
-                        totalGoalCompleted='1000.00'
-                        totalGoalAmount='2000.00'
-                        progress={ 0.5 }
-                    />
-                    <GoalCard 
-                        id={ 6 }
-                        title='Sombrero' 
-                        iconName='bag-handle-outline' 
-                        iconColor='#33D8A2'
-                        totalGoalCompleted='1000.00'
-                        totalGoalAmount='2000.00'
-                        progress={ 0.5 }
-                    />
+                    {   isLoading 
+                        ? 
+                            <>
+                                <ActivityIndicator size={ 30 } color='#000' className='mt-24' /> 
+                                <Text className='text-center mt-3 font-medium text-zinc-500'>
+                                    Cargando metas...
+                                </Text>
+                            </>
+
+                        : (!isLoading && goals.length > 0) 
+                            ?   goals.map( goal => (
+                                    <GoalCard 
+                                        key={ goal.id }
+                                        goal={ goal }
+                                        totalGoalCompleted={ 
+                                            goalsProgress.find( goalProgress => goalProgress.id === goal.id )?.total || 0 
+                                        }
+                                        progress={
+                                            (goalsProgress.find( goalProgress => goalProgress.id === goal.id )?.total || 0) / goal.cantidad
+                                        }
+                                    />
+                                ))
+                            :   <>
+                                    <Text className='text-center font-medium text-xl text-zinc-500 mt-24'>
+                                        No Hay Metas Registradas 
+                                    </Text>
+                                    <Text className='text-center font-medium text-base text-zinc-500 mt-3'>
+                                        Cuando registre metas podrá verlas aquí
+                                    </Text>
+                                </>
+                        }
                 </View>
             </ScrollView>
-
-            {/* <AddGoalButton /> */}
         </View>
     );
 }

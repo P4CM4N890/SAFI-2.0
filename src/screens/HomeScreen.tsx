@@ -3,95 +3,91 @@ import { View, ScrollView, Dimensions } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
-import { MainGoalCard, LatestIncomeCard, HomeLineChart } from '../components';
 import { useUiStore } from '../hooks';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
+
 import { startLoadingIncomes } from '../store/incomes';
 import { startLoadingExpenses } from '../store/expenses';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { loadMainGoalSlide, loadLatestIncomeSlide } from '../store/slides';
+import { getAll as getAllContributions } from '../store/contributions';
+
+import { MainGoalCard, LatestIncomeCard, HomeLineChart } from '../components';
 import { LoadingScreen } from './LoadingScreen';
 
-const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
+const { width: screenWidth } = Dimensions.get('window');
 
-interface Slide {
-    title: string;
-    startDate?: string;
-    endDate?: string;
-    progress?: number;
-    incomeAmount?: number;
-    type: 'mainGoal' | 'latestIncome';
-}
+const renderItem = (item: any) => {
+    if(item.type === 'mainGoal') {
+        return (
+            <MainGoalCard
+                title={ item.title } 
+                startDate={ item.startDate } 
+                endDate={ item.endDate } 
+                amountAchieved={ item.amountAchieved }
+                totalAmount={ item.totalAmount }
+                found={ item.found }
+            />
+        )
 
-const cards: Slide[] = [
-    {
-        title: 'Laptop Asus',
-        startDate: '12/Octubre/2023',
-        endDate: '12/Diciembre/2023',
-        progress: 0.5,
-        type: 'mainGoal'
-    },
-    {
-        title: 'Abono a laptop',
-        incomeAmount: 5000,
-        type: 'latestIncome'
+    } else {
+        return (
+            <LatestIncomeCard 
+                title={ item.title }
+                amount={ item.incomeAmount }
+                found={ item.found }
+            />
+        )
     }
-];
+};
 
 export const HomeScreen = () => {
-    const dispatch = useAppDispatch();
+    
     const { ingresos, isSaving: loadingIncomes } = useAppSelector( state => state.income );
     const { gastos, isSaving: loadingExpenses } = useAppSelector( state => state.expense );
-    const [ activeIndex, setActiveindex ] = useState(0);
 
+    const [ activeIndex, setActiveindex ] = useState(0);
     const { changeActiveComponent } = useUiStore();
+
+    const { uuid } = useAppSelector( state => state.auth );
+    const { mainGoalSlide, latestIncomeSlide } = useAppSelector( state => state.slides );
+    const { mainGoalId } = useAppSelector( state => state.goals );
+    const { isLoading: isLoadingContributions, goalsProgress, contributions } = useAppSelector( state => state.goalContributions );
+
+    const dispatch = useAppDispatch();
     const isFocused = useIsFocused();
-    
-    const isLoadingIncomes = useMemo( () => loadingIncomes, [loadingIncomes]);
-    const isLoadingExpenses = useMemo( () => loadingExpenses, [loadingExpenses]);
+
+    const isLoadingIncomes = useMemo(() => loadingIncomes, [ loadingIncomes ]);
+    const isLoadingExpenses = useMemo(() => loadingExpenses, [ loadingExpenses ]);
+
+    useEffect(() => {
+        // obtener todos los abonos
+        dispatch( getAllContributions() );
+    }, []);
+
+    useEffect(() => {
+        // obtener todos los ingresos
+        dispatch( startLoadingIncomes() );
+    }, []);
+
+    useEffect(() => {
+        // obtener todos los gastos
+        dispatch( startLoadingExpenses() );
+    }, []);
 
     useEffect(() => {
         if(isFocused) changeActiveComponent('HomeScreen');
     }, [ isFocused ]);
 
     useEffect(() => {
-        dispatch( startLoadingIncomes() );
-    }, []);
+        if(!uuid) return;
+        if(isLoadingContributions) return;
 
-    useEffect(() => {
-        dispatch( startLoadingExpenses() );
-    }, []);
+        dispatch( loadMainGoalSlide(uuid, goalsProgress) );
+        dispatch( loadLatestIncomeSlide(uuid) );
 
-    const renderItem = (item: any) => {
-        if(item.type === 'mainGoal') {
-            return (
-                <MainGoalCard
-                    title={ item.title } 
-                    startDate={ item.startDate } 
-                    endDate={ item.endDate } 
-                    progress={ item.progress }
-                />
-            )
+    }, [ uuid, isLoadingContributions, goalsProgress, mainGoalId ]);
 
-        } else {
-            if (ingresos.length === 0) {
-                return <LatestIncomeCard 
-                    showDefaultMessage
-                    title={ '' }
-                    amount={ 0 }
-                />
-            }
-
-            const lastIncome = ingresos.slice(-1);
-
-            return (
-                <LatestIncomeCard 
-                    title={ lastIncome[0].nombre }
-                    amount={ lastIncome[0].cantidad }
-                />
-            )
-        }
-    }
-
-    if ( isLoadingIncomes || isLoadingExpenses ) return <LoadingScreen />;
+    if ( isLoadingIncomes || isLoadingExpenses || isLoadingContributions ) return <LoadingScreen />;
 
     return (
         <View className='w-full h-full items-center p-5'>
@@ -99,23 +95,19 @@ export const HomeScreen = () => {
                 className='w-full h-full' 
                 showsVerticalScrollIndicator={ false }
             >
-                {/* <Header title='' extraClass='text-sm'/> */}
-
                 <View>
                     <Carousel
-                        data={ cards }
+                        data={ [ mainGoalSlide, latestIncomeSlide ] }
                         renderItem={({ item }: any) => renderItem(item)}
                         sliderWidth={ screenWidth * 0.90 }
                         itemWidth={ screenWidth * 0.90 }
                         layout='default'
                         onSnapToItem={(index) => setActiveindex(index)}
                     />
-
                     <Pagination 
-                        dotsLength={ cards.length }
+                        dotsLength={ 2 }
                         activeDotIndex={ activeIndex }
                     />
-                    
                 </View>
 
                 {
@@ -131,4 +123,4 @@ export const HomeScreen = () => {
             </ScrollView>
         </View>
     );
-}
+};
