@@ -249,6 +249,11 @@ export interface LogrosObtenidosResponse {
     logros_obtenidos: string[]
 }
 
+export interface PredecirMetaResponse {
+    prediccion: string;
+    probabilidad: string;
+}
+
 // PUT
 
 export interface UsuarioEdit {

@@ -1,11 +1,11 @@
 import { format } from 'date-fns';
 
-import { startLoadingGoals, setGoals, addGoal, removeGoal, setMessage, setMainGoalId } from './goalsSlice';
-import { crearMeta, crearMetaFijada, obtenerMetas, actualizarMeta, eliminarMetaFijada } from '../../api';
+import { startLoadingGoals, setGoals, addGoal, removeGoal, setMessage, setMainGoalId, predictGoal } from './goalsSlice';
+import { crearMeta, crearMetaFijada, obtenerMetas, actualizarMeta, eliminarMetaFijada, predecirMeta } from '../../api';
 import { setMainGoalSlide } from '../slides';
 import { AppDispatch } from '../store';
 
-import { MetaCreate, MetaEdit } from '../../interfaces/ApiInterfaces';
+import { MetaCreate, MetaEdit, PredictorObject } from '../../interfaces/ApiInterfaces';
 import { GoalProgress } from '../contributions';
 
 export const add = (meta: MetaCreate, fijar: boolean) => {
@@ -152,5 +152,18 @@ export const getAll = () => {
 export const cleanMessage = () => {
     return async (dispatch: AppDispatch) => {
         dispatch( setMessage({ message: '' }) );
+    };
+};
+
+export const predict = (datos: PredictorObject) => {
+    return async (dispatch: AppDispatch) => {
+        try{
+            const { data } = await predecirMeta(datos);
+    
+            dispatch( predictGoal( data ) );
+        }
+        catch(error){
+            console.error(error);
+        }
     };
 };

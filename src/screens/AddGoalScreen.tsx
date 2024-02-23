@@ -5,7 +5,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { add, cleanMessage } from '../store/goals';
+import { add, cleanMessage, predict } from '../store/goals';
 
 import { useForm, useUiStore } from '../hooks';
 
@@ -14,6 +14,7 @@ ColorModal, PriorityModal, ErrorMessage } from '../components';
 
 import { showToastSuccessMessage, showToastErrorMessage, createNotification } from '../utils';
 import { categoryIcon, iconColor, priority, priorityColor } from '../types/appTypes';
+import { PredictorModal } from '../components/modals/PredictorModal';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -46,6 +47,8 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     const [ priorityModalVisible, setPriorityModalVisible ] = useState(false);
     const [ selectedPriority, setSelectedPriority ] = useState<priority>('Baja');
     const [ selectedPriorityColor, setSelectedPriorityColor ] = useState<priorityColor>('#60D833');
+    
+    const [ predictorModalVisible, setPredictorModalVisible ] = useState(false);
 
     const { changeBarVisibility } = useUiStore();
     
@@ -99,6 +102,13 @@ export const AddGoalScreen = ({ navigation }: Props) => {
 
         if(!uuid) return;
 
+        dispatch( predict({
+            id_usuario: uuid,
+            cantidad: Number(cantidad),
+            fecha_inicio: fecha_inicio.split('T')[0],
+            fecha_fin: fecha_fin.split('T')[0],
+        }) );
+
         dispatch(
             add({
                 id_usuario: uuid,
@@ -114,6 +124,8 @@ export const AddGoalScreen = ({ navigation }: Props) => {
             }, fijar === 'si' ? true : false)
         );
         
+        openPredictorModal();
+
         createNotification(nombre, new Date(fecha_fin), uuid)
         .then(() => console.log("Notificaciones de meta creadas"))
         .catch((error) => console.error(error));
@@ -160,6 +172,14 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     const closePriorityModal = () => {
         setPriorityModalVisible(false);
     };
+    
+    const openPredictorModal = () => {
+        setPredictorModalVisible(true);
+    };
+  
+    const closePredictorModal = () => {
+        setPredictorModalVisible(false);
+    };
 
     const selectPriority = (priority: priority, color: priorityColor) => {
         setSelectedPriority(priority);
@@ -171,6 +191,11 @@ export const AddGoalScreen = ({ navigation }: Props) => {
 
     return (
         <KeyboardAvoidingView className='w-full h-full'>
+            <PredictorModal 
+                modalVisible={ predictorModalVisible }
+                setModalVisible={ setPredictorModalVisible }
+            />
+            
             <ScrollView>
                 <View className='w-full h-full items-center mb-9'>
 
