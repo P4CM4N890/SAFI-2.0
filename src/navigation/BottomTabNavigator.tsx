@@ -158,7 +158,7 @@ export const BottomTabNavigator = () => {
                             label='Ajustes'
                         />
                     )
-                }} 
+                }}
             />
 
         </Tab.Navigator>

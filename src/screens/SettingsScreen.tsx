@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -9,6 +9,7 @@ import { startLogout } from '../store/auth/thunks';
 import { useUiStore } from '../hooks';
 import { getImageSource } from '../utils';
 import { LoadingScreen } from './LoadingScreen';
+import { store } from '../store';
 
 interface Props extends StackScreenProps<any, any>{};
 
@@ -17,13 +18,24 @@ export const SettingsScreen = ({ navigation }: Props) => {
     const dispatch = useAppDispatch();
     const isFocused = useIsFocused();
     const { changeActiveComponent } = useUiStore();
-    const { nombre, experiencia, email, 
+    const { nombre, experiencia: exp, email, 
         ruta_imagen, isSavingUser } = useAppSelector( state => state.auth );
 
+    const [ experiencia, setExperiencia ] = useState(exp as number);
     const saving = useMemo( () => isSavingUser, [isSavingUser]);
 
     useEffect(() => {
         if(isFocused) changeActiveComponent('SettingsStackNavigator');
+    }, [ isFocused ]);
+
+    useEffect(() => {
+        const unsubscribe = store.subscribe(() => {
+            const updatedExp = store.getState().auth.experiencia;
+            setExperiencia(updatedExp as number);
+        });
+        console.log("experiencia");
+    
+        return () => unsubscribe();
     }, [ isFocused ]);
 
     const onLogOut = async () => {

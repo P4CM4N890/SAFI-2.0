@@ -12,6 +12,8 @@ import { LoadingScreen } from './LoadingScreen';
 import { startAddingIncome } from '../store/incomes';
 import { IngresoCreate } from '../interfaces/ApiInterfaces';
 import { showToastSuccessMessage } from '../utils';
+import { startAddingExperience } from '../store/auth';
+import { Experience } from '../types';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -97,6 +99,7 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
         }
 
         dispatch( startAddingIncome(newIncome) );
+        dispatch( startAddingExperience( Experience.ADD_INCOME ) );
 
         showToastSuccessMessage("Ingreso creado.");
         navigation.navigate("IncomesScreen");

@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { actualizarPassword, actualizarUsuario, crearUsuario, generarTokenRecuperacion, login } from "../../api";
 import { AppDispatch, RootState } from "../store";
-import { changePassword, checkingCredentials, loginR, logout, savingUser, setNewHighScore, setToken, signUp, updateUser } from "./authSlice";
+import { changePassword, checkingCredentials, loginR, logout, savingUser, setNewExperience, setNewHighScore, setToken, signUp, updateUser } from "./authSlice";
 import { CambiarContrasena, UsuarioCreate, UsuarioEdit } from "../../interfaces/ApiInterfaces";
 
 export const startLogin = (correo: string, contrasena: string) => {
@@ -101,6 +101,34 @@ export const startSettingNewHighScore = (highScore: number) => {
             await actualizarUsuario(email as string, newUsuario);
 
             dispatch( setNewHighScore(highScore) );
+        }
+        catch(err){
+            let error = err as Error;
+
+            console.error(error);
+            // dispatch( logout({ message: error.message }) );
+        }
+    };
+};
+
+export const startAddingExperience = (experienceToAdd: number) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
+        const { email, experiencia, nombre, 
+            ruta_imagen, fecha_de_nac, high_score } = getState().auth;
+
+        const newUsuario: UsuarioEdit = {
+            correo: email as string,
+            nombre: nombre as string,
+            ruta_imagen: ruta_imagen as string,
+            experiencia: (experiencia as number + experienceToAdd),
+            fecha_de_nac: fecha_de_nac as string,
+            high_score: high_score as number,
+        }
+
+        try{
+            await actualizarUsuario(email as string, newUsuario);
+
+            dispatch( setNewExperience(experienceToAdd) );
         }
         catch(err){
             let error = err as Error;

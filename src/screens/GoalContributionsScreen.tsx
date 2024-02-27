@@ -16,6 +16,8 @@ import { useForm, useUiStore } from '../hooks';
 
 import { showToastSuccessMessage } from '../utils';
 import { AbonoResponse } from '../interfaces/ApiInterfaces';
+import { startAddingExperience } from '../store/auth';
+import { Experience } from '../types';
 
 interface Props extends StackScreenProps<GoalsStackParams, 'GoalContributionsScreen'>{};
 
@@ -91,6 +93,8 @@ export const GoalContributionsScreen = ({ navigation, route }: Props) => {
                 fecha: new Date().toISOString().split('T')[0]
             })
         );
+
+        dispatch( startAddingExperience( Experience.ADD_CONTRIBUTION ) );
 
         closeModal();     
     };

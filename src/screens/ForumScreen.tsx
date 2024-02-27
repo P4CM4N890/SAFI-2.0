@@ -14,6 +14,8 @@ import { startLoadingQuestions, startSavingQuestion } from '../store/forum/thunk
 import { useForm, useRandomColor, useUiStore } from '../hooks';
 
 import { showToastSuccessMessage } from '../utils';
+import { startAddingExperience } from '../store/auth';
+import { Experience } from '../types';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -54,6 +56,7 @@ export const ForumScreen = ({ navigation }: Props) => {
 
         showToastSuccessMessage("Pregunta creada.");
         dispatch( startSavingQuestion({ pregunta: titulo, descripcion }) );
+        dispatch( startAddingExperience( Experience.ADD_QUESTION) );
     };
 
     useEffect(() => {

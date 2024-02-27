@@ -16,6 +16,8 @@ import { useForm } from '../hooks';
 
 import { PreguntaResponse } from '../interfaces/ApiInterfaces';
 import { showToastSuccessMessage } from '../utils';
+import { startAddingExperience } from '../store/auth';
+import { Experience } from '../types';
 
 interface Props extends StackScreenProps<ForumStackParams, 'QuestionScreen'>{};
 
@@ -55,12 +57,14 @@ export const QuestionScreen = ({ navigation, route }: Props) => {
     const onCreateAnswer = () => {
         showToastSuccessMessage("Respuesta creada.");
         dispatch( startSavingAnswer(cuerpo, preguntaActual.id) );
+        dispatch( startAddingExperience( Experience.ADD_ANSWER ) );
 
         onChange('', 'cuerpo');
     };
 
     const onLikeQuestion = () => {
         dispatch( startAddingLikeToQuestion(questionId) );
+        dispatch( startAddingExperience( Experience.ADD_LIKE ) );
     };
 
     if (saving) return <LoadingScreen />

@@ -8,7 +8,7 @@ import { Header } from "./Header";
 import { Colores } from "../../styles/colors";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useUiStore } from "../../hooks";
-import { startSettingNewHighScore } from "../../store/auth";
+import { startAddingExperience, startSettingNewHighScore } from "../../store/auth";
 
 const SNAKE_POSICION_INICIAL = [{ x: 5, y: 5}];
 const BORDES = { xMin: 1, xMax: 34, yMin: 1, yMax: 68 };
@@ -80,6 +80,8 @@ export const Game = () => {
             if(score > (high_score as number)){
                 dispatch( startSettingNewHighScore(score) );
             }
+
+            dispatch( startAddingExperience(score as number) );
             
             return;
         }
