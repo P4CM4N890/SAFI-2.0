@@ -14,7 +14,7 @@ export const goalsSlice = createSlice({
         mainGoalId: '' as string,
         isLoading: false,
         message: '',
-        prediction: {} as PredecirMetaResponse | null
+        prediction: {} as PredecirMetaResponse | null,
     },
 
     reducers: {
@@ -48,9 +48,16 @@ export const goalsSlice = createSlice({
         },
         predictGoal: (state, { payload }: PayloadAction<PredecirMetaResponse>) => {
             state.prediction = payload;
-        }
+        },
+        savingGoal: (state) => {
+            state.isLoading = true;
+        },
+        disableSavingState: (state) => {  
+            state.isLoading = false;
+        },
     }
 });
 
 export const { startLoadingGoals, setGoals, addGoal, 
-    removeGoal, setMessage, setMainGoalId, predictGoal } = goalsSlice.actions;
+    removeGoal, setMessage, setMainGoalId, predictGoal, 
+    savingGoal, disableSavingState } = goalsSlice.actions;

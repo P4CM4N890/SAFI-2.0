@@ -1,5 +1,6 @@
 import { Image, ImageSourcePropType, Modal, Text, TouchableOpacity, View } from "react-native";
 import { useAppSelector } from "../../store/hooks";
+import { determinePredictorMessage } from "../../utils";
 
 interface Props {
     modalVisible: boolean;
@@ -10,19 +11,10 @@ interface Props {
 export const PredictorModal = ({ modalVisible, setModalVisible, onClose}: Props) => {
     const { prediction } = useAppSelector( state => state.goals );
 
-    const imageHigh = require('../../assets/predictor/Normal.png') as ImageSourcePropType;
-    const imageMedium = require('../../assets/predictor/Hard.png') as ImageSourcePropType;
-    const imageLow = require('../../assets/predictor/Demon.png') as ImageSourcePropType;
-
+    const pred = Number(prediction!.prediccion);
     const percentage = Number(prediction!.probabilidad);
 
-    const imageToShow = ( percentage <= 33 ) ? imageLow 
-    : ( percentage > 33 && percentage <= 70 ) ? imageMedium : imageHigh;
-
-    let textToShow = 'De acuerdo con tu historial, ';
-    textToShow += ( percentage <= 33 ) ? 'tienes que esforzarte mucho extra para completar tu meta. ¡Tu puedes!' 
-    : ( percentage > 33 && percentage <= 70 ) ? 'es muy probable que completes tu meta, pero no te confies.' 
-    : 'cumpliras tu meta sin ninguna dificultad.';
+    const [textToShow, imageToShow] = determinePredictorMessage(pred, percentage*100);
 
     return (
         <Modal
@@ -31,7 +23,6 @@ export const PredictorModal = ({ modalVisible, setModalVisible, onClose}: Props)
             visible={ modalVisible }
             onRequestClose={ () => {
                 setModalVisible(!modalVisible);
-                if(onClose) onClose();
             }}
         >
             <View
@@ -48,20 +39,38 @@ export const PredictorModal = ({ modalVisible, setModalVisible, onClose}: Props)
                         { textToShow }
                     </Text>
 
-                    <TouchableOpacity
-                        activeOpacity={ 0.8 }
-                        className='bg-red rounded-2xl p-3 mt-4'
-                        onPress={ () => {
-                            setModalVisible(!modalVisible);
-                            if(onClose) onClose();
-                        }}
+                    <View
+                        className='flex-row space-x-9'
                     >
-                        <Text
-                            className='text-white text-center font-bold'
+                        <TouchableOpacity
+                            activeOpacity={ 0.8 }
+                            className='bg-green rounded-2xl p-3 mt-4'
+                            onPress={ () => {
+                                setModalVisible(!modalVisible);
+                                if(onClose) onClose();
+                            }}
                         >
-                            Aceptar
-                        </Text>
-                    </TouchableOpacity>
+                            <Text
+                                className='text-white text-center font-bold'
+                            >
+                                Aceptar
+                            </Text>
+                        </TouchableOpacity>
+                        
+                        <TouchableOpacity
+                            activeOpacity={ 0.8 }
+                            className='bg-red rounded-2xl p-3 mt-4 ml-3'
+                            onPress={ () => {
+                                setModalVisible(!modalVisible);
+                            }}
+                        >
+                            <Text
+                                className='text-white text-center font-bold'
+                            >
+                                Regresar
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
 
 

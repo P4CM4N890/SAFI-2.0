@@ -33,7 +33,6 @@ export const SettingsScreen = ({ navigation }: Props) => {
             const updatedExp = store.getState().auth.experiencia;
             setExperiencia(updatedExp as number);
         });
-        console.log("experiencia");
     
         return () => unsubscribe();
     }, [ isFocused ]);

@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 
-import { startLoadingGoals, setGoals, addGoal, removeGoal, setMessage, setMainGoalId, predictGoal } from './goalsSlice';
+import { startLoadingGoals, setGoals, addGoal, removeGoal, setMessage, setMainGoalId, predictGoal, savingGoal, disableSavingState } from './goalsSlice';
 import { crearMeta, crearMetaFijada, obtenerMetas, actualizarMeta, eliminarMetaFijada, predecirMeta } from '../../api';
 import { setMainGoalSlide } from '../slides';
 import { AppDispatch } from '../store';
@@ -10,6 +10,8 @@ import { GoalProgress } from '../contributions';
 
 export const add = (meta: MetaCreate, fijar: boolean) => {
     return async (dispatch: AppDispatch) => {
+        dispatch( savingGoal() );
+
         try{
             // crear la meta
             const { data } = await crearMeta(meta);
@@ -42,6 +44,8 @@ export const add = (meta: MetaCreate, fijar: boolean) => {
             dispatch( 
                 setMessage({ message: 'Meta guardada correctamente' }) 
             );
+
+            dispatch( disableSavingState() );
 
         } catch(err){
             let error = err as Error;

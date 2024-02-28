@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loadMainGoalSlide, loadLatestIncomeSlide } from '../store/slides';
 import { getAll as getAllContributions } from '../store/contributions';
 
-import { MainGoalCard, LatestIncomeCard, HomeLineChart } from '../components';
+import { MainGoalCard, LatestIncomeCard, HomeLineChart, Header } from '../components';
 import { LoadingScreen } from './LoadingScreen';
 
 const { width: screenWidth } = Dimensions.get('window');
@@ -46,7 +46,7 @@ export const HomeScreen = () => {
     const { gastos, isSaving: loadingExpenses } = useAppSelector( state => state.expense );
 
     const [ activeIndex, setActiveindex ] = useState(0);
-    const { changeActiveComponent } = useUiStore();
+    const { changeActiveComponent, changeBarVisibility } = useUiStore();
 
     const { uuid } = useAppSelector( state => state.auth );
     const { mainGoalSlide, latestIncomeSlide } = useAppSelector( state => state.slides );
@@ -96,6 +96,8 @@ export const HomeScreen = () => {
                 showsVerticalScrollIndicator={ false }
             >
                 <View>
+                    <Header title='Bienvenido a SAFI' extraClass='text-2xl'/>
+
                     <Carousel
                         data={ [ mainGoalSlide, latestIncomeSlide ] }
                         renderItem={({ item }: any) => renderItem(item)}
