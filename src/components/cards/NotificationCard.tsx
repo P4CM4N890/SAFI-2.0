@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { View, Text, TouchableOpacity, LogBox } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -17,6 +17,14 @@ export const NotificationCard = (props: NotificationCardProps) => {
         iconColor, updateNotification, datetime, 
         deleteNotification, isActive, toggleSwitch 
     } = props;
+
+    const newTitle = useMemo( () => {
+        return title.length > 20 
+        ? 
+            title.substring(0, 20) + '...'
+        : 
+            title
+    }, [title]);
 
     const [ isEnabled, setIsEnabled ] = useState(isActive);
 
@@ -50,7 +58,7 @@ export const NotificationCard = (props: NotificationCardProps) => {
 
                 <View className='flex-col'>
                     <Text className='text-black text-lg font-bold' numberOfLines={ 1 }>
-                        { title }
+                        { newTitle }
                     </Text>
                     <Text className='text-black text-xs tracking-tight w-4/5'>
                         Recordatorio para el día

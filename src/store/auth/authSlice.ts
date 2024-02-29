@@ -102,6 +102,10 @@ export const authSlice = createSlice({
             state.high_score = payload;
         },
 
+        setNewExperience(state, { payload }: PayloadAction<number>){
+            state.experiencia = (state.experiencia as number) + payload;
+        },
+
         savingUser(state){
             state.isSavingUser = true;
         },
@@ -125,4 +129,4 @@ export const authSlice = createSlice({
 });
 
 export const { loginR, logout, checkingCredentials, updateUser, savingUser,
-    signUp, setToken, changePassword, setNewHighScore } = authSlice.actions;
+    signUp, setToken, changePassword, setNewHighScore, setNewExperience } = authSlice.actions;

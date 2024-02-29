@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
@@ -12,6 +12,9 @@ import { LoadingScreen } from './LoadingScreen';
 import { startAddingIncome } from '../store/incomes';
 import { IngresoCreate } from '../interfaces/ApiInterfaces';
 import { showToastSuccessMessage } from '../utils';
+import { startAddingExperience } from '../store/auth';
+import { Experience } from '../types';
+import { useFocusEffect } from '@react-navigation/native';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -21,7 +24,7 @@ const initialState = {
 }
 
 export const AddIncomeScreen = ({ navigation }: Props) => {
-    const { changeBarVisibility } = useUiStore();
+    const { activeComponent, changeBarVisibility } = useUiStore();
     const dispatch = useAppDispatch();
     const { isSaving } = useAppSelector( state => state.income );
     const { uuid } = useAppSelector( state => state.auth );
@@ -37,13 +40,15 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
 
     const [ error, setError ] = useState("");
 
-    useEffect(() => {
-        changeBarVisibility(false);
+    useFocusEffect(
+        useCallback(() => {
+            changeBarVisibility(false);
 
-        return () => {
-            changeBarVisibility(true);
-          };
-    }, []);
+            return () => {
+                changeBarVisibility(true);
+            };
+        }, [])
+    );
 
     const openCategoryModal = () => {
         setCategoryModalVisible(true);
@@ -97,6 +102,7 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
         }
 
         dispatch( startAddingIncome(newIncome) );
+        dispatch( startAddingExperience( Experience.ADD_INCOME ) );
 
         showToastSuccessMessage("Ingreso creado.");
         navigation.navigate("IncomesScreen");
@@ -174,7 +180,13 @@ export const AddIncomeScreen = ({ navigation }: Props) => {
                         <Button 
                             label='Cancelar' 
                             extraClass='bg-rose-600'
-                            onPress={ () => navigation.navigate('IncomesScreen') }
+                            onPress={ () => {
+                                activeComponent === 'HomeScreen' || activeComponent === 'SettingsStackNavigator' 
+                                ?
+                                    navigation.goBack()
+                                :
+                                    navigation.navigate("IncomesScreen");
+                            } }
                         />
                     </View>
 

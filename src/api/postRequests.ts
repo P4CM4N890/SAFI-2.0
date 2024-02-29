@@ -4,7 +4,7 @@ import {
     AbonoCreate, CategoriaCreate, GastoCreate, IngresoCreate, 
     InicioSesion, MetaCreate, UsuarioCreate, ValidarToken, RecordatorioDePagoCreate, 
     PreguntaCreate, RespuestaCreate, MetaFijadaCreate, PredictorObject, LogroCreate,
-    MetaCreateResponse, MetaFijadaCreateResponse, AbonoCreateResponse 
+    MetaCreateResponse, MetaFijadaCreateResponse, AbonoCreateResponse, PredecirMetaResponse, LogrosObtenidosResponse, LogroObtenidoCreate 
 } from '../interfaces/ApiInterfaces';
 
 export const login = async (correo: string, password: string): 
@@ -443,7 +443,7 @@ export const crearLogro = async (logro: LogroCreate): Promise<AxiosResponse> => 
     }
 }
 
-export const predecirMeta = async (predictor: PredictorObject): Promise<AxiosResponse> => {
+export const predecirMeta = async (predictor: PredictorObject): Promise<AxiosResponse<PredecirMetaResponse>> => {
     const token = await checkToken();
 
     let config = {
@@ -460,7 +460,7 @@ export const predecirMeta = async (predictor: PredictorObject): Promise<AxiosRes
     };
 
     try {
-        const response = await apiInstance.post(url, body, config);
+        const response = await apiInstance.post<PredecirMetaResponse>(url, body, config);
 
         return response;
     }
@@ -485,9 +485,12 @@ export const agregarLogro = async (id_usuario: number, id_logro: string): Promis
         },
     };
 
-    let url = `/logrosObtenidos/${id_logro}/${id_usuario}/`;
+    let url = `/logrosObtenidos/`;
 
-    let body = { };
+    let body: LogroObtenidoCreate = { 
+        id_logro,
+        id_usuario,
+    };
 
     try {
         const response = await apiInstance.post(url, body, config);

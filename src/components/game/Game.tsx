@@ -2,18 +2,17 @@ import { Dimensions, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
 import { useEffect, useState } from "react";
 import { Snake } from "./Snake";
-import { checkGameOver } from "../../utils/checkGameOver";
+import { checkGameOver, checkItsFood, randomPosition } from "../../utils";
 import { Food } from "./Food";
-import { checkItsFood } from "../../utils/checkItsFood";
-import { randomPosition } from "../../utils/randomPosition";
 import { Header } from "./Header";
 import { Colores } from "../../styles/colors";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { useUiStore } from "../../hooks";
-import { startSettingNewHighScore } from "../../store/auth";
+import { startAddingExperience, startSettingNewHighScore } from "../../store/auth";
 
 const SNAKE_POSICION_INICIAL = [{ x: 5, y: 5}];
 const BORDES = { xMin: 1, xMax: 34, yMin: 1, yMax: 68 };
+// const BORDES = { xMin: 1, xMax: 36, yMin: 1, yMax: 72 }; pal jodido emulador
 const COMIDA_POSICION_INICIAL = randomPosition(BORDES.xMax, BORDES.yMax);
 const INTERVALO_MOVIMIENTO = 20;
 const INCREMENTO_SCORE = 1;
@@ -81,6 +80,8 @@ export const Game = () => {
             if(score > (high_score as number)){
                 dispatch( startSettingNewHighScore(score) );
             }
+
+            dispatch( startAddingExperience(score as number) );
             
             return;
         }

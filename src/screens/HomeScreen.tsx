@@ -11,8 +11,9 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loadMainGoalSlide, loadLatestIncomeSlide } from '../store/slides';
 import { getAll as getAllContributions } from '../store/contributions';
 
-import { MainGoalCard, LatestIncomeCard, HomeLineChart } from '../components';
+import { MainGoalCard, LatestIncomeCard, HomeLineChart, Header } from '../components';
 import { LoadingScreen } from './LoadingScreen';
+import { startLoadingAchievements, startLoadingGainedAchievements } from '../store/achievements';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -44,9 +45,10 @@ export const HomeScreen = () => {
     
     const { ingresos, isSaving: loadingIncomes } = useAppSelector( state => state.income );
     const { gastos, isSaving: loadingExpenses } = useAppSelector( state => state.expense );
+    const { isSaving: loadingAchievements, logros, logrosObtenidos } = useAppSelector( state => state.achievements );
 
     const [ activeIndex, setActiveindex ] = useState(0);
-    const { changeActiveComponent } = useUiStore();
+    const { changeActiveComponent, changeBarVisibility } = useUiStore();
 
     const { uuid } = useAppSelector( state => state.auth );
     const { mainGoalSlide, latestIncomeSlide } = useAppSelector( state => state.slides );
@@ -58,6 +60,7 @@ export const HomeScreen = () => {
 
     const isLoadingIncomes = useMemo(() => loadingIncomes, [ loadingIncomes ]);
     const isLoadingExpenses = useMemo(() => loadingExpenses, [ loadingExpenses ]);
+    const isLoadingAchievements = useMemo(() => loadingAchievements, [ loadingAchievements ]);
 
     useEffect(() => {
         // obtener todos los abonos
@@ -73,6 +76,14 @@ export const HomeScreen = () => {
         // obtener todos los gastos
         dispatch( startLoadingExpenses() );
     }, []);
+    
+    useEffect(() => {
+        dispatch( startLoadingAchievements() );
+    }, []);
+    
+    useEffect(() => {
+        dispatch( startLoadingGainedAchievements() );
+    }, []);
 
     useEffect(() => {
         if(isFocused) changeActiveComponent('HomeScreen');
@@ -83,11 +94,13 @@ export const HomeScreen = () => {
         if(isLoadingContributions) return;
 
         dispatch( loadMainGoalSlide(uuid, goalsProgress) );
-        dispatch( loadLatestIncomeSlide(uuid) );
+        dispatch( loadLatestIncomeSlide(uuid, ingresos[ingresos.length-1]) );
 
     }, [ uuid, isLoadingContributions, goalsProgress, mainGoalId ]);
 
-    if ( isLoadingIncomes || isLoadingExpenses || isLoadingContributions ) return <LoadingScreen />;
+    if ( isLoadingIncomes || isLoadingExpenses || isLoadingContributions || isLoadingAchievements ){
+        return <LoadingScreen />;
+    }
 
     return (
         <View className='w-full h-full items-center p-5'>
@@ -96,6 +109,8 @@ export const HomeScreen = () => {
                 showsVerticalScrollIndicator={ false }
             >
                 <View>
+                    <Header title='Bienvenido a SAFI' extraClass='text-2xl'/>
+
                     <Carousel
                         data={ [ mainGoalSlide, latestIncomeSlide ] }
                         renderItem={({ item }: any) => renderItem(item)}

@@ -55,7 +55,7 @@ export const AddNotificationScreen = ({ navigation }: Props) => {
         }
 
         const path = RNFS.DocumentDirectoryPath + `/notificaciones${uuid}.json`;
-        const pathId = RNFS.DocumentDirectoryPath + '/lastId.json';
+        const pathId = RNFS.DocumentDirectoryPath + `/lastId${uuid}.json`;
 
         const idContent = await RNFS.readFile(pathId, 'utf8');
         const idDict = JSON.parse(idContent);

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { MetaResponse, MetaId } from '../../interfaces/ApiInterfaces';
+import { MetaResponse, MetaId, PredecirMetaResponse } from '../../interfaces/ApiInterfaces';
 
 interface ErrorMessage {
     message: string;
@@ -13,7 +13,8 @@ export const goalsSlice = createSlice({
         goals: [] as MetaResponse[],
         mainGoalId: '' as string,
         isLoading: false,
-        message: ''
+        message: '',
+        prediction: {} as PredecirMetaResponse | null,
     },
 
     reducers: {
@@ -44,8 +45,19 @@ export const goalsSlice = createSlice({
         },
         setMessage: (state, { payload }: PayloadAction<ErrorMessage>) => {
             state.message = payload.message;
-        }
+        },
+        predictGoal: (state, { payload }: PayloadAction<PredecirMetaResponse>) => {
+            state.prediction = payload;
+        },
+        savingGoal: (state) => {
+            state.isLoading = true;
+        },
+        disableSavingState: (state) => {  
+            state.isLoading = false;
+        },
     }
 });
 
-export const { startLoadingGoals, setGoals, addGoal, removeGoal, setMessage, setMainGoalId } = goalsSlice.actions;
+export const { startLoadingGoals, setGoals, addGoal, 
+    removeGoal, setMessage, setMainGoalId, predictGoal, 
+    savingGoal, disableSavingState } = goalsSlice.actions;

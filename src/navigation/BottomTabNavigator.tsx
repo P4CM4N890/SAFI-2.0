@@ -1,10 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { HomeScreen } from '../screens/HomeScreen';
-
 import { SettingsStackNavigator } from './SettingsStackNavigator';
 import { IncomesStackNavigator } from './IncomesStackNavigator';
 import { GoalsStackNavigator } from './GoalsStackNavigator';
+import { HomeStackNavigator } from './HomeStackNavigator';
 
 import { AddButton } from '../components/buttons/AddButton';
 import { AddGoalButton } from '../components/buttons/AddGoalButton';
@@ -36,12 +35,13 @@ export const BottomTabNavigator = () => {
                     display: isBottomTabShown ? 'flex' : 'none'
                 }
             }}
+            backBehavior='history'
         >
             <Tab.Screen 
-                name='HomeScreen' 
-                component={ HomeScreen } 
+                name='HomeStackNavigator' 
+                component={ HomeStackNavigator } 
                 options={{ 
-                    title: 'HomeScreen',
+                    title: 'HomeStackNavigator',
                     tabBarIcon: ({ focused, color, size }) => (
                         <TabBarButton 
                             iconColor={ color } 
@@ -158,7 +158,7 @@ export const BottomTabNavigator = () => {
                             label='Ajustes'
                         />
                     )
-                }} 
+                }}
             />
 
         </Tab.Navigator>

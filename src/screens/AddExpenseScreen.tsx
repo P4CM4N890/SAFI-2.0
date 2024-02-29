@@ -11,6 +11,8 @@ import { LoadingScreen } from "./LoadingScreen";
 import { startAddingExpense } from "../store/expenses";
 import { GastoCreate } from "../interfaces/ApiInterfaces";
 import { showToastSuccessMessage } from "../utils";
+import { Experience } from "../types";
+import { startAddingExperience } from "../store/auth";
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -72,6 +74,7 @@ export const AddExpenseScreen = ({ navigation }: Props) => {
         }
 
         dispatch( startAddingExpense(gasto) );
+        dispatch( startAddingExperience( Experience.ADD_EXPENSE ) );
 
         showToastSuccessMessage("Gasto creado.");
         navigation.navigate("ExpensesScreen");

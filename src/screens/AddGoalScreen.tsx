@@ -1,19 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { View, KeyboardAvoidingView, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { add, cleanMessage } from '../store/goals';
+import { add, cleanMessage, predict } from '../store/goals';
 
 import { useForm, useUiStore } from '../hooks';
 
 import { InputLabel, Button, DatePickerLabel, CustomSwitch, CategoryModal,
 ColorModal, PriorityModal, ErrorMessage } from '../components';
 
-import { showToastSuccessMessage, showToastErrorMessage } from '../utils';
+import { showToastSuccessMessage, showToastErrorMessage, createNotification } from '../utils';
 import { categoryIcon, iconColor, priority, priorityColor } from '../types/appTypes';
+import { PredictorModal } from '../components/modals/PredictorModal';
+import { LoadingScreen } from './LoadingScreen';
 
 interface Props extends StackScreenProps<any, any> {};
 
@@ -32,7 +34,7 @@ const initialState = {
 export const AddGoalScreen = ({ navigation }: Props) => {
     const dispatch = useAppDispatch();
 
-    const { message } = useAppSelector(state => state.goals);
+    const { message, isLoading } = useAppSelector(state => state.goals);
     const { uuid } = useAppSelector(state => state.auth);
 
     const [ categoryModalVisible, setCategoryModalVisible ] = useState(false);
@@ -46,11 +48,16 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     const [ priorityModalVisible, setPriorityModalVisible ] = useState(false);
     const [ selectedPriority, setSelectedPriority ] = useState<priority>('Baja');
     const [ selectedPriorityColor, setSelectedPriorityColor ] = useState<priorityColor>('#60D833');
+    
+    const [ predictorModalVisible, setPredictorModalVisible ] = useState(false);
 
     const { changeBarVisibility } = useUiStore();
+
+    const isSavingGoal = useMemo( () => isLoading, [isLoading] );
     
     const { 
-        onChange, nombre, cantidad, descripcion, fecha_fin, fecha_inicio, color, icono, prioridad, fijar
+        onChange, nombre, cantidad, descripcion, fecha_fin, fecha_inicio, color, 
+        icono, prioridad, fijar
     } = useForm( initialState );
 
     useEffect(() => {
@@ -98,6 +105,20 @@ export const AddGoalScreen = ({ navigation }: Props) => {
 
         if(!uuid) return;
 
+        dispatch( predict({
+            id_usuario: uuid,
+            cantidad: Number(cantidad),
+            fecha_inicio: fecha_inicio.split('T')[0],
+            fecha_fin: fecha_fin.split('T')[0],
+        }) ).then( () => {
+            openPredictorModal();
+        })
+        .catch( error => console.error(error) );
+    };
+
+    const onSubmitGoal = () => {
+        if(!uuid) return;
+
         dispatch(
             add({
                 id_usuario: uuid,
@@ -112,6 +133,10 @@ export const AddGoalScreen = ({ navigation }: Props) => {
                 completada: 0            
             }, fijar === 'si' ? true : false)
         );
+
+        createNotification(nombre, new Date(fecha_fin), uuid)
+        .then(() => console.log("Notificaciones de meta creadas"))
+        .catch((error) => console.error(error));
     };
 
     const isErrorOfField = (field: string) => {
@@ -155,6 +180,14 @@ export const AddGoalScreen = ({ navigation }: Props) => {
     const closePriorityModal = () => {
         setPriorityModalVisible(false);
     };
+    
+    const openPredictorModal = () => {
+        setPredictorModalVisible(true);
+    };
+  
+    const closePredictorModal = () => {
+        setPredictorModalVisible(false);
+    };
 
     const selectPriority = (priority: priority, color: priorityColor) => {
         setSelectedPriority(priority);
@@ -164,8 +197,16 @@ export const AddGoalScreen = ({ navigation }: Props) => {
         closePriorityModal();
     };
 
+    if (isSavingGoal) return <LoadingScreen />
+
     return (
         <KeyboardAvoidingView className='w-full h-full'>
+            <PredictorModal 
+                modalVisible={ predictorModalVisible }
+                setModalVisible={ setPredictorModalVisible }
+                onClose={ onSubmitGoal }
+            />
+            
             <ScrollView>
                 <View className='w-full h-full items-center mb-9'>
 

@@ -223,12 +223,12 @@ export const NotificationsScreen = ({ navigation }: Props) => {
             tracking-widest'>Notificaciones</Text>
 
             <View className='mt-4'>
-                <ScrollView>
+                <ScrollView className='mb-28'>
                     {
                         notificaciones.length !== 0 ?
-                            notificaciones.map((not: Notificacion) => {
+                            notificaciones.map((not: Notificacion, index) => {
                                 return <NotificationCard
-                                    key={ not.id } 
+                                    key={ index } 
                                     id={ not.id }
                                     annotations={ not.annotations }
                                     iconColor='#54D8AD'
