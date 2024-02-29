@@ -624,32 +624,32 @@ export const obtenerLogrosObtenidosGeneral = async (): Promise<AxiosResponse<Log
     };
 }
 
-export const obtenerLogrosObtenidosUsuario = async (id_usuario: number): Promise<AxiosResponse<LogrosObtenidosResponse>> => {
-    const token = await checkToken();
+// export const obtenerLogrosObtenidosUsuario = async (id_usuario: number): Promise<AxiosResponse<LogrosObtenidosResponse>> => {
+//     const token = await checkToken();
 
-    let config = {
-        headers: {
-            Authorization: `Bearer ${token}`, 
-        },
-    };
+//     let config = {
+//         headers: {
+//             Authorization: `Bearer ${token}`, 
+//         },
+//     };
 
-    let url = `/logrosObtenidos/${id_usuario}`;
+//     let url = `/logrosObtenidos/${id_usuario}`;
 
-    try {
-        const response = await apiInstance.get<LogrosObtenidosResponse>(url, config);
+//     try {
+//         const response = await apiInstance.get<LogrosObtenidosResponse>(url, config);
         
-        return response;
-    }
-    catch(err) {
-        const errors = err as Error | AxiosError;
+//         return response;
+//     }
+//     catch(err) {
+//         const errors = err as Error | AxiosError;
 
-        if(!axios.isAxiosError(errors)){
-            throw new Error(errors.message);
-        }
+//         if(!axios.isAxiosError(errors)){
+//             throw new Error(errors.message);
+//         }
 
-        throw new Error(errors.response?.data?.detail);
-    };
-}
+//         throw new Error(errors.response?.data?.detail);
+//     };
+// }
 
 export const obtenerCorreos = async () => {
     let url = `/usuarios/correos`;

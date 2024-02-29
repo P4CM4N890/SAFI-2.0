@@ -133,6 +133,11 @@ export interface LogroCreate {
     cantidad_metas_cumplidas: number
 }
 
+export interface LogroObtenidoCreate {
+    id_usuario: number;
+    id_logro: string;
+}
+
 // GET
 
 export interface UsuarioResponse {
@@ -239,14 +244,13 @@ export interface LogroResponse {
     id: string
     nombre: string
     descripcion: string
-    experiencia: number
-    cantidad_metas_cumplidas: number
+    ruta_imagen: string
 }
 
 export interface LogrosObtenidosResponse {
     id: string
     id_usuario: number
-    logros_obtenidos: string[]
+    id_logro: string
 }
 
 export interface PredecirMetaResponse {

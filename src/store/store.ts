@@ -8,10 +8,12 @@ import { expenseSlice } from './expenses';
 import { goalsSlice } from './goals/goalsSlice';
 import { slidesSlice } from './slides/slidesSlice';
 import { goalsContributionsSlice } from './contributions';
+import { achievementsSlice } from './achievements';
 
 export const store = configureStore({
     reducer: {
         auth: authSlice.reducer,
+        achievements: achievementsSlice.reducer,
         ui: uiSlice.reducer,
         forum: forumSlice.reducer,
         income: incomeSlice.reducer,

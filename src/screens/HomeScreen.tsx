@@ -13,6 +13,7 @@ import { getAll as getAllContributions } from '../store/contributions';
 
 import { MainGoalCard, LatestIncomeCard, HomeLineChart, Header } from '../components';
 import { LoadingScreen } from './LoadingScreen';
+import { startLoadingAchievements, startLoadingGainedAchievements } from '../store/achievements';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -44,6 +45,7 @@ export const HomeScreen = () => {
     
     const { ingresos, isSaving: loadingIncomes } = useAppSelector( state => state.income );
     const { gastos, isSaving: loadingExpenses } = useAppSelector( state => state.expense );
+    const { isSaving: loadingAchievements, logros, logrosObtenidos } = useAppSelector( state => state.achievements );
 
     const [ activeIndex, setActiveindex ] = useState(0);
     const { changeActiveComponent, changeBarVisibility } = useUiStore();
@@ -58,6 +60,7 @@ export const HomeScreen = () => {
 
     const isLoadingIncomes = useMemo(() => loadingIncomes, [ loadingIncomes ]);
     const isLoadingExpenses = useMemo(() => loadingExpenses, [ loadingExpenses ]);
+    const isLoadingAchievements = useMemo(() => loadingAchievements, [ loadingAchievements ]);
 
     useEffect(() => {
         // obtener todos los abonos
@@ -73,6 +76,14 @@ export const HomeScreen = () => {
         // obtener todos los gastos
         dispatch( startLoadingExpenses() );
     }, []);
+    
+    useEffect(() => {
+        dispatch( startLoadingAchievements() );
+    }, []);
+    
+    useEffect(() => {
+        dispatch( startLoadingGainedAchievements() );
+    }, []);
 
     useEffect(() => {
         if(isFocused) changeActiveComponent('HomeScreen');
@@ -87,7 +98,9 @@ export const HomeScreen = () => {
 
     }, [ uuid, isLoadingContributions, goalsProgress, mainGoalId ]);
 
-    if ( isLoadingIncomes || isLoadingExpenses || isLoadingContributions ) return <LoadingScreen />;
+    if ( isLoadingIncomes || isLoadingExpenses || isLoadingContributions || isLoadingAchievements ){
+        return <LoadingScreen />;
+    }
 
     return (
         <View className='w-full h-full items-center p-5'>
