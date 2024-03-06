@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loadMainGoalSlide, loadLatestIncomeSlide } from '../store/slides';
 import { getAll as getAllContributions } from '../store/contributions';
 
-import { MainGoalCard, LatestIncomeCard, HomeLineChart, Header } from '../components';
+import { MainGoalCard, LatestIncomeCard, HomeLineChart, Header, TotalSavingsCard } from '../components';
 import { LoadingScreen } from './LoadingScreen';
 import { startLoadingAchievements, startLoadingGainedAchievements } from '../store/achievements';
 
@@ -110,6 +110,8 @@ export const HomeScreen = () => {
             >
                 <View>
                     <Header title='Bienvenido a SAFI' extraClass='text-2xl'/>
+
+                    <TotalSavingsCard ingresos={ ingresos } gastos={ gastos } />
 
                     <Carousel
                         data={ [ mainGoalSlide, latestIncomeSlide ] }

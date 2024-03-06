@@ -1,11 +1,31 @@
 import PushNotification from "react-native-push-notification";
 import { PermissionsAndroid, Platform } from "react-native";
+import consejos from "../assets/consejos.json";
+import { add } from "date-fns";
 
 export const createNotificationChannel = () => {
     PushNotification.createChannel({
         channelId: 'safi-recordatorios',
         channelName: 'SAFI recordatorios'
     }, () => console.log("Canal de notificaciones creado."));
+};
+
+export const createAdvicesChannel = () => {
+    PushNotification.createChannel({
+        channelId: 'safi-consejos',
+        channelName: 'SAFI consejos'
+    }, () => console.log("Canal de consejos creado."));
+};
+
+export const addAdviceNotification = () => {
+    const consejo = consejos[Math.floor(Math.random() * consejos.length)];
+
+    PushNotification.scheduleLocalNotification({
+        channelId: 'safi-consejos',
+        title: consejo.titulo,
+        message: consejo.descripcion,
+        date: add(new Date(), { hours: 8 }),
+    });
 };
 
 export const checkPermissions = async () => {

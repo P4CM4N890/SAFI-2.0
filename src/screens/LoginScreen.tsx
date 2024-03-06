@@ -5,7 +5,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { Logo, WaveTop, WaveBottom } from '../assets';
 import { Input, Button, MessageModal, TransparentButton } from '../components';
 import { useForm } from '../hooks';
-import { createNotificationChannel } from '../utils/notificationFunctions';
+import { addAdviceNotification, createAdvicesChannel, createNotificationChannel } from '../utils/notificationFunctions';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { startLogin } from '../store/auth/thunks';
 import { isValidEmail } from '../utils';
@@ -54,6 +54,14 @@ export const LoginScreen = ({ navigation }: Props) => {
 
     useEffect(() => {
         createNotificationChannel();
+    }, []);
+    
+    useEffect(() => {
+        createAdvicesChannel();
+    }, []);
+    
+    useEffect(() => {
+        addAdviceNotification();
     }, []);
 
     return (
