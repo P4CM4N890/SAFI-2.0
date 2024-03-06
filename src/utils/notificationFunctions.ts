@@ -25,6 +25,13 @@ export const addAdviceNotification = () => {
         title: consejo.titulo,
         message: consejo.descripcion,
         date: add(new Date(), { hours: 8 }),
+        allowWhileIdle: true,
+        playSound: true,
+        soundName: "default",
+        visibility: "public",
+        vibrate: true,
+        vibration: 1000,
+        id: Math.floor(Math.random() * consejos.length) * Math.floor(Math.random() * 1000),
     });
 };
 
