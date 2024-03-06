@@ -55,9 +55,14 @@ export const goalsSlice = createSlice({
         disableSavingState: (state) => {  
             state.isLoading = false;
         },
+        setCompleted: (state, { payload }: PayloadAction<MetaId>) => {
+            state.goals = state.goals.map(goal =>
+                goal.id === payload.id ? { ...goal, completada: 1 } : goal
+            );
+        }
     }
 });
 
 export const { startLoadingGoals, setGoals, addGoal, 
     removeGoal, setMessage, setMainGoalId, predictGoal, 
-    savingGoal, disableSavingState } = goalsSlice.actions;
+    savingGoal, disableSavingState, setCompleted } = goalsSlice.actions;

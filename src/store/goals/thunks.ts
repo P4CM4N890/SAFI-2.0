@@ -1,11 +1,11 @@
 import { format } from 'date-fns';
 
-import { startLoadingGoals, setGoals, addGoal, removeGoal, setMessage, setMainGoalId, predictGoal, savingGoal, disableSavingState } from './goalsSlice';
+import { startLoadingGoals, setGoals, addGoal, removeGoal, setMessage, setMainGoalId, predictGoal, savingGoal, disableSavingState, setCompleted } from './goalsSlice';
 import { crearMeta, crearMetaFijada, obtenerMetas, actualizarMeta, eliminarMetaFijada, predecirMeta } from '../../api';
 import { setMainGoalSlide } from '../slides';
-import { AppDispatch } from '../store';
+import { AppDispatch, RootState } from '../store';
 
-import { MetaCreate, MetaEdit, PredictorObject } from '../../interfaces/ApiInterfaces';
+import { MetaCreate, MetaEdit, MetaResponse, PredictorObject } from '../../interfaces/ApiInterfaces';
 import { GoalProgress } from '../contributions';
 
 export const add = (meta: MetaCreate, fijar: boolean) => {
@@ -70,9 +70,22 @@ export const update = (id: string, id_usuario: number, meta: MetaEdit, fijar: bo
             // actualizar la meta
             await actualizarMeta(id, meta);
 
+            const metaAdd: MetaResponse = {
+                id,
+                id_usuario,
+                nombre: meta.nombre!,
+                cantidad: meta.cantidad!,
+                descripcion: meta.descripcion!,
+                fecha_inicio: meta.fecha_inicio!,
+                fecha_fin: meta.fecha_fin!,
+                completada: meta.completada!,
+                icono: meta.icono!,
+                color: meta.color!,
+                prioridad: meta.prioridad!,
+            }
             // actualizar el state de las metas
             dispatch( removeGoal({ id }) );
-            dispatch( addGoal({ id, id_usuario, ...meta }) );
+            dispatch( addGoal(metaAdd) );
 
             // calcular el progreso de la meta
             const amountAchieved = goalsProgress.find( goalProgress => goalProgress.id === id )?.total || 0;
@@ -86,8 +99,8 @@ export const update = (id: string, id_usuario: number, meta: MetaEdit, fijar: bo
                     setMainGoalSlide({ 
                         title: meta.nombre, 
                         type: 'mainGoal', 
-                        startDate: format(new Date(meta.fecha_inicio), "dd'/'MM'/'yyyy"),
-                        endDate: format(new Date(meta.fecha_fin), "dd'/'MM'/'yyyy"),
+                        startDate: format(new Date(meta.fecha_inicio!), "dd'/'MM'/'yyyy"),
+                        endDate: format(new Date(meta.fecha_fin!), "dd'/'MM'/'yyyy"),
                         amountAchieved,
                         totalAmount: meta.cantidad,
                         found: true
@@ -135,15 +148,19 @@ export const update = (id: string, id_usuario: number, meta: MetaEdit, fijar: bo
 };
 
 export const getAll = () => {
-    return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
         dispatch( startLoadingGoals() );
+
+        const { uuid } = getState().auth;
 
         try{
             // obtener las metas
             const { data } = await obtenerMetas();
 
+            const metasUsuarioActual = data.filter(meta => meta.id_usuario === Number(uuid));
+
             // actualizar el state de las metas
-            dispatch( setGoals(data) );
+            dispatch( setGoals(metasUsuarioActual) );
 
         } catch(err){
             dispatch( 
@@ -171,3 +188,18 @@ export const predict = (datos: PredictorObject) => {
         }
     };
 };
+
+export const setCompletedGoal = (id: string) => {
+    return async (dispatch: AppDispatch) => {
+        try{
+            await actualizarMeta(id, { completada: 1 });
+
+            dispatch( setCompleted({ id }) );
+
+        } catch(err){
+            dispatch( 
+                setMessage({ message: 'Ocurrió un error al completar la meta' }) 
+            );
+        }
+    }
+}

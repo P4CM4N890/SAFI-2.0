@@ -2,9 +2,9 @@ import { ImageSourcePropType } from "react-native";
 
 export const determinePredictorMessage = (prediction: number, probability: number): [string, ImageSourcePropType] => {
 
-    const imageHigh = require('../assets/predictor/Normal.png') as ImageSourcePropType;
-    const imageMedium = require('../assets/predictor/Hard.png') as ImageSourcePropType;
-    const imageLow = require('../assets/predictor/Demon.png') as ImageSourcePropType;
+    const imageHigh = require('../assets/predictor/Feliz.png') as ImageSourcePropType;
+    const imageMedium = require('../assets/predictor/Medio.png') as ImageSourcePropType;
+    const imageLow = require('../assets/predictor/Triste.png') as ImageSourcePropType;
 
     // Mensajes para cuando si puede cumplir la meta.
     if(prediction === 1){
