@@ -15,9 +15,9 @@ export const NotificationsButton = () => {
             onPress={ () => navigation.navigate('NotificationsStackNavigator') }
         >
             <Icon 
-                name='notifications-circle-outline'
+                name='notifications-outline'
                 color='#4F33D8'
-                size={ 50 } 
+                size={ 45 } 
             />
         </TouchableOpacity>
     );

@@ -34,7 +34,12 @@ export const AddButton = () => {
                         <TouchableOpacity 
                             className='w-14 h-14 mb-3 justify-center items-center bg-white rounded-full border-primary border-2'
                             activeOpacity={ 0.6 }
-                            onPress={ () => console.log("Metas presionado") }
+                            onPress={ () => {
+                                navigation.navigate("GoalsStackNavigator", 
+                                { screen: 'AddGoalScreen' })
+
+                                toggleModal()
+                            } }
                         >
                             <Icon name='flag-outline' size={ 28 } color='#4F33D8'/>
                         </TouchableOpacity>

@@ -45,15 +45,15 @@ export const HomeScreen = () => {
     
     const { ingresos, isSaving: loadingIncomes } = useAppSelector( state => state.income );
     const { gastos, isSaving: loadingExpenses } = useAppSelector( state => state.expense );
-    const { isSaving: loadingAchievements, logros, logrosObtenidos } = useAppSelector( state => state.achievements );
+    const { isSaving: loadingAchievements } = useAppSelector( state => state.achievements );
 
     const [ activeIndex, setActiveindex ] = useState(0);
-    const { changeActiveComponent, changeBarVisibility } = useUiStore();
+    const { changeActiveComponent } = useUiStore();
 
     const { uuid } = useAppSelector( state => state.auth );
     const { mainGoalSlide, latestIncomeSlide } = useAppSelector( state => state.slides );
     const { mainGoalId } = useAppSelector( state => state.goals );
-    const { isLoading: isLoadingContributions, goalsProgress, contributions } = useAppSelector( state => state.goalContributions );
+    const { isLoading: isLoadingContributions, goalsProgress } = useAppSelector( state => state.goalContributions );
 
     const dispatch = useAppDispatch();
     const isFocused = useIsFocused();
