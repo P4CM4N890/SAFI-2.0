@@ -4,13 +4,16 @@ import { AppDispatch, RootState } from "../store";
 import { addExpense, deleteExpense, loadExpenses, savingData, updateExpense } from "./expenseSlice";
 
 export const startLoadingExpenses = () => {
-    return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
         dispatch( savingData() );
+
+        const { uuid } = getState().auth;
 
         try{
             const { data } = await obtenerGastos();
+            const gastosFiltrados = data.filter( gasto => gasto.id_usuario === uuid );
 
-            dispatch( loadExpenses(data) );
+            dispatch( loadExpenses(gastosFiltrados) );
         }
         catch(err){
             console.error(err);

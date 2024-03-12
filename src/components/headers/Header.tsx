@@ -13,7 +13,7 @@ export const Header = ({ title, extraClass }: Props) => {
     return (
         <View className='w-full'>
             <View className='w-full flex-row justify-between'>
-                <UserImageButton />
+                <Text />
                 <NotificationsButton />
             </View>
 

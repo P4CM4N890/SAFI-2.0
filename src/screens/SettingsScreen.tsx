@@ -101,7 +101,8 @@ export const SettingsScreen = ({ navigation }: Props) => {
                     
                     <SettingsOption 
                         icon='business-outline' 
-                        option='Acerca de Nosotros' 
+                        option='Acerca de Nosotros'
+                        onPress={ () => navigation.navigate('AboutUsScreen') }
                         extraClass='border-0'
                     />
                 </View>

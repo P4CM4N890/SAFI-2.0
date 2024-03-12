@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { loadMainGoalSlide, loadLatestIncomeSlide } from '../store/slides';
 import { getAll as getAllContributions } from '../store/contributions';
 
-import { MainGoalCard, LatestIncomeCard, HomeLineChart, Header } from '../components';
+import { MainGoalCard, LatestIncomeCard, HomeLineChart, Header, TotalSavingsCard } from '../components';
 import { LoadingScreen } from './LoadingScreen';
 import { startLoadingAchievements, startLoadingGainedAchievements } from '../store/achievements';
 
@@ -45,15 +45,15 @@ export const HomeScreen = () => {
     
     const { ingresos, isSaving: loadingIncomes } = useAppSelector( state => state.income );
     const { gastos, isSaving: loadingExpenses } = useAppSelector( state => state.expense );
-    const { isSaving: loadingAchievements, logros, logrosObtenidos } = useAppSelector( state => state.achievements );
+    const { isSaving: loadingAchievements } = useAppSelector( state => state.achievements );
 
     const [ activeIndex, setActiveindex ] = useState(0);
-    const { changeActiveComponent, changeBarVisibility } = useUiStore();
+    const { changeActiveComponent } = useUiStore();
 
     const { uuid } = useAppSelector( state => state.auth );
     const { mainGoalSlide, latestIncomeSlide } = useAppSelector( state => state.slides );
     const { mainGoalId } = useAppSelector( state => state.goals );
-    const { isLoading: isLoadingContributions, goalsProgress, contributions } = useAppSelector( state => state.goalContributions );
+    const { isLoading: isLoadingContributions, goalsProgress } = useAppSelector( state => state.goalContributions );
 
     const dispatch = useAppDispatch();
     const isFocused = useIsFocused();
@@ -110,6 +110,8 @@ export const HomeScreen = () => {
             >
                 <View>
                     <Header title='Bienvenido a SAFI' extraClass='text-2xl'/>
+
+                    <TotalSavingsCard ingresos={ ingresos } gastos={ gastos } />
 
                     <Carousel
                         data={ [ mainGoalSlide, latestIncomeSlide ] }

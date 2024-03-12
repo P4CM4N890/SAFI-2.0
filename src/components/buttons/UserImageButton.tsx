@@ -7,7 +7,7 @@ interface props {
     size?: number;
 }
 
-export const UserImageButton = ({ size = 50 }: props) => {
+export const UserImageButton = ({ size = 45 }: props) => {
 
     return (
         <TouchableOpacity 
@@ -15,7 +15,7 @@ export const UserImageButton = ({ size = 50 }: props) => {
             activeOpacity={ 0.7 }
         >
             <Icon 
-                name='person-circle-outline'
+                name='person-outline'
                 color='#4F33D8'
                 size={ size } 
             />

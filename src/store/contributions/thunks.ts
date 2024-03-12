@@ -1,4 +1,4 @@
-import { AppDispatch } from '../store';
+import { AppDispatch, RootState } from '../store';
 import { crearAbono, obtenerAbonos, actualizarAbono, eliminarAbono } from '../../api';
 import { 
     addContribution, setGoalContributions, setMessage, startLoadingContributions, updateContribution, 
@@ -6,9 +6,21 @@ import {
 } from './goalContributionsSlice';
 
 import { AbonoCreate, AbonoEdit } from '../../interfaces/ApiInterfaces';
+import { setCompletedGoal } from '../goals';
 
 export const add = (abono: AbonoCreate) => {
-    return async (dispatch: AppDispatch) => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
+        const metaActual = getState().goals.goals.find(goal => goal.id === abono.id_meta_abonada);
+        const abonosMetaActual = getState().goalContributions.contributions.filter(contribution => 
+            contribution.id_meta_abonada === abono.id_meta_abonada);
+        const totalAbonado = abonosMetaActual.reduce((total, abonoA) => total + abonoA.cantidad, 0);
+
+        if( metaActual && (totalAbonado + abono.cantidad) >= metaActual.cantidad ) {
+            // La meta ya fue alcanzada.
+            dispatch( setCompletedGoal( abono.id_meta_abonada ) );
+            console.log("Meta cumplida");
+        }
+
         try{
             // crear abono
             const { data } = await crearAbono(abono);

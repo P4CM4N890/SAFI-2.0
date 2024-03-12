@@ -10,3 +10,4 @@ export * from './NotificationCard';
 export * from './QuestionCard';
 export * from './ScoreCard';
 export * from './GoalContributionCard';
+export * from './TotalSavingsCard';

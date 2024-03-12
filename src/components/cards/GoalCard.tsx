@@ -22,7 +22,13 @@ export const GoalCard = ({ goal, totalGoalCompleted, progress }: Props) => {
         <TouchableOpacity 
             className='w-full flex-row items-center justify-between bg-white rounded-2xl p-2 border-2 border-slate-200 mt-2'
             activeOpacity={ 0.8 }
-            onPress={ () => navigation.navigate('EditGoalScreen', { goal }) }
+            onPress={ () => {
+                progress >= 1
+                ?
+                    null
+                :
+                    navigation.navigate('EditGoalScreen', { goal })
+            } }
         >
             <View className='w-3/5 flex-row items-center gap-x-2'>
 
@@ -38,14 +44,20 @@ export const GoalCard = ({ goal, totalGoalCompleted, progress }: Props) => {
                     <Text className='text-black font-bold text-lg' numberOfLines={ 1 }>
                         { nombre }
                     </Text>
-                    <Bar 
-                        progress={ progress } 
-                        height={ 10 } 
-                        color={ color } 
-                        style={{ width: '90%' }} 
-                        unfilledColor='#D9D9D9' 
-                        borderColor='#D9D9D9'
-                    />
+                    {
+                        progress >= 1 
+                        ? 
+                            <Text className='text-xs text-green font-semibold'>¡Meta cumplida!</Text>
+                        :
+                            <Bar 
+                                progress={ progress } 
+                                height={ 10 } 
+                                color={ color } 
+                                style={{ width: '90%' }} 
+                                unfilledColor='#D9D9D9' 
+                                borderColor='#D9D9D9'
+                            />
+                    }
                 </View>
             </View>
 
@@ -59,6 +71,8 @@ export const GoalCard = ({ goal, totalGoalCompleted, progress }: Props) => {
             <TouchableOpacity
                 activeOpacity={ 0.7 }
                 onPress={ () => navigation.navigate('GoalContributionsScreen', { goal }) }
+                disabled={ progress >= 1 }
+                className={`${ progress >= 1 ? 'hidden' : 'flex' }`}
             >
                 <Icon 
                     name='add-circle-outline' 
